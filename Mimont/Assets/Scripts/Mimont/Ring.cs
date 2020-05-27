@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Mimont {
 public class Ring : MonoBehaviour, ISphere {
@@ -7,12 +11,13 @@ public class Ring : MonoBehaviour, ISphere {
     [SerializeField] private float growSpeed = 1;
 
     private new bool enabled;
+    private List<Target> touching = new List<Target>(20);
 
     public bool Enabled {
         get => enabled;
         set {
             enabled = value;
-            gameObject.SetActive(value);
+            GetComponent<Renderer>().enabled = value;
         }
     }
 
@@ -42,6 +47,27 @@ public class Ring : MonoBehaviour, ISphere {
     }
 
     private void Update() {
+        // Load all colliders
+        var colliders = Enabled ? Physics.OverlapSphere(Position, Radius) : new Collider[0];
+
+        // Get only Target gameobjects
+        var newTouching = new List<Target>(colliders.Length);
+        newTouching.AddRange(colliders.Select(collider => collider.GetComponent<Target>()).Where(target => target));
+
+        // Unset all old touched targets if changed
+        var old = touching.Except(newTouching).ToList();
+        if (old.Count > 0) {
+            old.ForEach(t => t.touching = false);
+        }
+
+        if (newTouching.Count > 0) {
+            // Set all newly touched targets if changed
+            newTouching.Except(touching).ToList().ForEach(t => t.touching = true);
+        }
+
+        // Replace touch
+        touching = newTouching;
+        
         if (!Enabled) return;
 
         transform.localScale += new Vector3(growSpeed, growSpeed, growSpeed) * Time.deltaTime;

@@ -64,9 +64,11 @@ public class TargetSpawner : MonoBehaviour {
         return new Rect(edgeClearance, playerHeightRelative * .6f, 1 - edgeClearance * 2, playerHeightRelative * .45f);
     }
 
+#if UNITY_EDITOR
     private void OnValidate() {
         maxTargetRadius = Mathf.Clamp(maxTargetRadius, 0, CameraWidth / 2);
     }
+#endif
 
     private void OnDrawGizmos() {
         var z = transform.position.z;
