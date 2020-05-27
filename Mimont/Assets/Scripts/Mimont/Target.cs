@@ -15,6 +15,7 @@ public class Target : MonoBehaviour, ISphere {
     private static readonly int UnlitColor = Shader.PropertyToID("_UnlitColor");
 
     [SerializeField] private float growSpeed = 1;
+    public float maxRadius;
 
     private TargetTier tier;
 
@@ -48,6 +49,11 @@ public class Target : MonoBehaviour, ISphere {
 
     private void Update() {
         transform.localScale += new Vector3(growSpeed, growSpeed, growSpeed) * Time.deltaTime;
+        transform.localScale = new Vector3(
+            Mathf.Clamp(transform.localScale.x, 0, maxRadius * 2),
+            Mathf.Clamp(transform.localScale.y, 0, maxRadius * 2),
+            Mathf.Clamp(transform.localScale.z, 0, maxRadius * 2)
+        );
     }
 
     public void Catch() {

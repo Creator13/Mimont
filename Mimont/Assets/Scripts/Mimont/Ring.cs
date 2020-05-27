@@ -1,14 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Mimont {
 public class Ring : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
 
     [SerializeField] private float growSpeed = 1;
-    private Vector3 growthVector;
 
-    private bool enabled;
+    private new bool enabled;
 
     public bool Enabled {
         get => enabled;
@@ -23,7 +21,6 @@ public class Ring : MonoBehaviour, ISphere {
 
     private void Awake() {
         Enabled = false;
-        growthVector = new Vector3(growSpeed, growSpeed, growSpeed);
     }
 
     public void Activate(Vector3 pos) {
@@ -47,11 +44,7 @@ public class Ring : MonoBehaviour, ISphere {
     private void Update() {
         if (!Enabled) return;
 
-        transform.localScale += growthVector * Time.deltaTime;
-    }
-
-    private void OnValidate() {
-        growthVector = new Vector3(growSpeed, growSpeed, growSpeed);
+        transform.localScale += new Vector3(growSpeed, growSpeed, growSpeed) * Time.deltaTime;
     }
 }
 }
