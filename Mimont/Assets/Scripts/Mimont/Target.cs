@@ -12,7 +12,7 @@ public class TargetTier {
 
 public class Target : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
-    private static readonly int UnlitColor = Shader.PropertyToID("_UnlitColor");
+    private static readonly int UnlitColor = Shader.PropertyToID("_BaseColor");
 
     [SerializeField] private float growSpeed = 1;
     public float maxRadius;
