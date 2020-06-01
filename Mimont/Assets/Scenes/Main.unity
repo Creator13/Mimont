@@ -319,7 +319,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -94.74338, w: 0}
   m_textInfo:
     textComponent: {fileID: 396551050}
     characterCount: 5
@@ -484,7 +484,7 @@ MonoBehaviour:
   camera: {fileID: 1625037469}
   tierSettings: {fileID: 11400000, guid: b1d54684b35566c4ba296700841cbc63, type: 2}
   spawnRateMultiplier: 1
-  maxTargetRadius: 1.5
+  maxTargetRadius: 1.8
   playerHeight: 180
   screenHeight: 239
   targetPrefab: {fileID: 4165324576827042251, guid: 2177d47e90ce43341b9282b14eaebbc1,
