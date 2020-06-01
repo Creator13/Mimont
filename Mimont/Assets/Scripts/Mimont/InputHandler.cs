@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Mimont {
 public class InputHandler : MonoBehaviour {
-    [SerializeField] private Camera camera;
+    [SerializeField] private new Camera camera;
     private DefaultInput input;
 
     public event System.Action<Vector3> WorldClickPerformed;

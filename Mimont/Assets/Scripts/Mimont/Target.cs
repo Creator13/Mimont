@@ -12,16 +12,20 @@ public class TargetTier {
 
 public class Target : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
-    private static readonly int UnlitColor = Shader.PropertyToID("_UnlitColor");
+    private static readonly int UnlitColor = Shader.PropertyToID("_BaseColor");
+    
+    public event Action<int> Caught;
 
-    [SerializeField] private float growSpeed = 1;
+    [SerializeField] private float growSpeed = .2f;
+    public float maxRadius;
+    public bool touching;
 
     private TargetTier tier;
 
     private new Renderer renderer;
     private Renderer Renderer => renderer ? renderer : (renderer = GetComponent<Renderer>());
 
-    public event Action<int> Caught;
+    public float GrowSpeed => growSpeed * tier.multiplier;
 
     public TargetTier Tier {
         get => tier;
@@ -47,7 +51,14 @@ public class Target : MonoBehaviour, ISphere {
     }
 
     private void Update() {
-        transform.localScale += new Vector3(growSpeed, growSpeed, growSpeed) * Time.deltaTime;
+        if (touching) return;
+
+        transform.localScale += new Vector3(GrowSpeed, GrowSpeed, GrowSpeed) * Time.deltaTime;
+        transform.localScale = new Vector3(
+            Mathf.Clamp(transform.localScale.x, 0, maxRadius * 2),
+            Mathf.Clamp(transform.localScale.y, 0, maxRadius * 2),
+            Mathf.Clamp(transform.localScale.z, 0, maxRadius * 2)
+        );
     }
 
     public void Catch() {
@@ -65,7 +76,7 @@ public class Target : MonoBehaviour, ISphere {
     // ReSharper disable once IteratorNeverReturns
     private IEnumerator Expand() {
         while (true) {
-            growSpeed *= 3;
+            growSpeed *= 1.5f;
             yield return null;
         }
     }
