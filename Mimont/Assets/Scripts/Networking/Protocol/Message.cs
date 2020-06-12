@@ -1,17 +1,8 @@
-﻿using Unity.Networking.Transport;
+﻿using Mimont.Netcode.Protocol;
+using Unity.Networking.Transport;
 using UnityEngine.Events;
 
-namespace Mimont.Netcode.Protocol {
-public enum MessageType {
-    None = 0,
-    Welcome = 1,
-    PlayerLeft = 2,
-    GameStart = 3,
-    RingStarted = 4,
-    RingReleased = 5,
-    TargetSpawn = 6
-}
-
+namespace Networking.Protocol {
 public class MessageEvent : UnityEvent<Message> { }
 
 public abstract class Message {

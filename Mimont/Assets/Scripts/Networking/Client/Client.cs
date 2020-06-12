@@ -1,33 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mimont.Netcode.Protocol;
+using Networking.Protocol;
 using Unity.Jobs;
 using Unity.Networking.Transport;
 using UnityEngine;
 
-namespace Mimont.Netcode.Client {
-internal struct PlayerInfo { }
-
-public class Client : MonoBehaviour {
+namespace Networking.Client {
+public abstract class Client {
     public enum ConnectionStatus { Connecting, Connected, Disconnected }
 
-    private NetworkDriver driver;
-    private NetworkConnection connection;
+    protected NetworkDriver driver;
+    protected NetworkConnection connection;
     private long timeSinceLastTransmit;
-    private JobHandle clientJobHandle;
-    private ConnectionStatus connected = ConnectionStatus.Connecting;
-
-    private PlayerInfo playerInfo;
+    protected JobHandle clientJobHandle;
+    protected ConnectionStatus connected = ConnectionStatus.Connecting;
 
     private readonly Queue<Message> receiveQueue = new Queue<Message>();
     private readonly Queue<Message> sendQueue = new Queue<Message>();
 
-    public MessageEvent[] clientCallbacks = new MessageEvent[Enum.GetNames(typeof(MessageType)).Length];
+    public MessageEvent[] callbacks = new MessageEvent[Enum.GetNames(typeof(MessageType)).Length];
     public string ConnectionIP { get; private set; }
 
     public ConnectionStatus Connected {
         get => connected;
-        private set {
+        protected set {
             connected = value;
             ConnectionStatusChanged?.Invoke(value);
         }
@@ -35,9 +32,9 @@ public class Client : MonoBehaviour {
 
     public event Action<ConnectionStatus> ConnectionStatusChanged;
 
-    public void Connect(string address) {
+    public void Connect(string address = "") {
         if (Connected == ConnectionStatus.Connected) {
-            Debug.LogError("Client already connected", this);
+            LogError("Client already connected");
         }
 
         ConnectionIP = address;
@@ -56,34 +53,44 @@ public class Client : MonoBehaviour {
 
         connection = driver.Connect(endpoint);
 
-        for (var i = 0; i < clientCallbacks.Length; i++) {
-            clientCallbacks[i] = new MessageEvent();
+        for (var i = 0; i < callbacks.Length; i++) {
+            callbacks[i] = new MessageEvent();
         }
     }
 
     public void Disconnect() {
-        if (Connected == ConnectionStatus.Disconnected) return;
-
         clientJobHandle.Complete();
 
-        connection.Disconnect(driver);
-        connection = default;
+        if (Connected == ConnectionStatus.Disconnected) {
+            LogWarning("Tried disconnecting while already disconnected!");
+            return;
+        }
+
+        driver.Disconnect(connection);
+
+        driver.ScheduleUpdate().Complete();
+
         Connected = ConnectionStatus.Disconnected;
-        clientJobHandle.Complete();
     }
 
-    private void OnDestroy() {
-        Disconnect();
+    public void Dispose() {
+        clientJobHandle.Complete();
+
+        if (Connected != ConnectionStatus.Disconnected) {
+            Disconnect();
+        }
+
         driver.Dispose();
     }
 
-    private void Update() {
+    public void Update() {
         if (connection == default || Connected == ConnectionStatus.Disconnected) return;
 
         clientJobHandle.Complete();
 
         if (!connection.IsCreated) {
-            Debug.Log("Something went wrong while connecting");
+            // TODO let know that couldn't connect
+            Log("Something went wrong while connecting");
             return;
         }
 
@@ -92,15 +99,12 @@ public class Client : MonoBehaviour {
         NetworkEvent.Type cmdType;
         while ((cmdType = connection.PopEvent(driver, out var reader)) != NetworkEvent.Type.Empty) {
             if (cmdType == NetworkEvent.Type.Data) {
-                var msgType = (MessageType) reader.ReadUShort();
-                switch (msgType) {
-                    default:
-                        Debug.LogError("Unresolved message");
-                        break;
-                }
+                timeSinceLastTransmit = 0;
+                HandleData(ref reader);
             }
             else if (cmdType == NetworkEvent.Type.Disconnect) {
-                Debug.Log("Disconnected from server");
+                Log("Disconnected from server");
+                connection = default;
                 Connected = ConnectionStatus.Disconnected;
             }
         }
@@ -110,11 +114,13 @@ public class Client : MonoBehaviour {
         clientJobHandle = driver.ScheduleUpdate();
     }
 
-    private void EnqueueReceived(Message msg) {
+    protected abstract void HandleData(ref DataStreamReader reader);
+
+    protected void EnqueueReceived(Message msg) {
         receiveQueue.Enqueue(msg);
     }
 
-    public void SendMessage(Message msg) {
+    protected void Send(Message msg) {
         sendQueue.Enqueue(msg);
     }
 
@@ -122,7 +128,7 @@ public class Client : MonoBehaviour {
         // Receive queue
         while (receiveQueue.Count > 0) {
             var msg = receiveQueue.Dequeue();
-            clientCallbacks[(int) msg.Type]?.Invoke(msg);
+            callbacks[(int) msg.Type]?.Invoke(msg);
         }
 
         // Send queue
@@ -140,12 +146,27 @@ public class Client : MonoBehaviour {
         timeSinceLastTransmit += (long) (Time.deltaTime * 1000);
 
         if (timeSinceLastTransmit > NetConfig.KEEP_ALIVE_TIME) {
-            // var writer = driver.BeginSend(connection);
-            // Message.Send(new NoneMessage(), ref writer);
-            // driver.EndSend(writer);
+            Send(new NoneMessage());
 
             timeSinceLastTransmit = 0;
         }
     }
+
+
+    #region Logging
+
+    protected static void Log(string text) {
+        Debug.Log($"CLIENT: {text}");
+    }
+
+    protected static void LogError(string text) {
+        Debug.LogError($"CLIENT: {text}");
+    }
+
+    protected static void LogWarning(string text) {
+        Debug.LogWarning($"CLIENT: {text}");
+    }
+
+    #endregion
 }
 }
