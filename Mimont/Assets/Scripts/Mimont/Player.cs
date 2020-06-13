@@ -18,6 +18,20 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public bool Active {
+        set {
+            ringManager.gameObject.SetActive(value);
+            targetSpawner.gameObject.SetActive(value);
+            gameObject.SetActive(value);
+        }
+    }
+
+    public bool Paused {
+        set {
+            
+        }
+    }
+
     private void Awake() {
         targetSpawner.TargetCreated += SubscribeToTarget;
     }

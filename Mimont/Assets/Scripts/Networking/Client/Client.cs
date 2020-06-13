@@ -87,6 +87,8 @@ public abstract class Client {
         }
 
         driver.Dispose();
+
+        Started = false;
     }
 
     public void Update() {

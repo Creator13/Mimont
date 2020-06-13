@@ -19,6 +19,8 @@ public class TargetSpawner : MonoBehaviour {
 
     private float CameraWidth => camera.orthographicSize * 2 * camera.aspect;
     private float EdgeClearance => maxTargetRadius / CameraWidth;
+    
+    public bool Paused { get; set; }
 
     public event System.Action<Target> TargetCreated;
 
@@ -29,6 +31,8 @@ public class TargetSpawner : MonoBehaviour {
 
     private IEnumerator SpawnRoutine() {
         while (true) {
+            while (Paused) { }
+
             SpawnTarget();
             yield return new WaitForSeconds(5);
         }
