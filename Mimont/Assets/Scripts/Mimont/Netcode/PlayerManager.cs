@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mimont.Netcode.Protocol;
+using UnityEngine;
 
 namespace Mimont.Netcode {
-internal struct Player {
+internal class Player {
     public int internalId;
 }
 
@@ -12,7 +13,7 @@ internal class PlayerManager {
     private readonly MimontServer server;
     private readonly List<Player> players = new List<Player>();
 
-    private int[] PlayerIds => players.Select(p => p.internalId).ToArray();
+    internal int[] PlayerIds => players.Select(p => p.internalId).ToArray();
 
     public event Action LobbyFull;
 
@@ -42,9 +43,10 @@ internal class PlayerManager {
 
     private void HandleDisconnected(int id) {
         var player = players.FirstOrDefault(p => p.internalId == id);
-        if (player.Equals(default(Player))) {
+        if (player == default) {
             throw new InvalidOperationException("Tried to remove player with an id that is not in any list.");
         }
+        
 
         players.Remove(player);
         server.SendToAllExcluding(new PlayerLeftMessage {playerId = id}, id);
@@ -54,7 +56,7 @@ internal class PlayerManager {
         if (AddNewPlayer(id)) {
             server.Send(new GameJoinedMessage(), id);
 
-            if (players.Count > 2) {
+            if (players.Count == 2) {
                 LobbyFull?.Invoke();
             }
         }
@@ -76,6 +78,7 @@ internal class PlayerManager {
         }
 
         players.Add(new Player {internalId = id});
+        server.Log($"New player connected with id {id}");
         return true;
     }
 }

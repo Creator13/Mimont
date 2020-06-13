@@ -1,4 +1,5 @@
-﻿using Mimont.Netcode;
+﻿using System;
+using Mimont.Netcode;
 using UnityEngine;
 
 namespace Mimont {
@@ -18,7 +19,26 @@ public class MimontGame : MonoBehaviour {
         ringManager.gameObject.SetActive(false);
     }
 
-    private void StartGame(bool isHost) {
+    private void OnDestroy() {
+        client?.Dispose();
+        server?.Stop();
+    }
+    
+    private void Update() {
+        if (isServer && server.IsRunning) {
+            server.Update();
+        }
+
+        if (client != null && client.Started) {
+            client.Update();
+        }
+    }
+
+    public void Connect(bool isHost) {
+        if (client != null) {
+            return;
+        }
+        
         isServer = isHost;
         // If starting as server, awaken server
         if (isServer) {
@@ -29,6 +49,8 @@ public class MimontGame : MonoBehaviour {
         // Awaken client
         client = new MimontClient();
         client.Connect();
+
+        client.StartGame += () => Debug.Log("Starting game...");
     }
 
     private void AwakenGameObjects() {

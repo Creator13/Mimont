@@ -88,9 +88,13 @@ public abstract class Server {
         Log($"Listening on port {Port}.");
 
         ConnectionRemoved += id => Log($"Client disconnected from server. ID was {id}.");
+        
+        RegisterCallbacks();
 
         return true;
     }
+    
+    protected abstract void RegisterCallbacks();
 
     public void Stop() {
         if (!IsRunning) return;
@@ -159,6 +163,8 @@ public abstract class Server {
         jobHandle = driver.ScheduleUpdate();
     }
 
+    protected abstract void HandleData(ref DataStreamReader reader, int id);
+
     public void ScheduleKick(int connId) {
         if (!kickSchedule.Contains(connId)) {
             kickSchedule.Add(connId);
@@ -178,8 +184,6 @@ public abstract class Server {
         }
         kickSchedule.Remove(connId);
     }
-
-    protected abstract void HandleData(ref DataStreamReader reader, int id);
 
     protected void EnqueueReceived(Message msg, int connId) {
         receiveQueue.Enqueue(new MessageWrapper {
@@ -237,11 +241,11 @@ public abstract class Server {
 
         while (sendQueue.Count > 0) {
             // TODO upgrade this so that all messages can be sent to the client at once without any more lookups than necessary
+            var connectionsTemp = Connections;
             var msg = sendQueue.Dequeue();
-            var idExists = Connections.Any(conn => conn.InternalId == msg.internalId) &&
-                           !kickSchedule.Contains(msg.internalId);
+            var idExists = connectionsTemp.Any(conn => conn.InternalId == msg.internalId);
             if (idExists) {
-                var connection = Connections.First(conn => conn.InternalId == msg.internalId);
+                var connection = connectionsTemp.First(conn => conn.InternalId == msg.internalId);
 
                 var writer = driver.BeginSend(connection);
                 Message.Send(msg.message, ref writer);
