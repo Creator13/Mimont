@@ -7,6 +7,8 @@ namespace Mimont.Netcode {
 public class MimontServer : Server {
     private PlayerManager playerManager;
 
+    private TargetSpawner spawner;
+    
     public MimontServer() {
         playerManager = new PlayerManager(this);
         playerManager.LobbyFull += BroadcastStartGame;
@@ -28,12 +30,11 @@ public class MimontServer : Server {
 
         switch (msgType) {
             case MessageType.GameJoined:
-                break;
             case MessageType.PlayerLeft:
-                break;
             case MessageType.JoinRefused:
-                break;
             case MessageType.StartGame:
+                // Client messages, should not be received by server
+                LogWarning($"Server received message intended for client. Message was: {msgType.ToString()}");
                 break;
             case MessageType.Unresolved:
                 break;

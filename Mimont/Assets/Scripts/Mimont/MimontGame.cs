@@ -75,6 +75,8 @@ public class MimontGame : MonoBehaviour {
             Paused = true;
             ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
         };
+        
+        ui.ShowMessage("Waiting for other player...");
     }
 
     private IEnumerator Countdown(int seconds, Action callback) {
