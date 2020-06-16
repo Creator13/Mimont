@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 public class Ring : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
 
     [SerializeField] private float growSpeed = 1;
 
     private new bool enabled;
+    private bool isPlayer;
     private List<Target> touching = new List<Target>(20);
 
-    public bool Enabled {
+    private bool Enabled {
         get => enabled;
         set {
             enabled = value;
@@ -28,18 +27,21 @@ public class Ring : MonoBehaviour, ISphere {
         Enabled = false;
     }
 
-    public void Activate(Vector3 pos) {
+    public void Activate(Vector3 pos, bool isPlayer = false) {
+        this.isPlayer = isPlayer; 
         transform.localPosition = pos;
         transform.localScale = StartScale;
         Enabled = true;
     }
 
     public void Release() {
-        var targets = Physics.OverlapSphere(transform.position, Radius);
-        foreach (var collider in targets) {
-            var target = collider.GetComponent<Target>();
-            if (target && target.IsInside(this)) {
-                target.Catch();
+        if (isPlayer) {
+            var targets = Physics.OverlapSphere(transform.position, Radius);
+            foreach (var collider in targets) {
+                var target = collider.GetComponent<Target>();
+                if (target && target.IsInside(this)) {
+                    target.Catch();
+                }
             }
         }
 
@@ -67,7 +69,7 @@ public class Ring : MonoBehaviour, ISphere {
 
         // Replace touch
         touching = newTouching;
-        
+
         if (!Enabled) return;
 
         transform.localScale += new Vector3(growSpeed, growSpeed, growSpeed) * Time.deltaTime;

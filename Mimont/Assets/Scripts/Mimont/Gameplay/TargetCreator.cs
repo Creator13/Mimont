@@ -1,43 +1,62 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Mimont {
-public class TargetSpawner : MonoBehaviour {
+namespace Mimont.Gameplay {
+public class TargetCreator : MonoBehaviour {
     [SerializeField] private new Camera camera;
 
     [Space(10)] [SerializeField] private TargetTierSettings tierSettings;
-    [SerializeField] public float spawnRateMultiplier = 1;
-    [SerializeField] public float maxTargetRadius = 10;
+    [SerializeField] private float spawnRateMultiplier = 1;
+    [SerializeField] private Target targetPrefab;
+    [SerializeField] private float spawnRate = 5;
 
     [Space(10)] [Tooltip("In cm")] [SerializeField] private int playerHeight = 180;
     [Tooltip("In cm")] [SerializeField] private int screenHeight = 239;
 
-    [Space(10)] [SerializeField] private Target targetPrefab;
-
-    private Coroutine spawnCoroutine;
+    private bool paused = true;
+    private float timeSinceLastSpawn;
 
     private float CameraWidth => camera.orthographicSize * 2 * camera.aspect;
-    private float EdgeClearance => maxTargetRadius / CameraWidth;
+    private float EdgeClearance => MaxTargetRadius / CameraWidth;
+    private float MaxTargetRadius => targetPrefab ? targetPrefab.maxRadius : 0;
 
-    public event System.Action<Target> TargetCreated;
-
-    private void Start() {
-        spawnCoroutine = StartCoroutine(SpawnRoutine());
-        Debug.Log(GetSpawnRect());
-    }
-
-    private IEnumerator SpawnRoutine() {
-        while (true) {
-            SpawnTarget();
-            yield return new WaitForSeconds(5);
+    public bool Paused {
+        get => paused;
+        set {
+            paused = value;
+            if (value) timeSinceLastSpawn = spawnRate;
         }
     }
 
-    private void SpawnTarget() {
-        var target = Instantiate(targetPrefab, transform, false);
-        target.Tier = tierSettings.tiers[Random.Range(0, tierSettings.tiers.Count)];
-        target.maxRadius = maxTargetRadius;
+    public event Action<Vector3, int> TargetCreated;
+
+    public void StartSpawning(int delay) {
+        StartCoroutine(Countdown(delay, () => Paused = false));
+    }
+
+    private static IEnumerator Countdown(int seconds, Action callback) {
+        while (seconds > 0) {
+            seconds--;
+            yield return new WaitForSeconds(1);
+        }
+
+        callback();
+    }
+
+    private void Update() {
+        if (Paused) return;
+
+        timeSinceLastSpawn += Time.deltaTime;
+        if (timeSinceLastSpawn > spawnRate) {
+            CreateTarget();
+            timeSinceLastSpawn = 0;
+        }
+    }
+
+    private void CreateTarget() {
+        var tier = Random.Range(0, tierSettings.tiers.Count);
 
         var spawnRect = GetSpawnRect();
         var viewportPos = new Vector2(
@@ -45,9 +64,8 @@ public class TargetSpawner : MonoBehaviour {
             Random.Range(spawnRect.yMin, spawnRect.yMax)
         );
         var pos = ViewportToWorldPoint(viewportPos);
-        target.transform.localPosition = pos;
 
-        TargetCreated?.Invoke(target);
+        TargetCreated?.Invoke(pos, tier);
     }
 
     private Rect GetSpawnRect() {
@@ -63,12 +81,6 @@ public class TargetSpawner : MonoBehaviour {
 
         return new Rect(edgeClearance, playerHeightRelative * .6f, 1 - edgeClearance * 2, playerHeightRelative * .45f);
     }
-
-#if UNITY_EDITOR
-    private void OnValidate() {
-        maxTargetRadius = Mathf.Clamp(maxTargetRadius, 0, CameraWidth / 2);
-    }
-#endif
 
     private void OnDrawGizmos() {
         var z = transform.position.z;
@@ -89,10 +101,11 @@ public class TargetSpawner : MonoBehaviour {
         Gizmos.DrawLine(ViewportToWorldPoint(rect.xMax, rect.yMin, z), ViewportToWorldPoint(rect.xMin, rect.yMin, z));
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(ViewportToWorldPoint(0, playerHeight / (float) screenHeight, z), ViewportToWorldPoint(1, playerHeight / (float) screenHeight, z));
+        Gizmos.DrawLine(ViewportToWorldPoint(0, playerHeight / (float) screenHeight, z),
+            ViewportToWorldPoint(1, playerHeight / (float) screenHeight, z));
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(ViewportToWorldPoint(rect.xMin, (rect.yMin + rect.yMax) / 2, z), maxTargetRadius);
+        Gizmos.DrawWireSphere(ViewportToWorldPoint(rect.xMin, (rect.yMin + rect.yMax) / 2, z), MaxTargetRadius);
     }
 
     private Vector3 ViewportToWorldPoint(float x, float y, float z = 0) {

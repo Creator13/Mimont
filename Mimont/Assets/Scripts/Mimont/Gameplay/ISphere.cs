@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 public interface ISphere {
     float Radius { get; }
     Vector3 Position { get; }
