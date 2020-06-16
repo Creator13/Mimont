@@ -20,11 +20,11 @@ public class MimontGame : MonoBehaviour {
 
     private bool paused;
 
-    public bool Paused {
+    private bool Paused {
         get => paused;
         set {
             paused = value;
-            inputHandler.gameObject.SetActive(value);
+            if (inputHandler) inputHandler.gameObject.SetActive(value);
         }
     }
 
@@ -76,7 +76,7 @@ public class MimontGame : MonoBehaviour {
             Paused = true;
             ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
         };
-        
+
         ui.ShowMessage("Waiting for other player...");
     }
 
@@ -89,7 +89,7 @@ public class MimontGame : MonoBehaviour {
 
         callback();
     }
-    
+
     private void StartGame() {
         // Switch UI
         ui.OpenGameUI();

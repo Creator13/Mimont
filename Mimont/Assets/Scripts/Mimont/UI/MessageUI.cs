@@ -7,15 +7,16 @@ using UnityEngine.UI;
 
 namespace Mimont.UI {
 public class MessageUI : MonoBehaviour, UIScreen {
-    public enum ButtonOptions {Quit, MainMenu}
-    
+    public enum ButtonOptions { Quit, MainMenu }
+
     [SerializeField] private TMP_Text text;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button menuButton;
 
     public List<Button> Buttons => new List<Button> {quitButton, menuButton};
-    
+
     private bool active;
+
     public bool Active {
         get => active;
         set {

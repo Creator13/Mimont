@@ -20,10 +20,10 @@ public abstract class Client {
     private readonly Queue<Message> sendQueue = new Queue<Message>();
 
     public MessageEvent[] callbacks = new MessageEvent[Enum.GetNames(typeof(MessageType)).Length];
-    
+
     public string ConnectionIP { get; private set; }
     public bool Started { get; private set; }
-    
+
     public ConnectionStatus Connected {
         get => connected;
         protected set {
@@ -123,7 +123,7 @@ public abstract class Client {
     }
 
     protected abstract void HandleData(ref DataStreamReader reader);
-    
+
     protected abstract void RegisterCallbacks();
 
     protected void EnqueueReceived(Message msg) {

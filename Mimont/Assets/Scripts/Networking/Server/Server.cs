@@ -13,7 +13,7 @@ namespace Networking.Server {
 public abstract class Server {
     public struct MessageWrapper {
         public Message message;
-        public int internalId;
+        public int senderId;
     }
 
     public class TraceableMessageEvent : UnityEvent<MessageWrapper> { }
@@ -189,14 +189,14 @@ public abstract class Server {
     protected void EnqueueReceived(Message msg, int connId) {
         receiveQueue.Enqueue(new MessageWrapper {
             message = msg,
-            internalId = connId
+            senderId = connId
         });
     }
 
     public void Send(Message msg, int recipientId) {
         sendQueue.Enqueue(new MessageWrapper {
             message = msg,
-            internalId = recipientId
+            senderId = recipientId
         });
     }
 
@@ -206,7 +206,7 @@ public abstract class Server {
 
             sendQueue.Enqueue(new MessageWrapper {
                 message = msg,
-                internalId = connection.InternalId
+                senderId = connection.InternalId
             });
         }
     }
@@ -215,7 +215,7 @@ public abstract class Server {
         foreach (var connection in connections) {
             sendQueue.Enqueue(new MessageWrapper {
                 message = msg,
-                internalId = connection.InternalId
+                senderId = connection.InternalId
             });
         }
     }
@@ -224,7 +224,7 @@ public abstract class Server {
         foreach (var id in ids) {
             sendQueue.Enqueue(new MessageWrapper {
                 message = msg,
-                internalId = id
+                senderId = id
             });
         }
     }
@@ -244,9 +244,9 @@ public abstract class Server {
             // TODO upgrade this so that all messages can be sent to the client at once without any more lookups than necessary
             var connectionsTemp = Connections;
             var msg = sendQueue.Dequeue();
-            var idExists = connectionsTemp.Any(conn => conn.InternalId == msg.internalId);
+            var idExists = connectionsTemp.Any(conn => conn.InternalId == msg.senderId);
             if (idExists) {
-                var connection = connectionsTemp.First(conn => conn.InternalId == msg.internalId);
+                var connection = connectionsTemp.First(conn => conn.InternalId == msg.senderId);
 
                 var writer = driver.BeginSend(connection);
                 Message.Send(msg.message, ref writer);
@@ -254,7 +254,7 @@ public abstract class Server {
             }
             else {
                 LogError(
-                    $"Tried sending {msg.message.GetType()} to player {msg.internalId}, but id could not be found!");
+                    $"Tried sending {msg.message.GetType()} to player {msg.senderId}, but id could not be found!");
             }
         }
     }

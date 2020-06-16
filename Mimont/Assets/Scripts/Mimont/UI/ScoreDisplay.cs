@@ -8,7 +8,7 @@ public class ScoreDisplay : MonoBehaviour {
     [SerializeField] private Player player;
     private TMP_Text text;
     private TMP_Text Text => text ? text : (text = GetComponent<TMP_Text>());
-    
+
     private void Awake() {
         player.ScoreChanged += SetScore;
     }

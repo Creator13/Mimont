@@ -1,7 +1,7 @@
 ﻿namespace Mimont.Netcode.Protocol {
 public enum MessageType {
     Unresolved = -1,
-    
+
     /// <summary>
     /// Empty. Multi-purpose.
     /// </summary>
@@ -20,9 +20,10 @@ public enum MessageType {
     /// [(empty)]
     /// </summary>
     PlayerLeft = 2,
-    
     JoinRefused = 3,
     StartGame,
     TargetSpawned,
+    RingCreated,
+    RingReleased
 }
 }

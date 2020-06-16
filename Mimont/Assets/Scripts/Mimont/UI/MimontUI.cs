@@ -34,7 +34,7 @@ public class MimontUI : MonoBehaviour {
 
     public void ShowMessage(string messageText, params MessageUI.ButtonOptions[] options) {
         if (!messageUI) return;
-        
+
         ActiveUI = messageUI;
         messageUI.SetMessage(messageText);
         messageUI.SetButtonOptions(options);

@@ -6,11 +6,10 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @DefaultInput : IInputActionCollection, IDisposable
-{
+public class @DefaultInput : IInputActionCollection, IDisposable {
     public InputActionAsset asset { get; }
-    public @DefaultInput()
-    {
+
+    public @DefaultInput() {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""DefaultInput"",
     ""maps"": [
@@ -103,47 +102,39 @@ public class @DefaultInput : IInputActionCollection, IDisposable
         m_Default_Position = m_Default.FindAction("Position", throwIfNotFound: true);
     }
 
-    public void Dispose()
-    {
+    public void Dispose() {
         UnityEngine.Object.Destroy(asset);
     }
 
-    public InputBinding? bindingMask
-    {
+    public InputBinding? bindingMask {
         get => asset.bindingMask;
         set => asset.bindingMask = value;
     }
 
-    public ReadOnlyArray<InputDevice>? devices
-    {
+    public ReadOnlyArray<InputDevice>? devices {
         get => asset.devices;
         set => asset.devices = value;
     }
 
     public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
-    public bool Contains(InputAction action)
-    {
+    public bool Contains(InputAction action) {
         return asset.Contains(action);
     }
 
-    public IEnumerator<InputAction> GetEnumerator()
-    {
+    public IEnumerator<InputAction> GetEnumerator() {
         return asset.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
+    IEnumerator IEnumerable.GetEnumerator() {
         return GetEnumerator();
     }
 
-    public void Enable()
-    {
+    public void Enable() {
         asset.Enable();
     }
 
-    public void Disable()
-    {
+    public void Disable() {
         asset.Disable();
     }
 
@@ -152,21 +143,37 @@ public class @DefaultInput : IInputActionCollection, IDisposable
     private IDefaultActions m_DefaultActionsCallbackInterface;
     private readonly InputAction m_Default_Click;
     private readonly InputAction m_Default_Position;
-    public struct DefaultActions
-    {
+
+    public struct DefaultActions {
         private @DefaultInput m_Wrapper;
-        public DefaultActions(@DefaultInput wrapper) { m_Wrapper = wrapper; }
+
+        public DefaultActions(@DefaultInput wrapper) {
+            m_Wrapper = wrapper;
+        }
+
         public InputAction @Click => m_Wrapper.m_Default_Click;
         public InputAction @Position => m_Wrapper.m_Default_Position;
-        public InputActionMap Get() { return m_Wrapper.m_Default; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
+
+        public InputActionMap Get() {
+            return m_Wrapper.m_Default;
+        }
+
+        public void Enable() {
+            Get().Enable();
+        }
+
+        public void Disable() {
+            Get().Disable();
+        }
+
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(DefaultActions set) { return set.Get(); }
-        public void SetCallbacks(IDefaultActions instance)
-        {
-            if (m_Wrapper.m_DefaultActionsCallbackInterface != null)
-            {
+
+        public static implicit operator InputActionMap(DefaultActions set) {
+            return set.Get();
+        }
+
+        public void SetCallbacks(IDefaultActions instance) {
+            if (m_Wrapper.m_DefaultActionsCallbackInterface != null) {
                 @Click.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnClick;
                 @Click.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnClick;
                 @Click.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnClick;
@@ -174,9 +181,9 @@ public class @DefaultInput : IInputActionCollection, IDisposable
                 @Position.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPosition;
                 @Position.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPosition;
             }
+
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
-            if (instance != null)
-            {
+            if (instance != null) {
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
@@ -186,27 +193,27 @@ public class @DefaultInput : IInputActionCollection, IDisposable
             }
         }
     }
+
     public DefaultActions @Default => new DefaultActions(this);
     private int m_PCSchemeIndex = -1;
-    public InputControlScheme PCScheme
-    {
-        get
-        {
+
+    public InputControlScheme PCScheme {
+        get {
             if (m_PCSchemeIndex == -1) m_PCSchemeIndex = asset.FindControlSchemeIndex("PC");
             return asset.controlSchemes[m_PCSchemeIndex];
         }
     }
+
     private int m_TouchSchemeIndex = -1;
-    public InputControlScheme TouchScheme
-    {
-        get
-        {
+
+    public InputControlScheme TouchScheme {
+        get {
             if (m_TouchSchemeIndex == -1) m_TouchSchemeIndex = asset.FindControlSchemeIndex("Touch");
             return asset.controlSchemes[m_TouchSchemeIndex];
         }
     }
-    public interface IDefaultActions
-    {
+
+    public interface IDefaultActions {
         void OnClick(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
     }

@@ -21,7 +21,7 @@ public class TargetCreator : MonoBehaviour {
     private float CameraWidth => camera.orthographicSize * 2 * camera.aspect;
     private float EdgeClearance => MaxTargetRadius / CameraWidth;
     private float MaxTargetRadius => targetPrefab ? targetPrefab.maxRadius : 0;
-    
+
     public bool Paused {
         get => paused;
         set {

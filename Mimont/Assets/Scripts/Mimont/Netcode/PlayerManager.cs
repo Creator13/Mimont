@@ -11,7 +11,7 @@ internal class Player {
 
 internal class PlayerManager {
     private const int MaxPlayers = 2;
-    
+
     private readonly MimontServer server;
     private readonly List<Player> players = new List<Player>();
 
@@ -49,7 +49,7 @@ internal class PlayerManager {
         if (player == default) {
             throw new InvalidOperationException("Tried to remove player with an id that is not in any list.");
         }
-        
+
         players.Remove(player);
         server.SendToAllExcluding(new PlayerLeftMessage {playerId = id}, id);
     }

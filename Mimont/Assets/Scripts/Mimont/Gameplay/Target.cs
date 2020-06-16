@@ -13,7 +13,7 @@ public class TargetTier {
 public class Target : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
     private static readonly int UnlitColor = Shader.PropertyToID("_BaseColor");
-    
+
     public event Action<int> Caught;
 
     [SerializeField] private float growSpeed = .2f;
@@ -61,12 +61,12 @@ public class Target : MonoBehaviour, ISphere {
         );
     }
 
-// #if UNITY_EDITOR
-//     private void OnValidate() {
-//         maxRadius = Mathf.Clamp(maxRadius, 0, CameraWidth / 2);
-//     }
-// #endif
-    
+    // #if UNITY_EDITOR
+    //     private void OnValidate() {
+    //         maxRadius = Mathf.Clamp(maxRadius, 0, CameraWidth / 2);
+    //     }
+    // #endif
+
     public void Catch() {
         Caught?.Invoke(Mathf.RoundToInt(Radius * 10 * Tier.multiplier));
 

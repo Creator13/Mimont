@@ -2,6 +2,7 @@
 using System.Collections;
 using Mimont.Gameplay;
 using Mimont.Netcode.Protocol;
+using Networking.Protocol;
 using Networking.Server;
 using Unity.Networking.Transport;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Mimont.Netcode {
 public class MimontServer : Server {
     private readonly PlayerManager playerManager;
     private readonly TargetCreator targets;
-    
+
     public MimontServer(TargetCreator targets) {
         this.targets = targets;
         playerManager = new PlayerManager(this);
@@ -19,7 +20,8 @@ public class MimontServer : Server {
     }
 
     protected override void RegisterCallbacks() {
-        
+        callbacks[(int) MessageType.RingCreated].AddListener(HandleRingCreated);
+        callbacks[(int) MessageType.RingReleased].AddListener(HandleRingReleased);
     }
 
     protected override void HandleData(ref DataStreamReader reader, int id) {
@@ -36,6 +38,12 @@ public class MimontServer : Server {
             case MessageType.None:
                 KeepAlive(id);
                 break;
+            case MessageType.RingCreated:
+                EnqueueReceived(Message.Read<RingCreatedMessage>(ref reader), id);
+                break;
+            case MessageType.RingReleased:
+                EnqueueReceived(Message.Read<RingReleasedMessage>(ref reader), id);
+                break;
             case MessageType.GameJoined:
             case MessageType.PlayerLeft:
             case MessageType.JoinRefused:
@@ -51,14 +59,29 @@ public class MimontServer : Server {
         }
     }
 
+
+    #region MessageHandlers
+
+    private void HandleRingCreated(MessageWrapper wrapper) {
+        var ringCreatedMessage = (RingCreatedMessage) wrapper.message;
+        Send(ringCreatedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
+    }
+
+    private void HandleRingReleased(MessageWrapper wrapper) {
+        var ringReleasedMessage = (RingReleasedMessage) wrapper.message;
+        Send(ringReleasedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
+    }
+
+    #endregion
+
     private void OnPlayerLeft(int id) {
         SendToAllExcluding(new PlayerLeftMessage {playerId = id}, id);
         targets.Paused = true;
     }
-    
+
     private void StartGame() {
         BroadcastStartGame();
-        
+
         // Start spawnin'
         targets.TargetCreated += NotifyTargetSpawned;
         targets.StartSpawning(3);
@@ -70,7 +93,7 @@ public class MimontServer : Server {
             TierIndex = tier
         }, playerManager.PlayerIds);
     }
-    
+
     private void BroadcastStartGame() {
         SendToAll(new StartGameMessage(), playerManager.PlayerIds);
     }

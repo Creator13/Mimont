@@ -7,8 +7,11 @@ public class Player : MonoBehaviour {
     [SerializeField] private TargetTierSettings targetTierSettings;
     [SerializeField] private RingManager ringManager;
 
+    public event Action<Vector3> RingCreated;
+    public event Action RingReleased;
+
     public event Action<float> ScoreChanged;
-    
+
     private int score;
 
     public int Score {
@@ -19,19 +22,30 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public bool Active {
-        set {
-            ringManager.gameObject.SetActive(value);
-            gameObject.SetActive(value);
-        }
+    private void Awake() {
+        ringManager.RingCreated += PropagateRingCreated;
+        ringManager.RingReleased += PropagateRingReleased;
+    }
+
+    private void OnDestroy() {
+        ringManager.RingCreated -= PropagateRingCreated;
+        ringManager.RingReleased -= PropagateRingReleased;
     }
 
     public void AddTarget(Vector3 position, int tierIndex) {
         var target = Instantiate(targetPrefab, transform, false);
         target.Tier = targetTierSettings.tiers[tierIndex];
-        
+
         target.transform.localPosition = position;
         SubscribeToTarget(target);
+    }
+
+    public void StartOtherRing(Vector3 position) {
+        ringManager.StartOpponentRing(position);
+    }
+
+    public void ReleaseOtherRing() {
+        ringManager.ReleaseOpponentRing();
     }
 
     private void SubscribeToTarget(Target t) {
@@ -40,6 +54,14 @@ public class Player : MonoBehaviour {
 
     private void AddScore(int points) {
         Score += points;
+    }
+
+    private void PropagateRingCreated(Vector3 pos) {
+        RingCreated?.Invoke(pos);
+    }
+
+    private void PropagateRingReleased() {
+        RingReleased?.Invoke();
     }
 }
 }
