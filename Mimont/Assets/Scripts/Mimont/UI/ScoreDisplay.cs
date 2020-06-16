@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Mimont.Gameplay;
+using TMPro;
 using UnityEngine;
 
 namespace Mimont.UI {

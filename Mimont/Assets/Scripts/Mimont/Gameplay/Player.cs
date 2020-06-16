@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 public class Player : MonoBehaviour {
+    [SerializeField] private Target targetPrefab;
+    [SerializeField] private TargetTierSettings targetTierSettings;
     [SerializeField] private RingManager ringManager;
-    [SerializeField] private TargetSpawner targetSpawner;
 
     public event Action<float> ScoreChanged;
     
@@ -21,19 +22,16 @@ public class Player : MonoBehaviour {
     public bool Active {
         set {
             ringManager.gameObject.SetActive(value);
-            targetSpawner.gameObject.SetActive(value);
             gameObject.SetActive(value);
         }
     }
 
-    public bool Paused {
-        set {
-            
-        }
-    }
-
-    private void Awake() {
-        targetSpawner.TargetCreated += SubscribeToTarget;
+    public void AddTarget(Vector3 position, int tierIndex) {
+        var target = Instantiate(targetPrefab, transform, false);
+        target.Tier = targetTierSettings.tiers[tierIndex];
+        
+        target.transform.localPosition = position;
+        SubscribeToTarget(target);
     }
 
     private void SubscribeToTarget(Target t) {

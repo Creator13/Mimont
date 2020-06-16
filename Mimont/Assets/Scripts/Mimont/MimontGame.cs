@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using Mimont.Gameplay;
 using Mimont.Netcode;
 using Mimont.UI;
 using UnityEngine;
+using Player = Mimont.Gameplay.Player;
 
 namespace Mimont {
 public class MimontGame : MonoBehaviour {
@@ -11,6 +13,7 @@ public class MimontGame : MonoBehaviour {
 
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private Player player;
+    [SerializeField] private TargetCreator targetCreator;
     [SerializeField] private MimontUI ui;
 
     private bool isServer;
@@ -22,13 +25,11 @@ public class MimontGame : MonoBehaviour {
         set {
             paused = value;
             inputHandler.gameObject.SetActive(value);
-            player.Paused = value;
         }
     }
 
     private void Awake() {
         inputHandler.gameObject.SetActive(false);
-        player.Active = false;
     }
 
     private void OnDestroy() {
@@ -55,13 +56,13 @@ public class MimontGame : MonoBehaviour {
         // If starting as server, awaken server
         if (isServer) {
             server?.Stop();
-            server = new MimontServer();
+            server = new MimontServer(targetCreator);
             server.Start();
         }
 
         // Awaken client
         client?.Dispose();
-        client = new MimontClient();
+        client = new MimontClient {Player = player};
         client.Connect();
 
         client.StartGame += () => StartCoroutine(Countdown(3, StartGame));
@@ -95,7 +96,6 @@ public class MimontGame : MonoBehaviour {
 
         // Wake up objects
         inputHandler.gameObject.SetActive(true);
-        player.Active = true;
     }
 }
 }

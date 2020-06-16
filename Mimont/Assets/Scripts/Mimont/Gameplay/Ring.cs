@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 public class Ring : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
 

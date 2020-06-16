@@ -88,12 +88,12 @@ public abstract class Server {
         Log($"Listening on port {Port}.");
 
         ConnectionRemoved += id => Log($"Client disconnected from server. ID was {id}.");
-        
+
         RegisterCallbacks();
 
         return true;
     }
-    
+
     protected abstract void RegisterCallbacks();
 
     public void Stop() {
@@ -182,6 +182,7 @@ public abstract class Server {
         catch (InvalidOperationException e) {
             LogError($"Tried kicking connection, but no connection with id {connId} was found.");
         }
+
         kickSchedule.Remove(connId);
     }
 

@@ -10,10 +10,13 @@ public class MimontClient : Client {
     public event Action PlayerLeft;
     public event Action Disconnected;
 
+    public Mimont.Gameplay.Player Player { get; set; }
+
     protected override void RegisterCallbacks() {
         callbacks[(int) MessageType.StartGame].AddListener(HandleStartGame);
         callbacks[(int) MessageType.PlayerLeft].AddListener(HandlePlayerLeft);
         callbacks[(int) MessageType.JoinRefused].AddListener(HandleJoinRefused);
+        callbacks[(int) MessageType.TargetSpawned].AddListener(HandleTargetSpawned);
         ConnectionStatusChanged += CheckConnectionStatus;
     }
 
@@ -39,6 +42,9 @@ public class MimontClient : Client {
             case MessageType.StartGame:
                 EnqueueReceived(Message.Read<StartGameMessage>(ref reader));
                 break;
+            case MessageType.TargetSpawned:
+                EnqueueReceived(Message.Read<TargetSpawnedMessage>(ref reader));
+                break;
             case MessageType.Unresolved:
             case MessageType.None:
                 break;
@@ -60,6 +66,11 @@ public class MimontClient : Client {
     private void HandleJoinRefused(Message msg) {
         var joinRefusedMessage = (JoinRefusedMessage) msg;
         connected = ConnectionStatus.Disconnected;
+    }
+
+    private void HandleTargetSpawned(Message msg) {
+        var targetSpawnedMessage = (TargetSpawnedMessage) msg;
+        Player.AddTarget(targetSpawnedMessage.Position, targetSpawnedMessage.TierIndex);
     }
 
     private void CheckConnectionStatus(ConnectionStatus newStatus) {

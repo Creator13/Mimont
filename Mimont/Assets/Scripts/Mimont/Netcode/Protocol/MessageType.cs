@@ -23,5 +23,6 @@ public enum MessageType {
     
     JoinRefused = 3,
     StartGame,
+    TargetSpawned,
 }
 }

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 [Serializable]
 public class TargetTier {
     public Color color;
@@ -61,6 +61,12 @@ public class Target : MonoBehaviour, ISphere {
         );
     }
 
+// #if UNITY_EDITOR
+//     private void OnValidate() {
+//         maxRadius = Mathf.Clamp(maxRadius, 0, CameraWidth / 2);
+//     }
+// #endif
+    
     public void Catch() {
         Caught?.Invoke(Mathf.RoundToInt(Radius * 10 * Tier.multiplier));
 

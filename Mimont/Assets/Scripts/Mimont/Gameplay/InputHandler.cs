@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 public class InputHandler : MonoBehaviour {
     [SerializeField] private new Camera camera;
     private DefaultInput input;

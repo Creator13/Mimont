@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Mimont.Gameplay;
+using UnityEngine;
 
-namespace Mimont {
+namespace Mimont.Gameplay {
 public class RingManager : MonoBehaviour {
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private Ring ringPrefab;

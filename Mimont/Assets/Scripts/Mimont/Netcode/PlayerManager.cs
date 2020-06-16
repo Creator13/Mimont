@@ -18,6 +18,7 @@ internal class PlayerManager {
     internal int[] PlayerIds => players.Select(p => p.internalId).ToArray();
 
     public event Action LobbyFull;
+    public event Action<int> PlayerLeft;
 
     public PlayerManager(MimontServer server) {
         this.server = server;
@@ -49,7 +50,6 @@ internal class PlayerManager {
             throw new InvalidOperationException("Tried to remove player with an id that is not in any list.");
         }
         
-
         players.Remove(player);
         server.SendToAllExcluding(new PlayerLeftMessage {playerId = id}, id);
     }
