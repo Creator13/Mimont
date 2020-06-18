@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.InputSystem;
-using Util;
 
 public class VFXAnimation : MonoBehaviour
 {
