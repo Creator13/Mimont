@@ -4,12 +4,12 @@ using UnityEngine;
 namespace Mimont.UI {
 public class MimontUI : MonoBehaviour {
     [SerializeField] private EmptyUI gameUI;
-    [SerializeField] private EmptyUI startUI;
+    [SerializeField] private StartUI startUI;
     [SerializeField] private MessageUI messageUI;
 
-    private UIScreen activeUI;
+    private IUIScreen activeUI;
 
-    private UIScreen ActiveUI {
+    private IUIScreen ActiveUI {
         get => activeUI;
         set {
             if (activeUI != null) activeUI.Active = false;

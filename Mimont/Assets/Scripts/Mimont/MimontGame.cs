@@ -47,7 +47,7 @@ public class MimontGame : MonoBehaviour {
         }
     }
 
-    public void Connect(bool isHost) {
+    public void Connect(bool isHost, string ipAddress = "") {
         if (client != null) {
             return;
         }
@@ -63,7 +63,7 @@ public class MimontGame : MonoBehaviour {
         // Awaken client
         client?.Dispose();
         client = new MimontClient {Player = player};
-        client.Connect();
+        client.Connect(ipAddress);
 
         client.StartGame += () => StartCoroutine(Countdown(3, StartGame));
 

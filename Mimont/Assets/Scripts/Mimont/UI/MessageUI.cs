@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Mimont.UI {
-public class MessageUI : MonoBehaviour, UIScreen {
+public class MessageUI : MonoBehaviour, IUIScreen {
     public enum ButtonOptions { Quit, MainMenu }
 
     [SerializeField] private TMP_Text text;

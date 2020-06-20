@@ -1,5 +1,5 @@
 ﻿namespace Mimont.UI {
-internal interface UIScreen {
+internal interface IUIScreen {
     bool Active { set; }
 }
 }
