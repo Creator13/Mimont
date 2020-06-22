@@ -5,10 +5,14 @@ using Mimont.Netcode;
 using Mimont.UI;
 using Networking.Server;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Player = Mimont.Gameplay.Player;
 
 namespace Mimont {
+[RequireComponent(typeof(GameTime))]
 public class MimontGame : MonoBehaviour {
+    public static float GameTime { get; private set; }
+    
     private Server server;
     private MimontClient client;
 
@@ -17,23 +21,28 @@ public class MimontGame : MonoBehaviour {
     [SerializeField] private TargetCreator targetCreator;
     [SerializeField] private MimontUI ui;
 
+    [SerializeField] private float gameLength;
+
     [Space] [SerializeField] private bool debugMode;
 
+    private GameTime timer;
+    private GameTime Timer => timer ? timer : timer = GetComponent<GameTime>();
+    
     private bool isServer;
-
     private bool paused;
 
     private bool Paused {
         get => paused;
         set {
             paused = value;
-            if (inputHandler) inputHandler.gameObject.SetActive(value);
+            if (inputHandler) inputHandler.gameObject.SetActive(!value);
+            Timer.Running = !value;
         }
     }
 
     private void Awake() {
-        inputHandler.gameObject.SetActive(false);
-
+        Paused = true;
+        
         if (Application.isMobilePlatform) {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
@@ -77,6 +86,8 @@ public class MimontGame : MonoBehaviour {
 
         // Awaken client
         StartClient(player, ipAddress);
+
+        ui.ShowMessage("Waiting for other player...");
     }
 
     private void StartClient(Player player, string ipAddress) {
@@ -95,8 +106,6 @@ public class MimontGame : MonoBehaviour {
             Paused = true;
             ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
         };
-
-        ui.ShowMessage("Waiting for other player...");
     }
     
     private IEnumerator Countdown(int seconds, Action callback) {
@@ -110,6 +119,9 @@ public class MimontGame : MonoBehaviour {
     }
 
     private void StartGame() {
+        Paused = false;
+        Timer.Reinitialize();
+        
         // Switch UI
         ui.OpenGameUI();
 

@@ -86,11 +86,9 @@ public class MimontServerDebug : Server {
         targets.StartSpawning(3);
     }
 
-    private void NotifyTargetSpawned(Vector3 position, int tier) {
-        SendToAll(new TargetSpawnedMessage {
-            Position = position,
-            TierIndex = tier
-        }, playerManager.PlayerIds);
+    private void NotifyTargetSpawned(Vector3 pos1, Vector3 pos2, int tier1, int tier2) {
+        Send(new TargetSpawnedMessage {Position = pos1, TierIndex = tier1}, playerManager.PlayerIds[0]);
+        // Send(new TargetSpawnedMessage {Position = pos2, TierIndex = tier2}, playerManager.PlayerIds[1]);
     }
 
     private void BroadcastStartGame() {
