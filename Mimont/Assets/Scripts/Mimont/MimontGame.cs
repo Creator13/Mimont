@@ -3,18 +3,21 @@ using System.Collections;
 using Mimont.Gameplay;
 using Mimont.Netcode;
 using Mimont.UI;
+using Networking.Server;
 using UnityEngine;
 using Player = Mimont.Gameplay.Player;
 
 namespace Mimont {
 public class MimontGame : MonoBehaviour {
-    private MimontServer server;
+    private Server server;
     private MimontClient client;
 
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private Player player;
     [SerializeField] private TargetCreator targetCreator;
     [SerializeField] private MimontUI ui;
+
+    [Space] [SerializeField] private bool debugMode;
 
     private bool isServer;
 
@@ -30,6 +33,11 @@ public class MimontGame : MonoBehaviour {
 
     private void Awake() {
         inputHandler.gameObject.SetActive(false);
+
+        if (Application.isMobilePlatform) {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+        }
     }
 
     private void OnDestroy() {
@@ -56,11 +64,22 @@ public class MimontGame : MonoBehaviour {
         // If starting as server, awaken server
         if (isServer) {
             server?.Stop();
-            server = new MimontServer(targetCreator);
+            
+            if (debugMode) {
+                server = new MimontServerDebug(targetCreator);
+            }
+            else {
+                server = new MimontServer(targetCreator);
+            }
+
             server.Start();
         }
 
         // Awaken client
+        StartClient(player, ipAddress);
+    }
+
+    private void StartClient(Player player, string ipAddress) {
         client?.Dispose();
         client = new MimontClient {Player = player};
         client.Connect(ipAddress);
@@ -79,7 +98,7 @@ public class MimontGame : MonoBehaviour {
 
         ui.ShowMessage("Waiting for other player...");
     }
-
+    
     private IEnumerator Countdown(int seconds, Action callback) {
         while (seconds > 0) {
             ui.ShowMessage($"{seconds}");

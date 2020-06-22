@@ -4,14 +4,10 @@ using System.Linq;
 using Mimont.Netcode.Protocol;
 
 namespace Mimont.Netcode {
-internal class Player {
-    public int internalId;
-}
+internal class PlayerManagerDebug {
+    private const int MaxPlayers = 1;
 
-internal class PlayerManager {
-    private const int MaxPlayers = 2;
-
-    private readonly MimontServer server;
+    private readonly MimontServerDebug server;
     private readonly List<Player> players = new List<Player>();
 
     internal int[] PlayerIds => players.Select(p => p.internalId).ToArray();
@@ -19,12 +15,12 @@ internal class PlayerManager {
     public event Action LobbyFull;
     public event Action<int> PlayerLeft;
 
-    public PlayerManager(MimontServer server) {
+    public PlayerManagerDebug(MimontServerDebug server) {
         this.server = server;
         server.RunningStateChanged += RegisterCallbacks;
     }
 
-    ~PlayerManager() {
+    ~PlayerManagerDebug() {
         UnregisterCallbacks();
     }
 
