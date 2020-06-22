@@ -7,114 +7,159 @@ using Networking.Server;
 using UnityEngine;
 using Player = Mimont.Gameplay.Player;
 
-namespace Mimont {
-public class MimontGame : MonoBehaviour {
-    private Server server;
-    private MimontClient client;
+namespace Mimont
+{
+    public class MimontGame : MonoBehaviour
+    {
+        private Server server;
+        private MimontClient client;
 
-    [SerializeField] private InputHandler inputHandler;
-    [SerializeField] private Player player;
-    [SerializeField] private TargetCreator targetCreator;
-    [SerializeField] private MimontUI ui;
+        [SerializeField] private InputHandler inputHandler;
+        [SerializeField] private Player player;
+        [SerializeField] private TargetCreator targetCreator;
+        [SerializeField] private MimontUI ui;
 
-    [Space] [SerializeField] private bool debugMode;
+        [Space] [SerializeField] private bool debugMode;
 
-    private bool isServer;
+        private bool isServer;
 
-    private bool paused;
+        private bool paused;
 
-    private bool Paused {
-        get => paused;
-        set {
-            paused = value;
-            if (inputHandler) inputHandler.gameObject.SetActive(value);
-        }
-    }
+        //BPM timer
+        public static event Action OnBeat;
 
-    private void Awake() {
-        inputHandler.gameObject.SetActive(false);
+        [SerializeField] private float BPM;
+        private float timeBetweenBeat = 0;
 
-        if (Application.isMobilePlatform) {
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 60;
-        }
-    }
-
-    private void OnDestroy() {
-        client?.Dispose();
-        server?.Stop();
-    }
-
-    private void Update() {
-        if (isServer && server.IsRunning) {
-            server.Update();
+        private bool Paused
+        {
+            get => paused;
+            set
+            {
+                paused = value;
+                if (inputHandler) inputHandler.gameObject.SetActive(value);
+            }
         }
 
-        if (client != null && client.Started) {
-            client.Update();
-        }
-    }
+        private void Awake()
+        {
+            inputHandler.gameObject.SetActive(false);
 
-    public void Connect(bool isHost, string ipAddress = "") {
-        if (client != null) {
-            return;
+            if (Application.isMobilePlatform)
+            {
+                QualitySettings.vSyncCount = 0;
+                Application.targetFrameRate = 60;
+            }
+
+            OnBeat += () => Debug.Log("Beat");
         }
 
-        isServer = isHost;
-        // If starting as server, awaken server
-        if (isServer) {
+        private void OnDestroy()
+        {
+            client?.Dispose();
             server?.Stop();
-            
-            if (debugMode) {
-                server = new MimontServerDebug(targetCreator);
-            }
-            else {
-                server = new MimontServer(targetCreator);
-            }
-
-            server.Start();
         }
 
-        // Awaken client
-        StartClient(player, ipAddress);
-    }
+        private void Update()
+        {
+            if (isServer && server.IsRunning)
+            {
+                server.Update();
+            }
 
-    private void StartClient(Player player, string ipAddress) {
-        client?.Dispose();
-        client = new MimontClient {Player = player};
-        client.Connect(ipAddress);
+            if (client != null && client.Started)
+            {
+                client.Update();
+            }
 
-        client.StartGame += () => StartCoroutine(Countdown(3, StartGame));
-
-        // Link all client callbacks
-        client.PlayerLeft += () => {
-            Paused = true;
-            ui.ShowMessage("Other player left game...", MessageUI.ButtonOptions.MainMenu);
-        };
-        client.Disconnected += () => {
-            Paused = true;
-            ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
-        };
-
-        ui.ShowMessage("Waiting for other player...");
-    }
-    
-    private IEnumerator Countdown(int seconds, Action callback) {
-        while (seconds > 0) {
-            ui.ShowMessage($"{seconds}");
-            seconds--;
-            yield return new WaitForSeconds(1);
+            BPMTimer();
         }
 
-        callback();
-    }
 
-    private void StartGame() {
-        // Switch UI
-        ui.OpenGameUI();
+        public void Connect(bool isHost, string ipAddress = "")
+        {
+            if (client != null)
+            {
+                return;
+            }
 
-        // Wake up objects
-        inputHandler.gameObject.SetActive(true);
+            isServer = isHost;
+            // If starting as server, awaken server
+            if (isServer)
+            {
+                server?.Stop();
+
+                if (debugMode)
+                {
+                    server = new MimontServerDebug(targetCreator);
+                }
+                else
+                {
+                    server = new MimontServer(targetCreator);
+                }
+
+                server.Start();
+            }
+
+            // Awaken client
+            StartClient(player, ipAddress);
+        }
+
+        private void StartClient(Player player, string ipAddress)
+        {
+            client?.Dispose();
+            client = new MimontClient { Player = player };
+            client.Connect(ipAddress);
+
+            client.StartGame += () => StartCoroutine(Countdown(3, StartGame));
+
+            // Link all client callbacks
+            client.PlayerLeft += () =>
+            {
+                Paused = true;
+                ui.ShowMessage("Other player left game...", MessageUI.ButtonOptions.MainMenu);
+            };
+            client.Disconnected += () =>
+            {
+                Paused = true;
+                ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
+            };
+
+            ui.ShowMessage("Waiting for other player...");
+        }
+
+        private IEnumerator Countdown(int seconds, Action callback)
+        {
+            while (seconds > 0)
+            {
+                ui.ShowMessage($"{seconds}");
+                seconds--;
+                yield return new WaitForSeconds(1);
+            }
+
+            callback();
+        }
+
+        private void StartGame()
+        {
+            // Switch UI
+            ui.OpenGameUI();
+
+            // Wake up objects
+            inputHandler.gameObject.SetActive(true);
+        }
+
+        private void BPMTimer()
+        {
+            float startTimeBtwBeat = 60f / BPM;
+
+            if (timeBetweenBeat <= 0)
+            {
+                OnBeat?.Invoke();
+                timeBetweenBeat = startTimeBtwBeat + timeBetweenBeat;
+            }
+
+            timeBetweenBeat -= Time.unscaledDeltaTime;
+        }
     }
-}
 }
