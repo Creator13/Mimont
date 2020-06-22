@@ -50,8 +50,6 @@ namespace Mimont
                 QualitySettings.vSyncCount = 0;
                 Application.targetFrameRate = 60;
             }
-
-            OnBeat += () => Debug.Log("Beat");
         }
 
         private void OnDestroy()
