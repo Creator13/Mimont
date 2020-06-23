@@ -13,6 +13,7 @@ public class TargetVisualController : MonoBehaviour
     public float addedScale;
 
     [Header("Growth Options")]
+    [SerializeField] private int burstOutCount;
     [SerializeField] private float burstDelay;
     [SerializeField] private AnimationCurve growCurve;
     [SerializeField] private float growDuration;
@@ -34,6 +35,7 @@ public class TargetVisualController : MonoBehaviour
     [SerializeField] private VisualEffect constant;
 
     private Material targetMat;
+    private bool growCooldown = false;
 
     private Coroutine spawnRoutine;
     private Coroutine growRoutine;
@@ -76,7 +78,7 @@ public class TargetVisualController : MonoBehaviour
         //}
     }
 
-    #region spawn
+    #region Spawn
     public void StartSpawn()
     {
         if (spawnRoutine != null) { return; }
@@ -117,16 +119,18 @@ public class TargetVisualController : MonoBehaviour
     #region Grow
     public void StartGrow()
     {
-        if(growRoutine != null) { return; }
-        growRoutine = StartCoroutine(GrowIE());
+        if(growCooldown) { return; }
+        growCooldown = true;
+        StartCoroutine(GrowCooldownIE());
+        StartCoroutine(GrowIE());
     }
 
     private IEnumerator GrowIE()
     {
-        burstOut.Play();
-        burstOut.SetFloat("Count", 6);
+        burstOut.SetFloat("Count", burstOutCount);
         burstOut.SetFloat("LifetimeTrail", 1.1f);
         burstOut.SetFloat("Size", 0.03f);
+        burstOut.Play();
         yield return new WaitForSeconds(burstDelay);
 
         if(transform.localScale.x < maxScale)
@@ -156,11 +160,16 @@ public class TargetVisualController : MonoBehaviour
             Destroy(gameObject);
         }
 
-
-
-
         growRoutine = null;
+
         yield return null;
+    }
+
+    private IEnumerator GrowCooldownIE()
+    {
+        yield return new WaitForSeconds(growDuration);
+
+        growCooldown = false;
     }
     #endregion
 
