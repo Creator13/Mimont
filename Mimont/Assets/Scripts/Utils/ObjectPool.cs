@@ -6,7 +6,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component {
     [SerializeField] private T prefab;
     [SerializeField] private int initialSize;
     [SerializeField] private bool canExpand;
-    
+
     private List<T> freeList;
     private List<T> usedList;
 

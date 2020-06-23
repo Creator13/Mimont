@@ -6,7 +6,7 @@ public class GameTime : MonoBehaviour {
     public static float Elapsed { get; private set; }
     public static float GameLength { get; private set; }
     public static float ElapsedNormalized => Elapsed / GameLength;
-     
+
     [Tooltip("In minutes")] [SerializeField] private float gameLength;
 
     public bool Running { get; set; }

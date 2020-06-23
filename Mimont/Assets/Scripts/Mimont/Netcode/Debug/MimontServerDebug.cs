@@ -73,6 +73,7 @@ public class MimontServerDebug : Server {
 
     #endregion
 
+
     private void OnPlayerLeft(int id) {
         SendToAllExcluding(new PlayerLeftMessage {playerId = id}, id);
         targets.Paused = true;

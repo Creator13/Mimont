@@ -12,7 +12,7 @@ namespace Mimont {
 [RequireComponent(typeof(GameTime))]
 public class MimontGame : MonoBehaviour {
     public static float GameTime { get; private set; }
-    
+
     private Server server;
     private MimontClient client;
 
@@ -21,13 +21,11 @@ public class MimontGame : MonoBehaviour {
     [SerializeField] private TargetCreator targetCreator;
     [SerializeField] private MimontUI ui;
 
-    [SerializeField] private float gameLength;
-
     [Space] [SerializeField] private bool debugMode;
 
     private GameTime timer;
     private GameTime Timer => timer ? timer : timer = GetComponent<GameTime>();
-    
+
     private bool isServer;
     private bool paused;
 
@@ -42,7 +40,7 @@ public class MimontGame : MonoBehaviour {
 
     private void Awake() {
         Paused = true;
-        
+
         if (Application.isMobilePlatform) {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
@@ -73,7 +71,7 @@ public class MimontGame : MonoBehaviour {
         // If starting as server, awaken server
         if (isServer) {
             server?.Stop();
-            
+
             if (debugMode) {
                 server = new MimontServerDebug(targetCreator);
             }
@@ -107,7 +105,7 @@ public class MimontGame : MonoBehaviour {
             ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
         };
     }
-    
+
     private IEnumerator Countdown(int seconds, Action callback) {
         while (seconds > 0) {
             ui.ShowMessage($"{seconds}");
@@ -121,7 +119,7 @@ public class MimontGame : MonoBehaviour {
     private void StartGame() {
         Paused = false;
         Timer.Reinitialize();
-        
+
         // Switch UI
         ui.OpenGameUI();
 

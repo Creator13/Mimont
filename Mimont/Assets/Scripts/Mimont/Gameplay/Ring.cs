@@ -10,7 +10,7 @@ public class Ring : MonoBehaviour, ISphere {
 
     private new Renderer renderer;
     private Renderer Renderer => renderer ? renderer : renderer = GetComponent<Renderer>();
-    
+
     private new bool enabled;
     private bool isPlayer;
     private List<Target> touching = new List<Target>(20);
@@ -31,7 +31,7 @@ public class Ring : MonoBehaviour, ISphere {
     }
 
     public void Activate(Vector3 pos, bool isPlayer = false) {
-        this.isPlayer = isPlayer; 
+        this.isPlayer = isPlayer;
         transform.localPosition = pos;
         transform.localScale = StartScale;
         Enabled = true;
@@ -53,7 +53,7 @@ public class Ring : MonoBehaviour, ISphere {
 
     private void Update() {
         UpdateTocuhingTargets();
-        
+
         if (!Enabled) return;
 
         transform.localScale += new Vector3(growSpeed, growSpeed, growSpeed) * Time.deltaTime;

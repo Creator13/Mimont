@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Mimont.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -87,7 +86,7 @@ public class TargetCreator : MonoBehaviour {
         // Maximum distance between the points
         var radius = Mathf.Lerp(SpawnRectDiagonal, 0, GameTime.ElapsedNormalized);
         var positions = new Vector2[2];
-        
+
 #if UNITY_EDITOR
         vis = new Visuals {
             basePos = basePos,
