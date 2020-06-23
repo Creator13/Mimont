@@ -2,7 +2,5 @@
 using Utils;
 
 namespace Mimont.Gameplay {
-public class SpherePool : ObjectPool<Transform> {
-    
-}
+public class SpherePool : ObjectPool<Transform> { }
 }

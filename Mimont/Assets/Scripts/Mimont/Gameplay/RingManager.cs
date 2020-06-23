@@ -12,7 +12,7 @@ public class RingManager : MonoBehaviour {
 
     public event Action<Vector3> RingCreated;
     public event Action RingReleased;
-    
+
     private void Start() {
         if (!inputHandler) {
             Debug.LogWarning("Input handler not set, using FindObjectOfType. Please set an input handler!");
@@ -45,7 +45,7 @@ public class RingManager : MonoBehaviour {
         playerRing.Release();
         RingReleased?.Invoke();
     }
-    
+
     public void StartOpponentRing(Vector3 position) {
         opponentRing.Activate(position, false);
     }

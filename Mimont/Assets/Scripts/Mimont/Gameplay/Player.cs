@@ -1,4 +1,5 @@
 ﻿using System;
+using Mimont.Netcode;
 using UnityEngine;
 
 namespace Mimont.Gameplay {
@@ -32,11 +33,11 @@ public class Player : MonoBehaviour {
         ringManager.RingReleased -= PropagateRingReleased;
     }
 
-    public void AddTarget(Vector3 position, int tierIndex) {
+    public void AddTarget(Vector3 pos, int tierIndex) {
         var target = Instantiate(targetPrefab, transform, false);
         target.Tier = targetTierSettings.tiers[tierIndex];
 
-        target.transform.localPosition = position;
+        target.transform.localPosition = pos;
         SubscribeToTarget(target);
     }
 
