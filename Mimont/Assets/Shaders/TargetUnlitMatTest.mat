@@ -35,6 +35,7 @@ Material:
     - _FresnelPower: 3
     - _NoiseFreq: 1.5
     - _NoiseMul: 0.08
+    - _Opacity: 0
     - _ScaleOffset: -0.03
     - _ScrollDirection: 10
     - _ScrollSpeed: 0.4
