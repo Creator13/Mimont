@@ -7,7 +7,9 @@ public class Ring : MonoBehaviour, ISphere {
     private static readonly Vector3 StartScale = new Vector3(.1f, .1f, .1f);
 
     [SerializeField] private float growSpeed = 1;
-
+    [SerializeField] private float playerTouchModifier = .3f;
+    [SerializeField] private float opponentTouchModifier = .65f;
+    
     private new Renderer renderer;
     private Renderer Renderer => renderer ? renderer : renderer = GetComponent<Renderer>();
 
@@ -25,6 +27,7 @@ public class Ring : MonoBehaviour, ISphere {
 
     public float Radius => transform.localScale.x * .5f;
     public Vector3 Position => transform.position;
+    private float TouchModifier => isPlayer ? playerTouchModifier : opponentTouchModifier;
 
     private void Awake() {
         Enabled = false;
@@ -70,12 +73,12 @@ public class Ring : MonoBehaviour, ISphere {
         // Unset all old touched targets if changed
         var old = touching.Except(newTouching).ToList();
         if (old.Count > 0) {
-            old.ForEach(t => t.touching = false);
+            old.ForEach(t => t.touchingModifier = 1);
         }
 
         if (newTouching.Count > 0) {
             // Set all newly touched targets if changed
-            newTouching.Except(touching).ToList().ForEach(t => t.touching = true);
+            newTouching.Except(touching).ToList().ForEach(t => t.touchingModifier = TouchModifier);
         }
 
         // Replace touch

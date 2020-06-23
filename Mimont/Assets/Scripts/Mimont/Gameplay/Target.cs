@@ -18,8 +18,8 @@ public class Target : MonoBehaviour, ISphere {
 
     [SerializeField] private float growSpeed = .2f;
     public float maxRadius;
-    public bool touching;
-
+    public float touchingModifier = 1;
+    
     private TargetTier tier;
 
     private new Renderer renderer;
@@ -51,9 +51,7 @@ public class Target : MonoBehaviour, ISphere {
     }
 
     private void Update() {
-        if (touching) return;
-
-        transform.localScale += new Vector3(GrowSpeed, GrowSpeed, GrowSpeed) * Time.deltaTime;
+        transform.localScale += new Vector3(GrowSpeed, GrowSpeed, GrowSpeed) * (touchingModifier * Time.deltaTime);
         transform.localScale = new Vector3(
             Mathf.Clamp(transform.localScale.x, 0, maxRadius * 2),
             Mathf.Clamp(transform.localScale.y, 0, maxRadius * 2),

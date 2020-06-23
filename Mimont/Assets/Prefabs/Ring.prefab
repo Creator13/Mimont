@@ -107,3 +107,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growSpeed: 1
+  playerTouchModifier: 0.3
+  opponentTouchModifier: 0.65

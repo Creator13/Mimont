@@ -136,7 +136,7 @@ public class MimontGame : MonoBehaviour {
     }
 
     private void BPMTimer() {
-        float startTimeBtwBeat = 60f / BPM;
+        var startTimeBtwBeat = 60f / BPM;
 
         if (timeBetweenBeat <= 0) {
             OnBeat?.Invoke();
