@@ -60,20 +60,20 @@ public class TargetVisualController : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.bKey.wasPressedThisFrame)
-        {
-            StartSpawn();
-        }
+        //if (Keyboard.current.bKey.wasPressedThisFrame)
+        //{
+        //    StartSpawn();
+        //}
 
-        if (Keyboard.current.nKey.wasPressedThisFrame)
-        {
-            StartGrow();
-        }
+        //if (Keyboard.current.nKey.wasPressedThisFrame)
+        //{
+        //    StartGrow();
+        //}
 
-        if (Keyboard.current.mKey.wasPressedThisFrame)
-        {
-            StartHit();
-        }
+        //if (Keyboard.current.mKey.wasPressedThisFrame)
+        //{
+        //    StartHit();
+        //}
     }
 
     #region spawn
