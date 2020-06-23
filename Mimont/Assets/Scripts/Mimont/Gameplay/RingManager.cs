@@ -1,9 +1,11 @@
 ﻿using System;
-using Mimont.Gameplay;
 using UnityEngine;
 
 namespace Mimont.Gameplay {
 public class RingManager : MonoBehaviour {
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+
+    [SerializeField] private SpherePool spherePool;
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private Ring ringPrefab;
 
@@ -20,12 +22,17 @@ public class RingManager : MonoBehaviour {
         }
 
         // Spawn rings
-        playerRing = Instantiate(ringPrefab, transform, false);
-        opponentRing = Instantiate(ringPrefab, transform, false);
+        playerRing = Instantiate(ringPrefab, transform);
+        opponentRing = Instantiate(ringPrefab, transform);
 
-        var mpb = new MaterialPropertyBlock();
-        mpb.SetColor("_BaseColor", new Color32(155, 100, 80, 134));
-        opponentRing.gameObject.GetComponent<Renderer>().SetPropertyBlock(mpb);
+        playerRing.IsPlayer = true;
+        opponentRing.IsPlayer = false;
+        playerRing.SpherePool = spherePool;
+        opponentRing.SpherePool = spherePool;
+
+        // var mpb = new MaterialPropertyBlock();
+        // mpb.SetColor(BaseColor, new Color32(155, 100, 80, 134));
+        // opponentRing.gameObject.GetComponent<Renderer>().SetPropertyBlock(mpb);
 
         inputHandler.WorldClickPerformed += StartPlayerRing;
         inputHandler.HoldReleased += ReleasePlayerRing;
@@ -33,11 +40,11 @@ public class RingManager : MonoBehaviour {
 
     private void OnDisable() {
         inputHandler.WorldClickPerformed -= StartPlayerRing;
-        inputHandler.HoldReleased += ReleasePlayerRing;
+        inputHandler.HoldReleased -= ReleasePlayerRing;
     }
 
     private void StartPlayerRing(Vector3 position) {
-        playerRing.Activate(position, true);
+        playerRing.Activate(position);
         RingCreated?.Invoke(position);
     }
 
@@ -47,7 +54,7 @@ public class RingManager : MonoBehaviour {
     }
 
     public void StartOpponentRing(Vector3 position) {
-        opponentRing.Activate(position, false);
+        opponentRing.Activate(position);
     }
 
     public void ReleaseOpponentRing() {

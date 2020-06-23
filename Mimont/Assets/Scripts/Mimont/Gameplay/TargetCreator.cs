@@ -200,7 +200,9 @@ public class TargetCreator : MonoBehaviour {
     }
 
     private Vector3 ViewportToWorldPoint(float x, float y, float z = 0) {
-        return camera.ViewportToWorldPoint(new Vector3(x, y, z));
+        var pos = camera.ViewportToWorldPoint(new Vector3(x, y, z));
+        pos.z = 0;
+        return pos;
     }
 
     private Vector3 ViewportToWorldPoint(Vector3 pos) {

@@ -1,13 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.InputSystem;
 
-public class VFXAnimation : MonoBehaviour
-{
-    [Header("Death Animation")]
-    [SerializeField] private float deathMinSizeAnimDuration;
+public class VFXAnimation : MonoBehaviour {
+    [Header("Death Animation")] [SerializeField] private float deathMinSizeAnimDuration;
     [SerializeField] private AnimationCurve deathMinSizeAnimCurve;
     [SerializeField] private float deathMaxSizeAnimDuration;
     [SerializeField] private AnimationCurve deathMaxSizeAnimCurve;
@@ -17,133 +14,128 @@ public class VFXAnimation : MonoBehaviour
     [SerializeField] private float maxDeathSize;
     [SerializeField] private Vector4 deathFadeColor;
 
-    [Header("Spawn Animation")]
-    [SerializeField] private float initialSize;
+    [Header("Spawn Animation")] [SerializeField] private float initialSize;
     [SerializeField] private float endSize;
     [SerializeField] private AnimationCurve spawnSizeCurve;
     [SerializeField] private float spawningAnimDuration;
     [SerializeField] private float startCount;
     [SerializeField] private float endCount;
 
-    [Header("Growth")]
-    [SerializeField] private float minSize;
+    [Header("Growth")] [SerializeField] private float minSize;
     [SerializeField] private float maxSize;
+
     [SerializeField] private float growthRate;
+
     //[SerializeField, GradientUsage(true)] private UnityEngine.Gradient deathFadeGradient;
     //private UnityEngine.GradientColorKey[] deathFadeColorKeys;
     //private UnityEngine.GradientAlphaKey[] deathFadeAlphaKeys;
     private Coroutine deathAnimRoutine;
     private Coroutine spawnAnimRoutine;
 
-    private VisualEffect vE;
+    private VisualEffect visualEffect;
 
 
     // Start is called before the first frame update
-    void Start()
-    {
-        vE = GetComponent<VisualEffect>();
+    void Start() {
+        visualEffect = GetComponent<VisualEffect>();
 
         //deathFadeColorKeys = deathFadeGradient.colorKeys;
         //deathFadeAlphaKeys = deathFadeGradient.alphaKeys;
     }
 
-    private void Update()
-    {
-        if (Keyboard.current.dKey.wasPressedThisFrame)
-        {
-            PlayDeathAnim(deathMinSizeAnimDuration, deathMaxSizeAnimDuration, deathFadeAnimDuration, minDeathSize, maxDeathSize, deathFadeColor);
+    private void Update() {
+        if (Keyboard.current.dKey.wasPressedThisFrame) {
+            PlayDeathAnim(deathMinSizeAnimDuration, deathMaxSizeAnimDuration, deathFadeAnimDuration, minDeathSize,
+                maxDeathSize, deathFadeColor);
         }
 
-        if (Keyboard.current.sKey.wasPressedThisFrame)
-        {
+        if (Keyboard.current.sKey.wasPressedThisFrame) {
             PlaySpawnAnim(spawningAnimDuration, initialSize, endSize);
         }
 
-        if (Keyboard.current.gKey.isPressed)
-        {
+        if (Keyboard.current.gKey.isPressed) {
             Growth(false, maxSize, growthRate);
         }
-        else
-        {
+        else {
             Growth(true, maxSize, growthRate);
         }
     }
 
-    public void Growth(bool isPauzed, float maxSize, float growthRate)
-    {
-        float _newSize = vE.GetFloat("Size");
+    public void Growth(bool isPauzed, float maxSize, float growthRate) {
+        var _newSize = visualEffect.GetFloat("Size");
 
-        if (!isPauzed && _newSize <= maxSize)
-        {
+        if (!isPauzed && _newSize <= maxSize) {
             _newSize += Time.deltaTime * growthRate;
         }
 
-        vE.SetFloat("Size", _newSize);
+        visualEffect.SetFloat("Size", _newSize);
     }
 
-    public void PlaySpawnAnim(float spawnDuration, float initialSize, float endSize)
-    {
-        if (deathAnimRoutine != null) { StopCoroutine(spawnAnimRoutine); }
+    public void PlaySpawnAnim(float spawnDuration, float initialSize, float endSize) {
+        if (deathAnimRoutine != null) {
+            StopCoroutine(spawnAnimRoutine);
+        }
+
         spawnAnimRoutine = StartCoroutine(SpawnAnimIE(spawnDuration, initialSize, endSize));
     }
 
-    private IEnumerator SpawnAnimIE(float spawnDuration, float initialSize, float endSize)
-    {
-        vE.enabled = true;
+    private IEnumerator SpawnAnimIE(float spawnDuration, float initialSize, float endSize) {
+        visualEffect.enabled = true;
 
-        vE.SetFloat("ParticleCount", startCount);
+        visualEffect.SetFloat("ParticleCount", startCount);
 
         float _timeValue = 0;
 
-        while (_timeValue < 1)
-        {
+        while (_timeValue < 1) {
             _timeValue += Time.deltaTime / spawnDuration;
-            float _evaluatedTimeValue = spawnSizeCurve.Evaluate(_timeValue);
-            float _newSize = Mathf.Lerp(initialSize, endSize, _evaluatedTimeValue);
+            var _evaluatedTimeValue = spawnSizeCurve.Evaluate(_timeValue);
+            var _newSize = Mathf.Lerp(initialSize, endSize, _evaluatedTimeValue);
 
-            vE.SetFloat("Size", _newSize);
+            visualEffect.SetFloat("Size", _newSize);
 
             yield return null;
         }
 
-        vE.SetFloat("ParticleCount", endCount);
+        visualEffect.SetFloat("ParticleCount", endCount);
 
         yield return null;
     }
 
-    public void PlayDeathAnim(float deathMinSizeAnimDuration, float deathMaxSizeAnimDuration, float deathFadeAnimDuration, float minDeathSize, float maxDeathSize, Vector4 deathFadeColor)
-    {
-        if(deathAnimRoutine != null) { StopCoroutine(deathAnimRoutine); }
-        deathAnimRoutine = StartCoroutine(DeathAnimIE(deathMinSizeAnimDuration, deathMaxSizeAnimDuration, deathFadeAnimDuration, minDeathSize, maxDeathSize, deathFadeColor));
+    public void PlayDeathAnim(float deathMinSizeAnimDuration, float deathMaxSizeAnimDuration,
+        float deathFadeAnimDuration, float minDeathSize, float maxDeathSize, Vector4 deathFadeColor) {
+        if (deathAnimRoutine != null) {
+            StopCoroutine(deathAnimRoutine);
+        }
+
+        deathAnimRoutine = StartCoroutine(DeathAnimIE(deathMinSizeAnimDuration, deathMaxSizeAnimDuration,
+            deathFadeAnimDuration, minDeathSize, maxDeathSize, deathFadeColor));
     }
 
 
-    private IEnumerator DeathAnimIE(float minDuration, float maxDuration, float fadeDuration, float minSize, float maxSize, Vector4 fadeColor)
-    {
-        float _currentSize = vE.GetFloat("Size");
+    private IEnumerator DeathAnimIE(float minDuration, float maxDuration, float fadeDuration, float minSize,
+        float maxSize, Vector4 fadeColor) {
+        var _currentSize = visualEffect.GetFloat("Size");
         float _minTimeValue = 0;
 
-        while (_minTimeValue < 1)
-        {
+        while (_minTimeValue < 1) {
             _minTimeValue += Time.deltaTime / minDuration;
-            float _evaluatedTimeValue = deathMinSizeAnimCurve.Evaluate(_minTimeValue);
-            float _newSize = Mathf.Lerp(_currentSize, minSize, _evaluatedTimeValue);
+            var _evaluatedTimeValue = deathMinSizeAnimCurve.Evaluate(_minTimeValue);
+            var _newSize = Mathf.Lerp(_currentSize, minSize, _evaluatedTimeValue);
 
-            vE.SetFloat("Size", _newSize);
+            visualEffect.SetFloat("Size", _newSize);
 
             yield return null;
         }
 
-        _currentSize = vE.GetFloat("Size");
+        _currentSize = visualEffect.GetFloat("Size");
         float _maxTimeValue = 0;
 
-        while (_maxTimeValue < 1)
-        {
+        while (_maxTimeValue < 1) {
             _maxTimeValue += Time.deltaTime / maxDuration;
-            float _evaluatedTimeValue = deathMaxSizeAnimCurve.Evaluate(_minTimeValue);
-            float _newSize = Mathf.Lerp(_currentSize, maxSize, _evaluatedTimeValue);
+            var _evaluatedTimeValue = deathMaxSizeAnimCurve.Evaluate(_minTimeValue);
+            var _newSize = Mathf.Lerp(_currentSize, maxSize, _evaluatedTimeValue);
 
-            vE.SetFloat("Size", _newSize);
+            visualEffect.SetFloat("Size", _newSize);
 
             yield return null;
         }
@@ -182,23 +174,22 @@ public class VFXAnimation : MonoBehaviour
         //    yield return null;
         //}
 
-        Vector4 _currentColor = vE.GetVector4("HDRColorHSV");
+        var _currentColor = visualEffect.GetVector4("HDRColorHSV");
         float _fadeTimeValue = 0;
 
-        while (_fadeTimeValue < 1)
-        {
+        while (_fadeTimeValue < 1) {
             _fadeTimeValue += Time.deltaTime / fadeDuration;
-            float _evaluatedTimeValue = deathFadeAnimCurve.Evaluate(_fadeTimeValue);
-            Vector4 _newColor = Vector4.Lerp(_currentColor, fadeColor, _evaluatedTimeValue);
+            var _evaluatedTimeValue = deathFadeAnimCurve.Evaluate(_fadeTimeValue);
+            var _newColor = Vector4.Lerp(_currentColor, fadeColor, _evaluatedTimeValue);
 
-            vE.SetVector4("HDRColorHSV", _newColor);
+            visualEffect.SetVector4("HDRColorHSV", _newColor);
 
             yield return null;
         }
 
         deathAnimRoutine = null;
 
-        Destroy(this.gameObject);
+        Destroy(gameObject);
 
         yield return null;
     }

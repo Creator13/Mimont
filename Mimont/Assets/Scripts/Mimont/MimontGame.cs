@@ -39,7 +39,7 @@ public class MimontGame : MonoBehaviour {
         get => paused;
         set {
             paused = value;
-            if (inputHandler) inputHandler.gameObject.SetActive(value);
+            if (inputHandler) inputHandler.gameObject.SetActive(!value);
         }
     }
 

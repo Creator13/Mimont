@@ -19,7 +19,7 @@ public class Target : MonoBehaviour, ISphere {
     [SerializeField] private float growSpeed = .2f;
     public float maxRadius;
     public float touchingModifier = 1;
-    
+
     private TargetTier tier;
 
     private new Renderer renderer;
