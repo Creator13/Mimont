@@ -32,15 +32,16 @@ Material:
     - _AlphaClipThreshold: 0
     - _DiffAlphaMul: 0
     - _DistortionAmnt: 1
-    - _FresnelPower: 7
-    - _NoiseFreq: 10
-    - _NoiseMul: 0.2
-    - _ScaleOffset: -0.16
+    - _FresnelPower: 3
+    - _NoiseFreq: 1.5
+    - _NoiseMul: 0.08
+    - _Opacity: 0
+    - _ScaleOffset: -0.03
     - _ScrollDirection: 10
-    - _ScrollSpeed: 0
-    - _UseFresnel: 0
-    - _UseTexture: 1
+    - _ScrollSpeed: 0.4
+    - _UseFresnel: 1
+    - _UseTexture: 0
     m_Colors:
-    - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
-    - _MainCol: {r: 1, g: 0, b: 0, a: 0}
+    - _FresnelColor: {r: 2, g: 0.066037774, b: 0.066037774, a: 0}
+    - _MainCol: {r: 2, g: 0.0627451, b: 0.0627451, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
