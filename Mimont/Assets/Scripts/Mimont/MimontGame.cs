@@ -6,13 +6,12 @@ using Mimont.UI;
 using Networking.Server;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Player = Mimont.Gameplay.Player;
 
 namespace Mimont {
 [RequireComponent(typeof(GameTime))]
 public class MimontGame : MonoBehaviour {
-    public static float GameTime { get; private set; }
-
     private Server server;
     private MimontClient client;
 
@@ -32,7 +31,7 @@ public class MimontGame : MonoBehaviour {
     //BPM timer
     public static event Action OnBeat;
 
-    [SerializeField] private float BPM;
+    [SerializeField] private float bpm = 30;
     private float timeBetweenBeat = 0;
 
     private bool Paused {
@@ -40,6 +39,7 @@ public class MimontGame : MonoBehaviour {
         set {
             paused = value;
             if (inputHandler) inputHandler.gameObject.SetActive(!value);
+            Timer.Running = !value;
         }
     }
 
@@ -136,7 +136,7 @@ public class MimontGame : MonoBehaviour {
     }
 
     private void BPMTimer() {
-        var startTimeBtwBeat = 60f / BPM;
+        var startTimeBtwBeat = 60f / bpm;
 
         if (timeBetweenBeat <= 0) {
             OnBeat?.Invoke();

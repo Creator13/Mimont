@@ -12,8 +12,9 @@ internal class Visuals {
 }
 
 public class TargetCreator : MonoBehaviour {
-    // TODO Test code
+#if UNITY_EDITOR
     private Visuals vis;
+#endif
 
     [SerializeField] private new Camera camera;
 
@@ -147,7 +148,7 @@ public class TargetCreator : MonoBehaviour {
             playerHeightRelative * .45f);
         SpawnRectDiagonal = Mathf.Sqrt(SpawnRect.height * SpawnRect.height + SpawnRect.width * SpawnRect.width);
     }
-
+#if UNITY_EDITOR
     private void OnDrawGizmos() {
         var z = transform.position.z;
 
@@ -198,6 +199,7 @@ public class TargetCreator : MonoBehaviour {
             }
         }
     }
+#endif
 
     private Vector3 ViewportToWorldPoint(float x, float y, float z = 0) {
         var pos = camera.ViewportToWorldPoint(new Vector3(x, y, z));
