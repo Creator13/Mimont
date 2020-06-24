@@ -21,9 +21,9 @@ public class RingVisuals : MonoBehaviour {
     [SerializeField] private float scaleOffset = -.04f;
     [SerializeField] private float scrollSpeed = .3f;
     [SerializeField] private float displacementScale = .08f;
-    [SerializeField] private float noiseFrequency = 3; 
+    [SerializeField] private float noiseFrequency = 3;
     [SerializeField] private Material lineMaterial;
-    
+
     public SpherePool icospherePool;
     public Color[] startColors;
     private List<Transform> Lines { get; } = new List<Transform>();
@@ -31,7 +31,7 @@ public class RingVisuals : MonoBehaviour {
 
     public void Spawn(Vector3 spawnLocation) {
         updatedColor = 0;
-        
+
         for (var i = 0; i < lineAmount; i++) {
             var scrollDirection = (360f / lineAmount) * i;
             var noiseOffset = (1000f / lineAmount) * i;
@@ -61,7 +61,7 @@ public class RingVisuals : MonoBehaviour {
             var noiseOffset = Random.Range(0f, 1000f);
 
             var newLine = GetSphere();
-            
+
             var r = newLine.GetComponent<Renderer>();
             r.enabled = false;
             newLine.transform.localScale = new Vector3(scale, scale, 1);
@@ -88,6 +88,7 @@ public class RingVisuals : MonoBehaviour {
         foreach (var line in Lines) {
             ReturnSpere(line);
         }
+
         Lines.Clear();
     }
 
@@ -107,42 +108,18 @@ public class RingVisuals : MonoBehaviour {
     }
 
     private Transform GetSphere() {
-        // var sphere = icospherePool.Get();
-        // sphere.transform.localRotation = Quaternion.identity;
-        // sphere.localScale = Vector3.zero;
-        // sphere.SetParent(transform);
-        // DestroyImmediate(sphere.GetComponent<MeshRenderer>());
-        // sphere.gameObject.AddComponent<MeshRenderer>();
-        // sphere.gameObject.SetActive(true);
-        
-        var sphere = Instantiate(icospherePrefab, Vector3.zero, Quaternion.identity);
+        var sphere = icospherePool.Get();
+        sphere.transform.localRotation = Quaternion.identity;
+        sphere.localScale = Vector3.zero;
         sphere.SetParent(transform, false);
+        DestroyImmediate(sphere.GetComponent<MeshRenderer>());
+        sphere.gameObject.AddComponent<MeshRenderer>();
+        sphere.gameObject.SetActive(true);
+        
         return sphere;
     }
 
     private void ReturnSpere(Transform sphere) {
-        // icospherePool.ReturnObject(sphere);
-        Destroy(sphere.gameObject);
+        icospherePool.ReturnObject(sphere);
     }
-    
-    // void Update() {
-    //     UpdateScale(scale);
-    //
-    //     if (Keyboard.current.bKey.isPressed)
-    //     {
-    //         scale += Time.deltaTime/4f;
-    //     }
-    //     if (Keyboard.current.lKey.wasPressedThisFrame)
-    //     {
-    //         UpdateColor(Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f));
-    //     }
-    //     if (Keyboard.current.pKey.wasPressedThisFrame)
-    //     {
-    //         Spawn(Vector3.zero);
-    //     }
-    //     if (Keyboard.current.oKey.wasPressedThisFrame)
-    //     {
-    //         Destroy();
-    //     }
-    // }
 }

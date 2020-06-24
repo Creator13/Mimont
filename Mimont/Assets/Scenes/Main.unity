@@ -3058,8 +3058,8 @@ MonoBehaviour:
   player: {fileID: 35281590}
   targetCreator: {fileID: 1501065086}
   ui: {fileID: 1972334135}
-  debugMode: 0
-  BPM: 30
+  debugMode: 1
+  bpm: 30
 --- !u!4 &2138714301
 Transform:
   m_ObjectHideFlags: 0

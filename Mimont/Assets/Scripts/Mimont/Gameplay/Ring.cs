@@ -112,7 +112,7 @@ public class Ring : MonoBehaviour, ISphere {
 
         // Replace touch
         touching = newTouching;
-        
+
         // Set all targets to touching
         touching.ForEach(t => t.TouchingModifier = TouchModifier);
     }

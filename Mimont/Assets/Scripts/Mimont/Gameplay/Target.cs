@@ -24,6 +24,7 @@ public class Target : MonoBehaviour, ISphere {
 
     private float stepSize;
     private float touchingModifier = 1;
+
     public float TouchingModifier {
         get => touchingModifier;
         set {
@@ -50,12 +51,13 @@ public class Target : MonoBehaviour, ISphere {
     }
 
     public float Radius => transform.localScale.x * .5f;
+
     public Vector3 Position => transform.position;
     // public float GrowSpeed => growSpeed * tier.multiplier;
 
     private void Start() {
         stepSize = (maxRadius * 2 - StartScale.x) / tier.stepCount;
-        
+
         Visuals.startScale = StartScale;
         Visuals.maxScale = maxRadius * 2;
         Visuals.addedScale = stepSize;
