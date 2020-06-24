@@ -45,8 +45,9 @@ public class InputHandler : MonoBehaviour {
     }
 
     private void BroadcastClick(InputAction.CallbackContext ctx) {
-        var pos = input.Default.Position.ReadValue<Vector2>();
-        WorldClickPerformed?.Invoke(camera.ScreenToWorldPoint(pos));
+        var pos = camera.ScreenToWorldPoint(input.Default.Position.ReadValue<Vector2>());
+        pos.z = 0;
+        WorldClickPerformed?.Invoke(pos);
     }
 }
 }

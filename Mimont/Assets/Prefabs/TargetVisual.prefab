@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetColor: {r: 0.3211167, g: 2, b: 0.06282723, a: 0}
-  startScale: 3
+  startScale: {x: 0, y: 0, z: 0}
   maxScale: 6
   addedScale: 0.4
   burstOutCount: 3
@@ -284,7 +284,10 @@ VisualEffect:
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0.3211167, y: 2, z: 0.06282723, w: 0}
+        m_Name: Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -394,6 +397,9 @@ VisualEffect:
       m_Array:
       - m_Value: {x: 0.74, y: 0.8, z: 1, w: 1}
         m_Name: HDRColorHSV
+        m_Overridden: 1
+      - m_Value: {x: 0.3211167, y: 2, z: 0.06282723, w: 0}
+        m_Name: Color
         m_Overridden: 1
     m_Uint:
       m_Array: []
@@ -508,6 +514,9 @@ VisualEffect:
       - m_Value: {x: 0.74, y: 0.8, z: 1, w: 4}
         m_Name: HDRColorHSV
         m_Overridden: 0
+      - m_Value: {x: 0.3211167, y: 2, z: 0.06282723, w: 0}
+        m_Name: Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:

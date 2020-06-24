@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 35281588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1572963718}
@@ -2203,6 +2203,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameRoot: {fileID: 2138714300}
   ipInput: {fileID: 557714565}
+--- !u!1 &1530700662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1530700664}
+  - component: {fileID: 1530700663}
+  m_Layer: 0
+  m_Name: IcospherePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1530700663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530700662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af74c3aea81647b7b7bf108fc4704c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: -4216859302048453862, guid: 9c575fd66939ca14596fda9dfdbe2ade, type: 3}
+  initialSize: 10
+  canExpand: 1
+--- !u!4 &1530700664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530700662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5676368, y: 1.6602426, z: 6.008789}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1572963717
 GameObject:
   m_ObjectHideFlags: 0
@@ -2246,6 +2292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeae22d8ad04b529f2cff130df99796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spherePool: {fileID: 1530700663}
   inputHandler: {fileID: 1777669675}
   ringPrefab: {fileID: 6398329484548436046, guid: 8dd92622f2fcf8e49b06e7e6ad321959,
     type: 3}
@@ -2357,8 +2404,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625037466}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -8.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755959699}
@@ -2489,7 +2536,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 52616cf1e527645458e9299ffcc8fe60, type: 2}
+  sharedProfile: {fileID: 11400000, guid: dda8e98a150322e41adddfe449d588fe, type: 2}
 --- !u!4 &1762440170
 Transform:
   m_ObjectHideFlags: 0
@@ -3011,8 +3058,8 @@ MonoBehaviour:
   player: {fileID: 35281590}
   targetCreator: {fileID: 1501065086}
   ui: {fileID: 1972334135}
-  gameLength: 0
   debugMode: 1
+  bpm: 30
 --- !u!4 &2138714301
 Transform:
   m_ObjectHideFlags: 0
