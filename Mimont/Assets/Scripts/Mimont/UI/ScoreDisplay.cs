@@ -18,7 +18,7 @@ public class ScoreDisplay : MonoBehaviour {
     }
 
     private void SetScore(float val) {
-        Text.text = $"Score: {val}";
+        Text.text = $"{val}";
     }
 }
 }
