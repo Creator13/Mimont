@@ -21,22 +21,13 @@ public class RingVisuals : MonoBehaviour {
     [SerializeField] private float scaleOffset = -.04f;
     [SerializeField] private float scrollSpeed = .3f;
     [SerializeField] private float displacementScale = .08f;
-    [SerializeField] private float noiseFrequency = 3;
-
+    [SerializeField] private float noiseFrequency = 3; 
+    [SerializeField] private Material lineMaterial;
+    
     public SpherePool icospherePool;
     public Color[] startColors;
-    
-    private Shader lineShader;
     private List<Transform> Lines { get; } = new List<Transform>();
     private int updatedColor;
-
-    private void Awake() {
-        lineShader = Shader.Find("Custom/KissGraph");
-    }
-
-    // private void Start() {
-    //     Spawn(Vector3.zero);
-    // }
 
     public void Spawn(Vector3 spawnLocation) {
         updatedColor = 0;
@@ -101,7 +92,7 @@ public class RingVisuals : MonoBehaviour {
     }
 
     private Material CreateMaterial(float scrollDirection, float noiseOffset, Color color) {
-        var mat = new Material(lineShader);
+        var mat = new Material(lineMaterial);
         mat.SetFloat(ScaleOffset, scaleOffset);
         mat.SetFloat(LineWidth, lineWidth);
         mat.SetFloat(ScrollSpeed, scrollSpeed);

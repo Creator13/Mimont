@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growSpeed: 1
-  playerTouchModifier: 0.3
-  opponentTouchModifier: 0.65
+  playerTouchModifier: 0.65
+  opponentTouchModifier: 0.3
 --- !u!114 &-6686356980633774171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +82,7 @@ MonoBehaviour:
   scrollSpeed: 0.3
   displacementScale: 0.08
   noiseFrequency: 3
+  lineMaterial: {fileID: 2100000, guid: df36650e91360c14db3e6ca7c3dd9a51, type: 2}
   icospherePool: {fileID: 0}
   startColors:
   - {r: 1, g: 1, b: 1, a: 0}
