@@ -1,12 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Mimont;
 using UnityEngine;
 using UnityEngine.VFX;
-using UnityEngine.InputSystem;
 
 public class TargetVisualController : MonoBehaviour {
+    private static readonly int NoiseOffset = Shader.PropertyToID("_NoiseOffset");
+    private static readonly int ScrollDirection = Shader.PropertyToID("_ScrollDirection");
+    private static readonly int FresnelColor = Shader.PropertyToID("_FresnelColor");
+    private static readonly int Opacity = Shader.PropertyToID("_Opacity");
+    private static readonly int ScaleOffset = Shader.PropertyToID("_ScaleOffset");
+
     [Header("Main Options")] [ColorUsage(true, true)] public Color targetColor;
-    public float startScale;
+    public Vector3 startScale;
     public float maxScale;
     public float addedScale;
 
@@ -35,39 +40,18 @@ public class TargetVisualController : MonoBehaviour {
     private Coroutine growRoutine;
     private Coroutine hitRoutine;
 
-    void Start() {
+    private void Awake() {
         targetMat = GetComponent<Renderer>().material;
+    }
 
+    private void Start() {
         //Set color
-        targetMat.SetColor("_FresnelColor", targetColor);
+        targetMat.SetColor(FresnelColor, targetColor);
         burstOut.SetVector4("Color", targetColor);
         burstIn.SetVector4("Color", targetColor);
         constant.SetVector4("Color", targetColor);
 
-        //Idk waarom dit nodig is, maar ja fucking VFX graph
-        burstOut.Stop();
-        burstIn.Stop();
-        constant.Stop();
-        constant.enabled = false;
-        burstIn.enabled = false;
-        burstOut.enabled = false;
-    }
-
-    void Update() {
-        //if (Keyboard.current.bKey.wasPressedThisFrame)
-        //{
-        //    StartSpawn();
-        //}
-
-        //if (Keyboard.current.nKey.wasPressedThisFrame)
-        //{
-        //    StartGrow();
-        //}
-
-        //if (Keyboard.current.mKey.wasPressedThisFrame)
-        //{
-        //    StartHit();
-        //}
+        MimontGame.OnBeat += StartGrow;
     }
 
 
@@ -82,31 +66,33 @@ public class TargetVisualController : MonoBehaviour {
     }
 
     private IEnumerator SpawnIE() {
+        targetMat.SetVector(NoiseOffset, new Vector2(Random.Range(0, 1000), Random.Range(0, 1000)));
+        targetMat.SetFloat(ScrollDirection, Random.Range(0, 360));
+
         constant.enabled = true;
         burstIn.enabled = true;
         burstOut.enabled = true;
-        transform.localScale = new Vector3(startScale, startScale, startScale);
+        transform.localScale = startScale;
 
         burstOut.SetFloat("Count", 12f);
 
-        constant.Play();
-        burstOut.Play();
+        constant.SendEvent("OnPlayyy");
+        burstOut.SendEvent("OnPlayyy");
         yield return new WaitForSeconds(burstDelay);
 
         float _timeValue = 0;
 
         while (_timeValue < 1) {
             _timeValue += Time.deltaTime / orbFadeInDuration;
-            float _evaluatedTimeValue = orbFadeInCurve.Evaluate(_timeValue);
-            float _newOpacity = Mathf.Lerp(0f, 1f, _evaluatedTimeValue);
+            var _evaluatedTimeValue = orbFadeInCurve.Evaluate(_timeValue);
+            var _newOpacity = Mathf.Lerp(0f, 1f, _evaluatedTimeValue);
 
-            targetMat.SetFloat("_Opacity", _newOpacity);
+            targetMat.SetFloat(Opacity, _newOpacity);
 
             yield return null;
         }
 
         spawnRoutine = null;
-        yield return null;
     }
 
     #endregion
@@ -115,9 +101,9 @@ public class TargetVisualController : MonoBehaviour {
     #region Grow
 
     public void StartGrow() {
-        if (growCooldown) {
-            return;
-        }
+        if (spawnRoutine != null) return;
+        if (hitRoutine != null) return;
+        if (growCooldown) return;
 
         growCooldown = true;
         StartCoroutine(GrowCooldownIE());
@@ -128,36 +114,34 @@ public class TargetVisualController : MonoBehaviour {
         burstOut.SetFloat("Count", burstOutCount);
         burstOut.SetFloat("LifetimeTrail", 1.1f);
         burstOut.SetFloat("Size", 0.03f);
-        burstOut.Play();
+        burstOut.SendEvent("OnPlayyy");
         yield return new WaitForSeconds(burstDelay);
 
         if (transform.localScale.x < maxScale) {
             float _timeValue = 0;
 
-            Vector3 _oldSize = transform.localScale;
-            Vector3 _newSize = transform.localScale + new Vector3(addedScale, addedScale, addedScale);
+            var _oldSize = transform.localScale;
+            var _newSize = transform.localScale + new Vector3(addedScale, addedScale, addedScale);
 
             while (_timeValue < 1) {
                 _timeValue += Time.deltaTime / growDuration;
-                float _evaluatedTimeValue = growCurve.Evaluate(_timeValue);
-                Vector3 _Size = Vector3.Lerp(_oldSize, _newSize, _evaluatedTimeValue);
+                var _evaluatedTimeValue = growCurve.Evaluate(_timeValue);
+                var _size = Vector3.Lerp(_oldSize, _newSize, _evaluatedTimeValue);
 
-                transform.localScale = _Size;
+                transform.localScale = _size;
 
                 yield return null;
             }
         }
         else {
             GetComponent<Renderer>().enabled = false;
-            constant.Stop();
+            constant.SendEvent("OnStoppp");
             //disable collider
             yield return new WaitForSeconds(4f);
-            Destroy(gameObject);
+            Kill();
         }
 
         growRoutine = null;
-
-        yield return null;
     }
 
     private IEnumerator GrowCooldownIE() {
@@ -172,9 +156,8 @@ public class TargetVisualController : MonoBehaviour {
     #region Hit
 
     public void StartHit() {
-        if (hitRoutine != null) {
-            return;
-        }
+        if (spawnRoutine != null) return;
+        if (hitRoutine != null) return;
 
         hitRoutine = StartCoroutine(HitIE());
     }
@@ -182,43 +165,48 @@ public class TargetVisualController : MonoBehaviour {
     private IEnumerator HitIE() {
         float _growTimeValue = 0;
 
-        float _startScale = targetMat.GetFloat("_ScaleOffset");
+        var _startScale = targetMat.GetFloat(ScaleOffset);
 
         while (_growTimeValue < 1) {
             _growTimeValue += Time.deltaTime / orbFadeGrowDuration;
-            float _evaluatedTimeValue = orbFadeGrowCurve.Evaluate(_growTimeValue);
-            float _newScale = Mathf.Lerp(_startScale, _startScale + 0.1f, _evaluatedTimeValue);
+            var _evaluatedTimeValue = orbFadeGrowCurve.Evaluate(_growTimeValue);
+            var _newScale = Mathf.Lerp(_startScale, _startScale + 0.1f, _evaluatedTimeValue);
 
-            targetMat.SetFloat("_ScaleOffset", _newScale);
+            targetMat.SetFloat(ScaleOffset, _newScale);
 
             yield return null;
         }
 
         float _shrinkTimeValue = 0;
 
-        burstIn.Play();
+        burstIn.SendEvent("OnPlayyy");
 
         while (_shrinkTimeValue < 1) {
             _shrinkTimeValue += Time.deltaTime / orbFadeShrinkDuration;
-            float _evaluatedTimeShrink = orbFadeShrinkCurve.Evaluate(_shrinkTimeValue);
-            float _evaluatedTimeOpacity = orbFadeOutCurve.Evaluate(_shrinkTimeValue);
-            float _newScale = Mathf.Lerp(_startScale + 0.1f, _startScale - 0.05f, _evaluatedTimeShrink);
-            targetMat.SetFloat("_ScaleOffset", _newScale);
-            float _newOpacity = Mathf.Lerp(1f, 0f, _evaluatedTimeOpacity);
-            targetMat.SetFloat("_Opacity", _newOpacity);
+            var _evaluatedTimeShrink = orbFadeShrinkCurve.Evaluate(_shrinkTimeValue);
+            var _evaluatedTimeOpacity = orbFadeOutCurve.Evaluate(_shrinkTimeValue);
+            var _newScale = Mathf.Lerp(_startScale + 0.1f, _startScale - 0.05f, _evaluatedTimeShrink);
+            targetMat.SetFloat(ScaleOffset, _newScale);
+            var _newOpacity = Mathf.Lerp(1f, 0f, _evaluatedTimeOpacity);
+            targetMat.SetFloat(Opacity, _newOpacity);
 
             yield return null;
         }
 
-        constant.Stop();
+        constant.SendEvent("OnStoppp");
 
         yield return new WaitForSeconds(5f);
 
-        Destroy(gameObject);
+        Kill();
 
         hitRoutine = null;
-        yield return null;
     }
 
     #endregion
+
+
+    private void Kill() {
+        MimontGame.OnBeat -= StartGrow;
+        Destroy(gameObject);
+    }
 }

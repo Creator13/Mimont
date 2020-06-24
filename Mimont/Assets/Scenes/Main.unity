@@ -2404,8 +2404,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625037466}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -8.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755959699}
@@ -2536,7 +2536,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 52616cf1e527645458e9299ffcc8fe60, type: 2}
+  sharedProfile: {fileID: 11400000, guid: dda8e98a150322e41adddfe449d588fe, type: 2}
 --- !u!4 &1762440170
 Transform:
   m_ObjectHideFlags: 0
@@ -3058,8 +3058,8 @@ MonoBehaviour:
   player: {fileID: 35281590}
   targetCreator: {fileID: 1501065086}
   ui: {fileID: 1972334135}
-  debugMode: 1
-  BPM: 0
+  debugMode: 0
+  BPM: 30
 --- !u!4 &2138714301
 Transform:
   m_ObjectHideFlags: 0

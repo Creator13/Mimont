@@ -25,6 +25,7 @@ public class Ring : MonoBehaviour, ISphere {
                 visuals.Destroy();
                 Radius = 0;
             }
+
             enabled = value;
         }
     }
@@ -63,6 +64,7 @@ public class Ring : MonoBehaviour, ISphere {
             foreach (var target in encapsulated) {
                 target.Catch();
             }
+
             encapsulated.Clear();
         }
 
@@ -70,6 +72,7 @@ public class Ring : MonoBehaviour, ISphere {
     }
 
     private void Update() {
+        UpdateExpired();
         UpdateTouchingTargets();
         UpdateEncapsulated();
 
@@ -77,6 +80,20 @@ public class Ring : MonoBehaviour, ISphere {
 
         Radius += growSpeed / 2 * Time.deltaTime;
         visuals.UpdateRadius(Radius);
+    }
+
+    private void UpdateExpired() {
+        foreach (var target in touching.ToList()) {
+            if (!target) {
+                touching.Remove(target);
+            }
+        }
+
+        foreach (var target in encapsulated.ToList()) {
+            if (!target) {
+                encapsulated.Remove(target);
+            }
+        }
     }
 
     private void UpdateTouchingTargets() {
@@ -90,16 +107,14 @@ public class Ring : MonoBehaviour, ISphere {
         // Unset all old touched targets if changed
         var old = touching.Except(newTouching).ToList();
         if (old.Count > 0) {
-            old.ForEach(t => t.touchingModifier = 1);
-        }
-
-        if (newTouching.Count > 0) {
-            // Set all newly touched targets if changed
-            newTouching.Except(touching).ToList().ForEach(t => t.touchingModifier = TouchModifier);
+            old.ForEach(t => t.TouchingModifier = 1);
         }
 
         // Replace touch
         touching = newTouching;
+        
+        // Set all targets to touching
+        touching.ForEach(t => t.TouchingModifier = TouchModifier);
     }
 
     private void UpdateEncapsulated() {
