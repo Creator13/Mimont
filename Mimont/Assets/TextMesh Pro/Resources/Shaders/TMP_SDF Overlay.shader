@@ -4,7 +4,7 @@ Properties {
 	_FaceTex			("Face Texture", 2D) = "white" {}
 	_FaceUVSpeedX		("Face UV Speed X", Range(-5, 5)) = 0.0
 	_FaceUVSpeedY		("Face UV Speed Y", Range(-5, 5)) = 0.0
-	_FaceColor			("Face Color", Color) = (1,1,1,1)
+	[HDR]_FaceColor		("Face Color", Color ) = (1,1,1,1)
 	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
 
 	_OutlineColor		("Outline Color", Color) = (0,0,0,1)
