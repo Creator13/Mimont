@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 194233918}
   - component: {fileID: 194233917}
   - component: {fileID: 194233916}
+  - component: {fileID: 194233919}
   m_Layer: 5
   m_Name: Newgame
   m_TagString: Untagged
@@ -533,6 +534,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194233914}
   m_CullTransparentMesh: 0
+--- !u!114 &194233919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194233914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1518573064}
+          m_MethodName: HighlightSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 81549659}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1518573064}
+          m_MethodName: ResetSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 81549659}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &206052701
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +679,7 @@ GameObject:
   - component: {fileID: 218218073}
   - component: {fileID: 218218072}
   - component: {fileID: 218218071}
+  - component: {fileID: 218218074}
   m_Layer: 5
   m_Name: Joingame
   m_TagString: Untagged
@@ -764,6 +809,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218218069}
   m_CullTransparentMesh: 0
+--- !u!114 &218218074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218218069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1518573064}
+          m_MethodName: HighlightSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 206052703}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1518573064}
+          m_MethodName: ResetSprite
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 206052703}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &277536162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,8 +1214,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190271
-  m_fontColor: {r: 0.749, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1392,6 +1480,7 @@ GameObject:
   - component: {fileID: 557714567}
   - component: {fileID: 557714566}
   - component: {fileID: 557714565}
+  - component: {fileID: 557714568}
   m_Layer: 5
   m_Name: ip input
   m_TagString: Untagged
@@ -1437,7 +1526,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1553,6 +1642,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557714563}
   m_CullTransparentMesh: 0
+--- !u!114 &557714568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557714563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1518573064}
+          m_MethodName: HighlightTMPro
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8354945263498814735, guid: 559c074112532f34d9258dd8a4f5333b,
+              type: 2}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1518573064}
+          m_MethodName: ResetTMPro
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8354945263498814735, guid: 559c074112532f34d9258dd8a4f5333b,
+              type: 2}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &730844302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,8 +1753,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278848191
-  m_fontColor: {r: 0.7490196, g: 0.039215676, b: 0.039215676, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1753,8 +1887,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278848191
-  m_fontColor: {r: 0.7490196, g: 0.039215676, b: 0.039215676, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1920,8 +2054,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190271
-  m_fontColor: {r: 0.7490196, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2046,16 +2180,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: 4:20
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5dcaa3f3fa31be64090931ab2ffd2163, type: 2}
-  m_sharedMaterial: {fileID: 8354945263498814735, guid: 5dcaa3f3fa31be64090931ab2ffd2163,
+  m_fontAsset: {fileID: 11400000, guid: 99dd1337637470c468f23d05349cd6dd, type: 2}
+  m_sharedMaterial: {fileID: 8354945263498814735, guid: 99dd1337637470c468f23d05349cd6dd,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278239167
-  m_fontColor: {r: 0.7490196, g: 0.7490196, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2501,6 +2635,20 @@ MonoBehaviour:
   maxBloom: 1.5
   baseBloom: 0.7
   breatheSpeed: 1.4
+  highlightIntensity: 1
+  colors:
+  - {r: 0.115183234, g: 1.9999998, b: 0.115183234, a: 1}
+  - {r: 0.115183234, g: 1.9999998, b: 1.9999998, a: 1}
+  - {r: 1.9999998, g: 1.9999998, b: 0.115183234, a: 1}
+  - {r: 1.9999998, g: 0.115183234, b: 1.9999998, a: 1}
+  - {r: 1.9999998, g: 0.115183234, b: 0.115183234, a: 1}
+  intensityValue: 1.416925
+  spriteMats:
+  - {fileID: 2100000, guid: 85c37cc539e07c84da1cc85839213514, type: 2}
+  - {fileID: 2100000, guid: 3ba2cda50f5a6664aba1c01c690dd66e, type: 2}
+  - {fileID: 2100000, guid: ae4b88eb00974bd4592035bf818ba59f, type: 2}
+  TMProMats:
+  - {fileID: 8354945263498814735, guid: 559c074112532f34d9258dd8a4f5333b, type: 2}
 --- !u!1 &1530700662
 GameObject:
   m_ObjectHideFlags: 0
