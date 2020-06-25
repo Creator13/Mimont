@@ -93,7 +93,7 @@ public class MimontGame : MonoBehaviour {
         // Awaken client
         StartClient(player, ipAddress);
 
-        ui.ShowMessage("Waiting for other player...");
+        ui.ShowMessage("Waiting for other player...", -1);
     }
 
     private void StartClient(Player player, string ipAddress) {
@@ -106,17 +106,19 @@ public class MimontGame : MonoBehaviour {
         // Link all client callbacks
         client.PlayerLeft += () => {
             Paused = true;
-            ui.ShowMessage("Other player left game...", MessageUI.ButtonOptions.MainMenu);
+            ui.ShowMessage("Other player left game...", -1, MessageUI.ButtonOptions.MainMenu);
         };
         client.Disconnected += () => {
             Paused = true;
-            ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
+            ui.ShowMessage("Disconnected...", -1, MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
         };
     }
 
     private IEnumerator Countdown(int seconds, Action callback) {
+        int i = 0;
         while (seconds > 0) {
-            ui.ShowMessage($"{seconds}");
+            ui.ShowMessage("", i);
+            i++;
             seconds--;
             yield return new WaitForSeconds(1);
         }

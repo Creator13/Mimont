@@ -152,7 +152,6 @@ public class TargetVisualController : MonoBehaviour {
 
     #endregion
 
-
     #region Hit
 
     public void StartHit(System.Action callback) {
@@ -195,9 +194,11 @@ public class TargetVisualController : MonoBehaviour {
 
         constant.SendEvent("OnStoppp");
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1.1f);
 
         callback();
+
+        yield return new WaitForSeconds(1.4f);
 
         Kill();
 
