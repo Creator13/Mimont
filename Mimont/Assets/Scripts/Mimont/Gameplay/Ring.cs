@@ -66,9 +66,9 @@ public class Ring : MonoBehaviour, ISphere {
             }
 
             encapsulated.Clear();
-            }
+        }
 
-            Enabled = false;
+        Enabled = false;
     }
 
     private void Update() {

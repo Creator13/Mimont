@@ -53,15 +53,12 @@ public class TargetCreator : MonoBehaviour {
         UpdateSpawnRect();
     }
 
-    public void StartSpawning(int delay) {
+    public void StartSpawning(float delay) {
         StartCoroutine(Countdown(delay, () => Paused = false));;
     }
 
-    private static IEnumerator Countdown(int seconds, Action callback) {
-        while (seconds >= 0) {
-            seconds--;
-            yield return new WaitForSeconds(1);
-        }
+    private static IEnumerator Countdown(float seconds, Action callback) {
+        yield return new WaitForSeconds(seconds);
 
         callback();
     }
@@ -69,15 +66,14 @@ public class TargetCreator : MonoBehaviour {
     private void Update() {
         if (Paused) return;
 
-        spawnRate = Mathf.Lerp(spawnRateMin, spawnRateMax, spawnRateCurve.Evaluate(GameTime.ElapsedNormalized));
-        //GameTime.ElapsedNormalized;
-        //GameTime.Elapsed;
         timeSinceLastSpawn += Time.deltaTime;
         if (timeSinceLastSpawn > spawnRate) {
             timeSinceLastSpawn = 0;
 
             CreateTarget();
         }
+        
+        spawnRate = Mathf.Lerp(spawnRateMin, spawnRateMax, spawnRateCurve.Evaluate(GameTime.ElapsedNormalized));
     }
 
     private void CreateTarget() {

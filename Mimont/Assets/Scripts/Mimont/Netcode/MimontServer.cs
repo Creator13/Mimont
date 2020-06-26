@@ -84,7 +84,7 @@ public class MimontServer : Server {
 
         // Start spawnin'
         targets.TargetCreated += NotifyTargetSpawned;
-        targets.StartSpawning(3);
+        targets.StartSpawning(3.2f);
     }
 
     private void NotifyTargetSpawned(Vector3 pos1, Vector3 pos2, int tier1, int tier2) {
