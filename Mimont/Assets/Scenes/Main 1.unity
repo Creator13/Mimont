@@ -2289,6 +2289,7 @@ GameObject:
   - component: {fileID: 1065739539}
   - component: {fileID: 1065739541}
   - component: {fileID: 1065739540}
+  - component: {fileID: 1065739542}
   m_Layer: 5
   m_Name: Time display
   m_TagString: Untagged
@@ -2312,7 +2313,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 77.86999, y: 85.19998}
+  m_AnchoredPosition: {x: 88.8, y: 85.19998}
   m_SizeDelta: {x: 173.35007, y: 145.39505}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1065739540
@@ -2369,7 +2370,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2412,6 +2413,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065739538}
   m_CullTransparentMesh: 0
+--- !u!114 &1065739542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065739538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcda32835442f9c448ead60d85f76672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minutesFormat: 0
+  secondsFormat: 00
+  text: {fileID: 1065739540}
 --- !u!1 &1113919673
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,7 +2867,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  spawnRate: 0
   playerHeight: 180
   screenHeight: 239
 --- !u!1 &1518573061
@@ -3937,6 +3952,7 @@ MonoBehaviour:
   player: {fileID: 35281590}
   targetCreator: {fileID: 1501065086}
   ui: {fileID: 1972334135}
+  timeDisplay: {fileID: 1065739542}
   debugMode: 1
   bpm: 30
 --- !u!4 &2138714301

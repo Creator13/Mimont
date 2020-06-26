@@ -19,6 +19,7 @@ public class MimontGame : MonoBehaviour {
     [SerializeField] private Player player;
     [SerializeField] private TargetCreator targetCreator;
     [SerializeField] private MimontUI ui;
+    [SerializeField] private TimeDisplay timeDisplay;
 
     [Space] [SerializeField] private bool debugMode;
 

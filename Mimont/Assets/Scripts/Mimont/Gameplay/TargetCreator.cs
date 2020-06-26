@@ -24,7 +24,7 @@ public class TargetCreator : MonoBehaviour {
     [SerializeField] private float spawnRateMin = 5;
     [SerializeField] private float spawnRateMax = 5;
     [SerializeField] private AnimationCurve spawnRateCurve;
-    [SerializeField] private float spawnRate;
+    private float spawnRate;
 
     [Space(10)] [Tooltip("In cm")] [SerializeField] private int playerHeight = 180;
     [Tooltip("In cm")] [SerializeField] private int screenHeight = 239;
