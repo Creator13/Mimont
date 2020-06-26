@@ -1185,6 +1185,88 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 35281590}
+  ringManager: {fileID: 1572963719}
+  scoreMat: {fileID: 8354945263498814735, guid: 5dcaa3f3fa31be64090931ab2ffd2163,
+    type: 2}
+  timeMat: {fileID: 8354945263498814735, guid: 99dd1337637470c468f23d05349cd6dd, type: 2}
+  mimontMat: {fileID: 2100000, guid: 85c37cc539e07c84da1cc85839213514, type: 2}
+  newGameMat: {fileID: 2100000, guid: 3ba2cda50f5a6664aba1c01c690dd66e, type: 2}
+  colorLerpDuration: 1.1
+  colorLerpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.099999994
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.79999995
+      value: 1
+      inSlope: 3.8862493
+      outSlope: 3.8862493
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0336501
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: Infinity
+      outSlope: Infinity
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  textLerpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.099999994
+      value: 0.0000049583614
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &396551050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3043,6 +3125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeae22d8ad04b529f2cff130df99796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capturedColors: []
   spherePool: {fileID: 1530700663}
   inputHandler: {fileID: 1777669675}
   ringPrefab: {fileID: 6398329484548436046, guid: 8dd92622f2fcf8e49b06e7e6ad321959,

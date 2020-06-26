@@ -66,9 +66,9 @@ public class Ring : MonoBehaviour, ISphere {
             }
 
             encapsulated.Clear();
-        }
+            }
 
-        Enabled = false;
+            Enabled = false;
     }
 
     private void Update() {
@@ -126,6 +126,7 @@ public class Ring : MonoBehaviour, ISphere {
             encapsulated.Add(target);
             if (isPlayer) {
                 visuals.UpdateColor(target.Tier.color);
+                transform.parent.gameObject.GetComponent<RingManager>().capturedColors.Add(target.Tier.color);
             }
         }
     }

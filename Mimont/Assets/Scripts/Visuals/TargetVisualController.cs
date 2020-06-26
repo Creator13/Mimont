@@ -194,11 +194,9 @@ public class TargetVisualController : MonoBehaviour {
 
         constant.SendEvent("OnStoppp");
 
-        yield return new WaitForSeconds(1.1f);
-
         callback();
 
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(2.5f);
 
         Kill();
 
