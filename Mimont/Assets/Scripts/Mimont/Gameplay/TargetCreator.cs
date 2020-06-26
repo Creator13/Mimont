@@ -54,7 +54,7 @@ public class TargetCreator : MonoBehaviour {
     }
 
     public void StartSpawning(int delay) {
-        StartCoroutine(Countdown(delay, () => Paused = false));
+        StartCoroutine(Countdown(delay, () => Paused = false));;
     }
 
     private static IEnumerator Countdown(int seconds, Action callback) {
