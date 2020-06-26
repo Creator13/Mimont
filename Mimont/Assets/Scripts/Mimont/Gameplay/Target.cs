@@ -64,10 +64,8 @@ public class Target : MonoBehaviour, ISphere {
         Visuals.StartSpawn();
     }
 
-    public void Catch() {
-        Caught?.Invoke(Mathf.RoundToInt(Radius * 10 * Tier.multiplier));
-
-        Visuals.StartHit();
+    public void Catch() {       
+        Visuals.StartHit(() => Caught?.Invoke(Mathf.RoundToInt(Radius * 10 * Tier.multiplier)));
     }
 }
 }

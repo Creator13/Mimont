@@ -152,17 +152,16 @@ public class TargetVisualController : MonoBehaviour {
 
     #endregion
 
-
     #region Hit
 
-    public void StartHit() {
+    public void StartHit(System.Action callback) {
         if (spawnRoutine != null) return;
         if (hitRoutine != null) return;
 
-        hitRoutine = StartCoroutine(HitIE());
+        hitRoutine = StartCoroutine(HitIE(callback));
     }
 
-    private IEnumerator HitIE() {
+    private IEnumerator HitIE(System.Action callback) {
         float _growTimeValue = 0;
 
         var _startScale = targetMat.GetFloat(ScaleOffset);
@@ -195,7 +194,9 @@ public class TargetVisualController : MonoBehaviour {
 
         constant.SendEvent("OnStoppp");
 
-        yield return new WaitForSeconds(5f);
+        callback();
+
+        yield return new WaitForSeconds(2.5f);
 
         Kill();
 

@@ -32,11 +32,11 @@ public class MimontUI : MonoBehaviour {
         ActiveUI = gameUI;
     }
 
-    public void ShowMessage(string messageText, params MessageUI.ButtonOptions[] options) {
+    public void ShowMessage(string messageText, int i, params MessageUI.ButtonOptions[] options) {
         if (!messageUI) return;
 
         ActiveUI = messageUI;
-        messageUI.SetMessage(messageText);
+        messageUI.SetMessage(messageText, i);
         messageUI.SetButtonOptions(options);
     }
 }

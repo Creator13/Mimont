@@ -10,6 +10,7 @@ public class MessageUI : MonoBehaviour, IUIScreen {
     public enum ButtonOptions { Quit, MainMenu }
 
     [SerializeField] private TMP_Text text;
+    [SerializeField] private GameObject[] KTP;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button menuButton;
 
@@ -27,8 +28,31 @@ public class MessageUI : MonoBehaviour, IUIScreen {
         }
     }
 
-    public void SetMessage(string message) {
-        text.text = message;
+    public void SetMessage(string message, int i) {
+        
+        if(i < KTP.Length && i >= 0)
+        {
+            text.enabled = false;
+            KTP[i].SetActive(true);
+        }
+        else if(i == KTP.Length)
+        {
+            text.enabled = false;
+            for (int j = 0; j < KTP.Length; j++)
+            {
+                KTP[j].SetActive(false);
+            }
+        }
+        else if (i == -1)
+        {
+            text.enabled = true;
+            text.text = message;
+        }
+        else
+        {
+            Debug.LogError($"i = {i}, i is out of range");
+        }
+        
     }
 
     public void SetButtonOptions(params ButtonOptions[] options) {

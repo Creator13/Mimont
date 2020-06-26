@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mimont.Gameplay {
 public class RingManager : MonoBehaviour {
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+
+    public List<Color> capturedColors = new List<Color>();
 
     [SerializeField] private SpherePool spherePool;
     [SerializeField] private InputHandler inputHandler;

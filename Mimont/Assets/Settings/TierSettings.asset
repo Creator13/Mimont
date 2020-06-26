@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: TierSettings
   m_EditorClassIdentifier: 
   tiers:
-  - color: {r: 0.10471203, g: 1.9999998, b: 0.10471203, a: 0}
+  - color: {r: 0.115183234, g: 1.9999998, b: 0.115183234, a: 1}
     multiplier: 0.5
     stepCount: 10
     spawnRate: 1
-  - color: {r: 0.21989535, g: 0.75392693, b: 2.0000005, a: 0}
+  - color: {r: 0.115183234, g: 1.9999998, b: 1.9999998, a: 1}
     multiplier: 1
     stepCount: 10
     spawnRate: 1
-  - color: {r: 2.0000005, g: 0.8272253, b: 0.23036654, a: 0}
+  - color: {r: 1.9999998, g: 1.9999998, b: 0.115183234, a: 1}
     multiplier: 1.5
     stepCount: 10
     spawnRate: 1
-  - color: {r: 2, g: 0.32941177, b: 1.5294118, a: 0}
+  - color: {r: 1.9999998, g: 0.115183234, b: 1.9999998, a: 1}
     multiplier: 2
     stepCount: 10
     spawnRate: 0
-  - color: {r: 2.0000005, g: 0.11518327, b: 0.11518327, a: 0}
+  - color: {r: 1.9999998, g: 0.115183234, b: 0.115183234, a: 1}
     multiplier: 2.5
     stepCount: 10
     spawnRate: 1

@@ -21,7 +21,10 @@ public class TargetCreator : MonoBehaviour {
     [Space(10)] [SerializeField] private TargetTierSettings tierSettings;
     [SerializeField] private float spawnRateMultiplier = 1;
     [SerializeField] private Target targetPrefab;
-    [SerializeField] private float spawnRate = 5;
+    [SerializeField] private float spawnRateMin = 5;
+    [SerializeField] private float spawnRateMax = 5;
+    [SerializeField] private AnimationCurve spawnRateCurve;
+    private float spawnRate;
 
     [Space(10)] [Tooltip("In cm")] [SerializeField] private int playerHeight = 180;
     [Tooltip("In cm")] [SerializeField] private int screenHeight = 239;
@@ -51,7 +54,7 @@ public class TargetCreator : MonoBehaviour {
     }
 
     public void StartSpawning(int delay) {
-        StartCoroutine(Countdown(delay, () => Paused = false));
+        StartCoroutine(Countdown(delay, () => Paused = false));;
     }
 
     private static IEnumerator Countdown(int seconds, Action callback) {
@@ -66,6 +69,9 @@ public class TargetCreator : MonoBehaviour {
     private void Update() {
         if (Paused) return;
 
+        spawnRate = Mathf.Lerp(spawnRateMin, spawnRateMax, spawnRateCurve.Evaluate(GameTime.ElapsedNormalized));
+        //GameTime.ElapsedNormalized;
+        //GameTime.Elapsed;
         timeSinceLastSpawn += Time.deltaTime;
         if (timeSinceLastSpawn > spawnRate) {
             timeSinceLastSpawn = 0;
