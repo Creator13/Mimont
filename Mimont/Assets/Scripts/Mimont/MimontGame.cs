@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
+using Hellmade.Sound;
 using Mimont.Gameplay;
 using Mimont.Netcode;
 using Mimont.UI;
 using Networking.Server;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 using Player = Mimont.Gameplay.Player;
 
 namespace Mimont {
@@ -20,6 +19,8 @@ public class MimontGame : MonoBehaviour {
     [SerializeField] private TargetCreator targetCreator;
     [SerializeField] private MimontUI ui;
     [SerializeField] private TimeDisplay timeDisplay;
+    [SerializeField] private AudioClip music;
+    [SerializeField] private bool playMusic;
 
     [Space] [SerializeField] private bool debugMode;
 
@@ -102,7 +103,10 @@ public class MimontGame : MonoBehaviour {
         client = new MimontClient {Player = player};
         client.Connect(ipAddress);
 
-        client.StartGame += () => StartCoroutine(Countdown(3, StartGame));
+        client.StartGame += () => {
+            if(playMusic) EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+            StartCoroutine(Countdown(3, StartGame));
+        };
 
         // Link all client callbacks
         client.PlayerLeft += () => {

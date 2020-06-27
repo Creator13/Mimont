@@ -44,6 +44,7 @@ public class MimontUI : MonoBehaviour {
 
         ActiveUI = messageUI;
         messageUI.SetButtonOptions(options);
+        messageUI.SetMessage(messageText);
     }
 }
 }

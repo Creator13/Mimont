@@ -40,8 +40,8 @@ public class MessageUI : MonoBehaviour, IUIScreen {
         }
         else if (i == KTP.Length) {
             text.enabled = false;
-            for (int j = 0; j < KTP.Length; j++) {
-                KTP[j].SetActive(false);
+            foreach (var t in KTP) {
+                t.SetActive(false);
             }
         }
         else {

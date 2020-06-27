@@ -370,6 +370,8 @@ MonoBehaviour:
   burstOut: {fileID: 320900687910662483}
   burstIn: {fileID: 3022345426777251061}
   constant: {fileID: 4644118137054384752}
+  grow1: {fileID: 8300000, guid: 5be4da00f83347f4cb989a1465c6a64e, type: 3}
+  grow2: {fileID: 8300000, guid: 71e450c9f2caf324ab805acdab25058e, type: 3}
 --- !u!1 &2541392273070915588
 GameObject:
   m_ObjectHideFlags: 0

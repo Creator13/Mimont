@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Hellmade.Sound;
 using Mimont;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -33,6 +34,13 @@ public class TargetVisualController : MonoBehaviour {
     [SerializeField] private VisualEffect burstIn;
     [SerializeField] private VisualEffect constant;
 
+    [Header("Sound effects")] 
+    [SerializeField] private AudioClip grow1;
+    [SerializeField] private AudioClip grow2;
+
+    private static bool playingGrow1;
+    private static bool playingGrow2;
+    
     private Material targetMat;
     private bool growCooldown = false;
 
@@ -101,12 +109,14 @@ public class TargetVisualController : MonoBehaviour {
     #region Grow
 
     public void StartGrow() {
+        // Debug.Log($"Starting grow, {hitRoutine}");
         if (spawnRoutine != null) return;
+        if (growRoutine != null) return;
         if (hitRoutine != null) return;
         if (growCooldown) return;
 
         growCooldown = true;
-        StartCoroutine(GrowCooldownIE());
+        growRoutine = StartCoroutine(GrowCooldownIE());
         StartCoroutine(GrowIE());
     }
 
@@ -114,6 +124,10 @@ public class TargetVisualController : MonoBehaviour {
         burstOut.SetFloat("Count", burstOutCount);
         burstOut.SetFloat("LifetimeTrail", 1.1f);
         burstOut.SetFloat("Size", 0.03f);
+        if (!playingGrow1) {
+            playingGrow1 = true;
+            EazySoundManager.PlaySound(grow1);
+        }
         burstOut.SendEvent("OnPlayyy");
         yield return new WaitForSeconds(burstDelay);
 
@@ -123,6 +137,10 @@ public class TargetVisualController : MonoBehaviour {
             var _oldSize = transform.localScale;
             var _newSize = transform.localScale + new Vector3(addedScale, addedScale, addedScale);
 
+            if (!playingGrow2) {
+                playingGrow2 = true;
+                EazySoundManager.PlaySound(grow2);
+            }
             while (_timeValue < 1) {
                 _timeValue += Time.deltaTime / growDuration;
                 var _evaluatedTimeValue = growCurve.Evaluate(_timeValue);
@@ -141,6 +159,8 @@ public class TargetVisualController : MonoBehaviour {
             Kill();
         }
 
+        playingGrow1 = false;
+        playingGrow2 = false;
         growRoutine = null;
     }
 
@@ -151,6 +171,7 @@ public class TargetVisualController : MonoBehaviour {
     }
 
     #endregion
+
 
     #region Hit
 
@@ -171,6 +192,8 @@ public class TargetVisualController : MonoBehaviour {
             var _evaluatedTimeValue = orbFadeGrowCurve.Evaluate(_growTimeValue);
             var _newScale = Mathf.Lerp(_startScale, _startScale + 0.1f, _evaluatedTimeValue);
 
+            
+            
             targetMat.SetFloat(ScaleOffset, _newScale);
 
             yield return null;

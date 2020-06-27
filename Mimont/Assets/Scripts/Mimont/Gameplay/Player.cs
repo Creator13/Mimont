@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Hellmade.Sound;
 using Mimont.Netcode;
 using UnityEngine;
 
@@ -7,6 +10,8 @@ public class Player : MonoBehaviour {
     [SerializeField] private Target targetPrefab;
     [SerializeField] private TargetTierSettings targetTierSettings;
     [SerializeField] private RingManager ringManager;
+
+    private readonly List<Target> targets = new List<Target>();
 
     public event Action<Vector3> RingCreated;
     public event Action RingReleased;
@@ -23,9 +28,17 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private bool HasTargets => targets.Count > 0;
+
     private void Awake() {
         ringManager.RingCreated += PropagateRingCreated;
         ringManager.RingReleased += PropagateRingReleased;
+    }
+
+    private void Update() {
+        foreach (var target in targets.ToList()) {
+            if (!target) targets.Remove(target);
+        }
     }
 
     private void OnDestroy() {
@@ -39,6 +52,7 @@ public class Player : MonoBehaviour {
 
         target.transform.localPosition = pos;
         SubscribeToTarget(target);
+        targets.Add(target);
     }
 
     public void StartOtherRing(Vector3 position) {

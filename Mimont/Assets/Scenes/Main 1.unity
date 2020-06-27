@@ -2504,7 +2504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1065739538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcda32835442f9c448ead60d85f76672, type: 3}
+  m_Script: {fileID: 11500000, guid: b95aa67be49343329db4b448c2bd9513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minutesFormat: 0
@@ -2897,7 +2897,7 @@ MonoBehaviour:
   targetPrefab: {fileID: 4165324576827042251, guid: 2177d47e90ce43341b9282b14eaebbc1,
     type: 3}
   spawnRateMin: 4.5
-  spawnRateMax: 1.3
+  spawnRateMax: 2
   spawnRateCurve:
     serializedVersion: 2
     m_Curve:
@@ -4036,6 +4036,8 @@ MonoBehaviour:
   targetCreator: {fileID: 1501065086}
   ui: {fileID: 1972334135}
   timeDisplay: {fileID: 1065739542}
+  music: {fileID: 8300000, guid: 553447b7c92c8e24eab91530be52050c, type: 3}
+  playMusic: 1
   debugMode: 1
   bpm: 30
 --- !u!4 &2138714301
