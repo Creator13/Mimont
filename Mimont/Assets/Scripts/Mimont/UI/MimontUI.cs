@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Mimont.UI {
 public class MimontUI : MonoBehaviour {
+    public event Action MenuUIRequested;
+    
     [SerializeField] private EmptyUI gameUI;
     [SerializeField] private StartUI startUI;
     [SerializeField] private MessageUI messageUI;
@@ -28,6 +30,11 @@ public class MimontUI : MonoBehaviour {
         ActiveUI = startUI;
     }
 
+    public void OpenMenuUI() {
+        MenuUIRequested?.Invoke();
+        ActiveUI = startUI;
+    }
+
     public void OpenGameUI() {
         ActiveUI = gameUI;
     }
@@ -36,6 +43,7 @@ public class MimontUI : MonoBehaviour {
         if (!messageUI) return;
 
         ActiveUI = messageUI;
+        messageUI.SetButtonOptions();
         messageUI.SetMessage(i);
     }
 

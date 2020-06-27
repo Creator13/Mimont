@@ -52,6 +52,8 @@ public class MimontGame : MonoBehaviour {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
         }
+
+        ui.MenuUIRequested += ResetForMenu;
     }
 
     private void OnDestroy() {
@@ -71,6 +73,14 @@ public class MimontGame : MonoBehaviour {
         BPMTimer();
     }
 
+    public void ResetForMenu() {
+        Paused = true;
+        client?.Dispose();
+        server?.Stop();
+
+        client = null;
+        server = null;
+    }
 
     public void Connect(bool isHost, string ipAddress = "") {
         if (client != null) {
@@ -95,7 +105,7 @@ public class MimontGame : MonoBehaviour {
         // Awaken client
         StartClient(player, ipAddress);
 
-        ui.ShowMessage("Waiting for other player...");
+        ui.ShowMessage("Waiting for other player...", MessageUI.ButtonOptions.MainMenu);
     }
 
     private void StartClient(Player player, string ipAddress) {
@@ -115,7 +125,7 @@ public class MimontGame : MonoBehaviour {
         };
         client.Disconnected += () => {
             Paused = true;
-            ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.Quit, MessageUI.ButtonOptions.MainMenu);
+            ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.MainMenu);
         };
     }
 
@@ -134,6 +144,7 @@ public class MimontGame : MonoBehaviour {
     private void StartGame() {
         Paused = false;
         Timer.Reinitialize();
+        timeBetweenBeat = .000001f;
 
         // Switch UI
         ui.OpenGameUI();

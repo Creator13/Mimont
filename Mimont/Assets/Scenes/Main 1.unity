@@ -364,6 +364,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1518573064}
+        m_MethodName: ResetSprite
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &194233917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,11 +431,11 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: HighlightSprite
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 81549659}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-            m_IntArgument: 0
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -435,11 +446,11 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: ResetSprite
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 81549659}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-            m_IntArgument: 0
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -639,6 +650,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1518573064}
+        m_MethodName: ResetSprite
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &218218072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,11 +717,11 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: HighlightSprite
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 206052703}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-            m_IntArgument: 0
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -710,11 +732,11 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: ResetSprite
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 206052703}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-            m_IntArgument: 0
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -757,7 +779,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -782,23 +804,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 1972334135}
+        m_MethodName: OpenMenuUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 1518573064}
+        m_MethodName: ResetSprite
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1518573064}
+        m_MethodName: ResetBloom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -880,11 +913,11 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: HighlightSprite
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 1629028491}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-            m_IntArgument: 0
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -895,11 +928,11 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: ResetSprite
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 1629028491}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-            m_IntArgument: 0
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1315,7 +1348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &491548432
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1543,11 +1576,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: HighlightTMPro
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 8354945263498814735, guid: 559c074112532f34d9258dd8a4f5333b,
-              type: 2}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -1559,11 +1591,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1518573064}
           m_MethodName: ResetTMPro
-          m_Mode: 2
+          m_Mode: 3
           m_Arguments:
-            m_ObjectArgument: {fileID: 8354945263498814735, guid: 559c074112532f34d9258dd8a4f5333b,
-              type: 2}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2648,7 +2679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1518573062
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3863,7 +3894,6 @@ MonoBehaviour:
   - {fileID: 955959373}
   - {fileID: 1898343803}
   - {fileID: 2040739233}
-  quitButton: {fileID: 0}
   menuButton: {fileID: 277536163}
 --- !u!224 &2145024258
 RectTransform:

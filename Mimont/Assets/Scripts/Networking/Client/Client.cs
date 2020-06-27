@@ -102,7 +102,7 @@ public abstract class Client {
             return;
         }
 
-        KeepAlive();
+        if (Connected != ConnectionStatus.Connecting) KeepAlive();
 
         NetworkEvent.Type cmdType;
         while ((cmdType = connection.PopEvent(driver, out var reader)) != NetworkEvent.Type.Empty) {

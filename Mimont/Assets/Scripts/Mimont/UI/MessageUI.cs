@@ -7,14 +7,13 @@ using UnityEngine.UI;
 
 namespace Mimont.UI {
 public class MessageUI : MonoBehaviour, IUIScreen {
-    public enum ButtonOptions { Quit, MainMenu }
+    public enum ButtonOptions { MainMenu }
 
     [SerializeField] private TMP_Text text;
     [SerializeField] private GameObject[] KTP;
-    [SerializeField] private Button quitButton;
     [SerializeField] private Button menuButton;
 
-    public List<Button> Buttons => new List<Button> {quitButton, menuButton};
+    public List<Button> Buttons => new List<Button> {menuButton};
 
     private bool active;
 
@@ -53,9 +52,6 @@ public class MessageUI : MonoBehaviour, IUIScreen {
         Buttons.ForEach(button => button.gameObject.SetActive(false));
         foreach (var option in options.Distinct()) {
             switch (option) {
-                case ButtonOptions.Quit:
-                    quitButton.gameObject.SetActive(true);
-                    break;
                 case ButtonOptions.MainMenu:
                     menuButton.gameObject.SetActive(true);
                     break;
