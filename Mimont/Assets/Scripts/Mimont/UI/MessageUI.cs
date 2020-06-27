@@ -37,10 +37,6 @@ public class MessageUI : MonoBehaviour, IUIScreen {
     }
 
     public void SetMessage(int i) {
-        foreach (var text in KTP) {
-            text.SetActive(false);
-        }
-
         if (i < KTP.Length && i >= 0) {
             text.enabled = false;
             KTP[i].SetActive(true);
