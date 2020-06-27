@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mimont.Gameplay;
 using Mimont.Netcode.Protocol;
 using Networking.Protocol;
@@ -10,6 +11,9 @@ namespace Mimont.Netcode {
 public class MimontServer : Server {
     private readonly PlayerManager playerManager;
     private readonly TargetCreator targets;
+
+    private static readonly Vector3 DEFAULT = Vector3.positiveInfinity;
+    private Vector3[] playerRingPositions = new Vector3[2];
 
     public MimontServer(TargetCreator targets) {
         this.targets = targets;
@@ -63,11 +67,23 @@ public class MimontServer : Server {
 
     private void HandleRingCreated(MessageWrapper wrapper) {
         var ringCreatedMessage = (RingCreatedMessage) wrapper.message;
-        Send(ringCreatedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
+
+        var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
+        playerRingPositions[i] = ringCreatedMessage.Position;
+
+        if (GetPlayerRingDistance() < .3f) {
+            SendToAll(new GameWonMessage(), playerManager.PlayerIds);
+        }
+        else {
+            Send(ringCreatedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
+        }
+
     }
 
     private void HandleRingReleased(MessageWrapper wrapper) {
         var ringReleasedMessage = (RingReleasedMessage) wrapper.message;
+        var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
+        playerRingPositions[i] = DEFAULT;
         Send(ringReleasedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
     }
 
@@ -94,6 +110,10 @@ public class MimontServer : Server {
 
     private void BroadcastStartGame() {
         SendToAll(new StartGameMessage(), playerManager.PlayerIds);
+    }
+
+    private float GetPlayerRingDistance() {
+        return Vector3.Distance(playerRingPositions[0], playerRingPositions[1]);
     }
 }
 }

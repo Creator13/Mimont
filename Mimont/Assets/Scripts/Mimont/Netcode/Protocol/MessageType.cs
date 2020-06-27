@@ -24,6 +24,8 @@ public enum MessageType {
     StartGame,
     TargetSpawned,
     RingCreated,
-    RingReleased
+    RingReleased,
+    GameWon,
+    GameLost
 }
 }

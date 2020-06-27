@@ -114,7 +114,7 @@ public class MimontGame : MonoBehaviour {
         client.Connect(ipAddress);
 
         client.StartGame += () => {
-            if(playMusic) EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+            if (playMusic) EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
             StartCoroutine(Countdown(3, StartGame));
         };
 
