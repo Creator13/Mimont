@@ -68,33 +68,32 @@ public class MenuBreathe : MonoBehaviour
         return newCol;
     }
 
-    public void HighlightSprite(Renderer r)
+    public void HighlightSprite(int i)
     {
-        Material mat = r.material;
-        Vector4 oldCol = mat.GetColor("_Color");
+        Material mat = spriteMats[i];
+        Vector4 oldCol = colors[i];
         Vector4 newCol = oldCol * (Mathf.Pow(2, highlightIntensity));
         mat.SetColor("_Color", newCol);
     }
 
-    public void ResetSprite(Renderer r)
+    public void ResetSprite(int i)
     {
-        Material mat = r.material;
-        Vector4 oldCol = mat.GetColor("_Color");
-        Vector4 newCol = oldCol / (Mathf.Pow(2, highlightIntensity));
-        mat.SetColor("_Color", newCol);
+        Material mat = spriteMats[i];
+        mat.SetColor("_Color", colors[i]);
     }
 
-    public void HighlightTMPro(Material mat)
+    public void HighlightTMPro(int i)
     {
-        Vector4 oldCol = mat.GetColor("_FaceColor");
+        Material mat = TMProMats[i];
+        Vector4 oldCol = colors[spriteMats.Length + i];
         Vector4 newCol = oldCol * (Mathf.Pow(2, highlightIntensity));
         mat.SetColor("_FaceColor", newCol);
     }
 
-    public void ResetTMPro(Material mat)
+    public void ResetTMPro(int i)
     {
-        Vector4 oldCol = mat.GetColor("_FaceColor");
-        Vector4 newCol = oldCol / (Mathf.Pow(2, highlightIntensity));
+        Material mat = TMProMats[i];
+        Vector4 newCol = colors[spriteMats.Length + i];
         mat.SetColor("_FaceColor", newCol);
     }
 }
