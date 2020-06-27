@@ -12,6 +12,8 @@ public class MimontClient : Client {
     public event Action StartGame;
     public event Action PlayerLeft;
     public event Action Disconnected;
+    public event Action GameWon;
+    public event Action GameLost;
 
     public Gameplay.Player Player {
         get => player;
@@ -29,6 +31,8 @@ public class MimontClient : Client {
         callbacks[(int) MessageType.TargetSpawned].AddListener(HandleTargetSpawned);
         callbacks[(int) MessageType.RingCreated].AddListener(HandleOtherRingCreated);
         callbacks[(int) MessageType.RingReleased].AddListener(HandleOtherRingReleased);
+        callbacks[(int) MessageType.GameWon].AddListener(HandleGameWon);
+        callbacks[(int) MessageType.GameLost].AddListener(HandleGameLost);
         ConnectionStatusChanged += CheckConnectionStatus;
     }
 
@@ -62,6 +66,12 @@ public class MimontClient : Client {
                 break;
             case MessageType.RingReleased:
                 EnqueueReceived(Message.Read<RingReleasedMessage>(ref reader));
+                break;
+            case MessageType.GameLost:
+                EnqueueReceived(Message.Read<GameLostMessage>(ref reader));
+                break;
+            case MessageType.GameWon:
+                EnqueueReceived(Message.Read<GameWonMessage>(ref reader));
                 break;
             case MessageType.Unresolved:
             case MessageType.None:
@@ -102,6 +112,16 @@ public class MimontClient : Client {
     private void HandleOtherRingReleased(Message msg) {
         var ringReleasedMessage = (RingReleasedMessage) msg;
         Player.ReleaseOtherRing();
+    }
+    
+    private void HandleGameWon(Message msg) {
+        var gameWonMessage = (GameWonMessage) msg;
+        GameWon?.Invoke();
+    }
+    
+    private void HandleGameLost(Message msg) {
+        var gameLostMessage = (GameLostMessage) msg;
+        GameLost?.Invoke();
     }
 
     #endregion

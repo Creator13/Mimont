@@ -11,13 +11,19 @@ namespace Mimont.Netcode {
 public class MimontServer : Server {
     private readonly PlayerManager playerManager;
     private readonly TargetCreator targets;
+    private readonly float gameTime;
+    private float timePassed;
 
     private static readonly Vector3 DEFAULT = Vector3.positiveInfinity;
     private Vector3[] playerRingPositions = new Vector3[2];
 
-    public MimontServer(TargetCreator targets) {
+    private GameObject gameTimer;
+
+    public MimontServer(TargetCreator targets, float gameTime) {
         this.targets = targets;
+        this.gameTime = gameTime;
         playerManager = new PlayerManager(this);
+
         playerManager.LobbyFull += StartGame;
         playerManager.PlayerLeft += OnPlayerLeft;
     }
@@ -51,6 +57,8 @@ public class MimontServer : Server {
             case MessageType.PlayerLeft:
             case MessageType.JoinRefused:
             case MessageType.StartGame:
+            case MessageType.GameLost:
+            case MessageType.GameWon:
             case MessageType.TargetSpawned:
                 // Client messages, should not be received by server
                 LogWarning($"Server received message intended for client. Message was: {msgType.ToString()}");
@@ -62,10 +70,14 @@ public class MimontServer : Server {
         }
     }
 
+    protected override void Clean() {
+        targets.Paused = true;
+    }
+
 
     #region MessageHandlers
 
-    private void HandleRingCreated(MessageWrapper wrapper) {
+    protected virtual void HandleRingCreated(MessageWrapper wrapper) {
         var ringCreatedMessage = (RingCreatedMessage) wrapper.message;
 
         var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
@@ -77,10 +89,9 @@ public class MimontServer : Server {
         else {
             Send(ringCreatedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
         }
-
     }
 
-    private void HandleRingReleased(MessageWrapper wrapper) {
+    protected virtual void HandleRingReleased(MessageWrapper wrapper) {
         var ringReleasedMessage = (RingReleasedMessage) wrapper.message;
         var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
         playerRingPositions[i] = DEFAULT;
@@ -100,7 +111,8 @@ public class MimontServer : Server {
 
         // Start spawnin'
         targets.TargetCreated += NotifyTargetSpawned;
-        targets.StartSpawning(3.2f);
+        targets.StartSpawning(3.1f);
+        StartGameTimer(3.1f);
     }
 
     private void NotifyTargetSpawned(Vector3 pos1, Vector3 pos2, int tier1, int tier2) {
@@ -114,6 +126,25 @@ public class MimontServer : Server {
 
     private float GetPlayerRingDistance() {
         return Vector3.Distance(playerRingPositions[0], playerRingPositions[1]);
+    }
+
+    private void StartGameTimer(float startDelay) {
+        timePassed = 0;
+        var totalTime = startDelay + gameTime;
+
+        void TimeUpdate() {
+            timePassed += Time.deltaTime;
+            if (timePassed > totalTime) {
+                SendGameLostMessage();
+                updateMethods.Remove(TimeUpdate);
+            }
+        }
+
+        updateMethods.Add(TimeUpdate);
+    }
+
+    private void SendGameLostMessage() {
+        SendToAll(new GameLostMessage(), playerManager.PlayerIds);
     }
 }
 }

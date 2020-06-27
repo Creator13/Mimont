@@ -62,7 +62,7 @@ public class MimontGame : MonoBehaviour {
     }
 
     private void Update() {
-        if (isServer && server.IsRunning) {
+        if (isServer && server != null && server.IsRunning) {
             server.Update();
         }
 
@@ -93,10 +93,10 @@ public class MimontGame : MonoBehaviour {
             server?.Stop();
 
             if (debugMode) {
-                server = new MimontServerDebug(targetCreator);
+                server = new MimontServerDebug(targetCreator, GameTime.GameLength);
             }
             else {
-                server = new MimontServer(targetCreator);
+                server = new MimontServer(targetCreator, GameTime.GameLength);
             }
 
             server.Start();
@@ -126,6 +126,17 @@ public class MimontGame : MonoBehaviour {
         client.Disconnected += () => {
             Paused = true;
             ui.ShowMessage("Disconnected...", MessageUI.ButtonOptions.MainMenu);
+        };
+        client.GameWon += () => {
+            player.gameObject.SetActive(false);
+            Paused = true;
+            ui.ShowMessage("How did that feel?");
+        };
+        client.GameLost += () => {
+            var score = player.Score;
+            player.gameObject.SetActive(false);
+            Paused = true;
+            ui.ShowMessage($"Time up!\n\n {score}", MessageUI.ButtonOptions.MainMenu);
         };
     }
 

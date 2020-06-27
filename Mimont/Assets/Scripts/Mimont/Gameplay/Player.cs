@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
         ringManager.RingReleased += PropagateRingReleased;
     }
 
-    private void OnDestroy() {
+    private void OnDisable() {
         ringManager.RingCreated -= PropagateRingCreated;
         ringManager.RingReleased -= PropagateRingReleased;
     }

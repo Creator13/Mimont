@@ -62,6 +62,10 @@ public class TargetVisualController : MonoBehaviour {
         MimontGame.OnBeat += StartGrow;
     }
 
+    private void OnDisable() {
+        MimontGame.OnBeat -= StartGrow;
+    }
+
 
     #region Spawn
 

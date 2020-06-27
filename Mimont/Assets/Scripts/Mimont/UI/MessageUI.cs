@@ -28,11 +28,19 @@ public class MessageUI : MonoBehaviour, IUIScreen {
     }
 
     public void SetMessage(string message) {
-            text.enabled = true;
-            text.text = message;
+        foreach (var text in KTP) {
+            text.SetActive(false);
+        }
+
+        text.enabled = true;
+        text.text = message;
     }
 
     public void SetMessage(int i) {
+        foreach (var text in KTP) {
+            text.SetActive(false);
+        }
+
         if (i < KTP.Length && i >= 0) {
             text.enabled = false;
             KTP[i].SetActive(true);
