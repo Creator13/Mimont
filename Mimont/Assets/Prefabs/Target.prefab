@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growSpeed: 0.2
-  maxRadius: 1.85
+  maxRadius: 1.3
 --- !u!114 &4035471942911351978
 MonoBehaviour:
   m_ObjectHideFlags: 0
