@@ -80,22 +80,22 @@ public class MimontServer : Server {
     protected virtual void HandleRingCreated(MessageWrapper wrapper) {
         var ringCreatedMessage = (RingCreatedMessage) wrapper.message;
 
-        var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
-        playerRingPositions[i] = ringCreatedMessage.Position;
-
-        if (GetPlayerRingDistance() < .3f) {
-            SendToAll(new GameWonMessage(), playerManager.PlayerIds);
-            Clean();
-        }
-        else {
+        // var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
+        // playerRingPositions[i] = ringCreatedMessage.Position;
+        //
+        // if (GetPlayerRingDistance() < .3f) {
+        //     SendToAll(new GameWonMessage(), playerManager.PlayerIds);
+        //     Clean();
+        // }
+        // else {
             Send(ringCreatedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
-        }
+        // }
     }
 
     protected virtual void HandleRingReleased(MessageWrapper wrapper) {
         var ringReleasedMessage = (RingReleasedMessage) wrapper.message;
-        var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
-        playerRingPositions[i] = DEFAULT;
+        // var i = playerManager.PlayerIds.ToList().IndexOf(wrapper.senderId);
+        // playerRingPositions[i] = DEFAULT;
         Send(ringReleasedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
     }
 
@@ -146,7 +146,7 @@ public class MimontServer : Server {
 
     private void SendGameLostMessage() {
         SendToAll(new GameLostMessage(), playerManager.PlayerIds);
-        
+        Clean();
     }
 }
 }

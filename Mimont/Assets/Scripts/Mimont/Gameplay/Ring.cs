@@ -68,8 +68,10 @@ public class Ring : MonoBehaviour, ISphere {
                 target.Catch();
             }
 
+            if (encapsulated.Count > 0) {
+                EazySoundManager.PlaySound(targetsCaught);
+            }
             encapsulated.Clear();
-            EazySoundManager.PlaySound(targetsCaught);
         }
 
         Enabled = false;
