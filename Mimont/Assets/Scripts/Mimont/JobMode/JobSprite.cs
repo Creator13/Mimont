@@ -7,8 +7,8 @@ public class JobSprite : MonoBehaviour {
     [SerializeField] private Sprite kiss1;
     [SerializeField] private Sprite kiss2;
 
-    private SpriteRenderer renderer;
-    private SpriteRenderer Renderer => renderer ? renderer : GetComponent<SpriteRenderer>();
+    private new SpriteRenderer renderer;
+    private SpriteRenderer Renderer => renderer ? renderer : renderer = GetComponent<SpriteRenderer>();
 
     public void SetIdle() {
         Renderer.sprite = Random.value < .5f ? idle1 : idle2;

@@ -12,14 +12,14 @@ public class JobAI : MonoBehaviour, IPlayer {
 
     public event Action RingReleased;
 
-    public bool kissing;
+    private bool kissing;
 
     public void StartOtherRing(Vector3 position) {
-        /* Not implemented */
+        /* Not to be implemented */
     }
 
     public void ReleaseOtherRing() {
-        /* Not implemented */
+        /* Not to be implemented */
     }
 
     public void AddTarget(Vector3 position, int tierIndex) {

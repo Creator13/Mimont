@@ -85,6 +85,7 @@ public class MimontServer : Server {
 
         if (GetPlayerRingDistance() < .3f) {
             SendToAll(new GameWonMessage(), playerManager.PlayerIds);
+            Clean();
         }
         else {
             Send(ringCreatedMessage, playerManager.GetOtherPlayerID(wrapper.senderId));
@@ -145,6 +146,7 @@ public class MimontServer : Server {
 
     private void SendGameLostMessage() {
         SendToAll(new GameLostMessage(), playerManager.PlayerIds);
+        
     }
 }
 }

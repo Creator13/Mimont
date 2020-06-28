@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Hellmade.Sound;
 using UnityEngine;
 
 // ReSharper disable Unity.PreferNonAllocApi
@@ -10,6 +11,8 @@ public class Ring : MonoBehaviour, ISphere {
     [SerializeField] private float growSpeed = 1;
     [SerializeField] private float playerTouchModifier = .3f;
     [SerializeField] private float opponentTouchModifier = .65f;
+    [SerializeField] private AudioClip targetCaughtSound;
+    [SerializeField] private AudioClip targetsCaught;
 
     private RingVisuals visuals;
 
@@ -66,6 +69,7 @@ public class Ring : MonoBehaviour, ISphere {
             }
 
             encapsulated.Clear();
+            EazySoundManager.PlaySound(targetsCaught);
         }
 
         Enabled = false;
@@ -127,6 +131,7 @@ public class Ring : MonoBehaviour, ISphere {
             if (isPlayer) {
                 visuals.UpdateColor(target.Tier.color);
                 transform.parent.gameObject.GetComponent<RingManager>().capturedColors.Add(target.Tier.color);
+                EazySoundManager.PlaySound(targetCaughtSound);
             }
         }
     }

@@ -61,6 +61,8 @@ MonoBehaviour:
   growSpeed: 1
   playerTouchModifier: 0.65
   opponentTouchModifier: 0.3
+  targetCaughtSound: {fileID: 8300000, guid: 8224a0140095ec34d83c6b10cf3d8e75, type: 3}
+  targetsCaught: {fileID: 8300000, guid: 2ff4394ef476ff3418f4b0bbb5291c26, type: 3}
 --- !u!114 &-6686356980633774171
 MonoBehaviour:
   m_ObjectHideFlags: 0

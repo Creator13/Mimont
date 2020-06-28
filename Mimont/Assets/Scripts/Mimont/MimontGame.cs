@@ -140,7 +140,7 @@ public class MimontGame : MonoBehaviour {
 
         client.StartGame += () => {
             if (playMusic) {
-                audioID = EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+                audioID = EazySoundManager.PlayMusic(music, .15f, true, false, 3, 3);
             }
 
             StartCoroutine(Countdown(3, StartGame));
@@ -164,7 +164,7 @@ public class MimontGame : MonoBehaviour {
             var score = player.Score;
             player.gameObject.SetActive(false);
             Paused = true;
-            ui.ShowMessage($"Time up!\n\n {score}", MessageUI.ButtonOptions.MainMenu);
+            ui.ShowMessage($"Time up!\n {score}", MessageUI.ButtonOptions.MainMenu);
         };
     }
 

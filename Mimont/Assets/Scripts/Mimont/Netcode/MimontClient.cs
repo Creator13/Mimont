@@ -31,7 +31,7 @@ public class MimontClient : Client {
         callbacks[(int) MessageType.TargetSpawned].AddListener(HandleTargetSpawned);
         callbacks[(int) MessageType.RingCreated].AddListener(HandleOtherRingCreated);
         callbacks[(int) MessageType.RingReleased].AddListener(HandleOtherRingReleased);
-        callbacks[(int) MessageType.GameWon].AddListener(HandleGameWon);
+        // callbacks[(int) MessageType.GameWon].AddListener(HandleGameWon);
         callbacks[(int) MessageType.GameLost].AddListener(HandleGameLost);
         ConnectionStatusChanged += CheckConnectionStatus;
     }
@@ -114,10 +114,10 @@ public class MimontClient : Client {
         Player.ReleaseOtherRing();
     }
 
-    private void HandleGameWon(Message msg) {
-        var gameWonMessage = (GameWonMessage) msg;
-        GameWon?.Invoke();
-    }
+    // private void HandleGameWon(Message msg) {
+    //     var gameWonMessage = (GameWonMessage) msg;
+    //     GameWon?.Invoke();
+    // }
 
     private void HandleGameLost(Message msg) {
         var gameLostMessage = (GameLostMessage) msg;
