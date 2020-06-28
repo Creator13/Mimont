@@ -22,6 +22,8 @@ public class ScoreDisplay : MonoBehaviour {
     private TMP_Text text;
     private int displayedScore;
 
+    private bool hasUpdate;
+    
     private TMP_Text Text => text ? text : (text = GetComponent<TMP_Text>());
 
     private void Awake() {
@@ -41,6 +43,9 @@ public class ScoreDisplay : MonoBehaviour {
     }
 
     private void UpdateScore() {
+        if (hasUpdate) return;
+        hasUpdate = true;
+        
         var uniqueColors = ringManager.capturedColors.Distinct().ToList();
         ringManager.capturedColors.Clear();
 
@@ -48,17 +53,36 @@ public class ScoreDisplay : MonoBehaviour {
             return;
         }
         else if (uniqueColors.Count == 1) {
-            StartCoroutine(LerpColor(scoreMat, uniqueColors[0]));
+            StartCoroutine(LerpColorAndScore(scoreMat, uniqueColors[0]));
         }
         else {
             int i = Random.Range(0, uniqueColors.Count);
-            StartCoroutine(LerpColor(scoreMat, uniqueColors[i]));
+            StartCoroutine(LerpColorAndScore(scoreMat, uniqueColors[i]));
             uniqueColors.RemoveAt(i);
             StartCoroutine(LerpColor(timeMat, uniqueColors[Random.Range(0, uniqueColors.Count)]));
         }
     }
 
     private IEnumerator LerpColor(Material mat, Color newCol) {
+        yield return new WaitForEndOfFrame();
+        float _timeValue = 0;
+
+        var _oldCol = mat.GetColor(FaceColor);
+
+        while (_timeValue < 1) {
+            _timeValue += Time.deltaTime / colorLerpDuration;
+            var _evaluatedColorValue = colorLerpCurve.Evaluate(_timeValue);
+            var _evaluatedTextValue = textLerpCurve.Evaluate(_timeValue);
+            var _newCol = Vector4.Lerp(_oldCol, newCol, _evaluatedColorValue);
+
+            mat.SetColor(FaceColor, _newCol);
+
+            yield return null;
+        }
+    }
+    
+    private IEnumerator LerpColorAndScore(Material mat, Color newCol) {
+        yield return new WaitForEndOfFrame();
         float _timeValue = 0;
 
         var _oldCol = mat.GetColor(FaceColor);
@@ -80,7 +104,7 @@ public class ScoreDisplay : MonoBehaviour {
 
         displayedScore = updatedScore;
 
-        yield return null;
+        hasUpdate = false;
     }
 }
 }

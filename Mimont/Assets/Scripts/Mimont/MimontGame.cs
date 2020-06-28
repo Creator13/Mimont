@@ -47,7 +47,7 @@ public class MimontGame : MonoBehaviour {
             paused = value;
             if (inputHandler) inputHandler.gameObject.SetActive(!value);
             Timer.Running = !value;
-            if (jobSprite) jobSprite.gameObject.SetActive(!value);
+            if (jobMode && jobSprite) jobSprite.gameObject.SetActive(!value);
         }
     }
 

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2373,8 +2373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idle1: {fileID: 21300000, guid: 801dcca2430bf6b47bdcf45acf3e0921, type: 3}
   idle2: {fileID: 21300000, guid: 5f1c0ac0773b9e646b45f738ae53189b, type: 3}
-  kiss1: {fileID: 0}
-  kiss2: {fileID: 0}
+  kiss1: {fileID: 21300000, guid: 953bf1a6ba417734abeb97dbc8800d67, type: 3}
+  kiss2: {fileID: 21300000, guid: 738999d86aeb0ad4eb5ceb895df761de, type: 3}
 --- !u!212 &1091755774
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3929,7 +3929,7 @@ MonoBehaviour:
   music: {fileID: 8300000, guid: 553447b7c92c8e24eab91530be52050c, type: 3}
   playMusic: 1
   debugMode: 1
-  jobMode: 1
+  jobMode: 0
   jobSprite: {fileID: 1091755773}
   bpm: 30
 --- !u!4 &2138714301
@@ -3959,7 +3959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0631ac01a4c942d9923597bf312ccefb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLength: 7
+  gameLength: 2
 --- !u!1 &2145024256
 GameObject:
   m_ObjectHideFlags: 0

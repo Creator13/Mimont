@@ -5,14 +5,14 @@ namespace Mimont.Gameplay {
 [Serializable]
 public class TargetTier {
     [ColorUsage(true, true)] public Color color;
-    [Tooltip("Point multiplication factor")] public float multiplier = 1f;
+    public int minScore;
+    public int maxScore;
     public int stepCount = 10;
-    [Tooltip("Spawns/second")] public float spawnRate = 1f;
+    public float startRadius = .25f;
 }
 
 [RequireComponent(typeof(TargetVisualController))]
 public class Target : MonoBehaviour, ISphere {
-    private static readonly Vector3 StartScale = new Vector3(.5f, .5f, .5f);
     private static readonly int UnlitColor = Shader.PropertyToID("_BaseColor");
 
     public event Action<int> Caught;
@@ -51,19 +51,22 @@ public class Target : MonoBehaviour, ISphere {
     public float Radius => transform.localScale.x * .5f;
 
     public Vector3 Position => transform.position;
-    // public float GrowSpeed => growSpeed * tier.multiplier;
 
     private void Start() {
-        stepSize = (maxRadius * 2 - StartScale.x) / tier.stepCount;
+        stepSize = (maxRadius * 2 - tier.startRadius) / tier.stepCount;
 
-        Visuals.startScale = StartScale;
+        Visuals.startScale = new Vector3(tier.startRadius * 2, tier.startRadius * 2, tier.startRadius * 2);
         Visuals.maxScale = maxRadius * 2;
         Visuals.addedScale = stepSize;
         Visuals.StartSpawn();
     }
 
     public void Catch() {
-        Visuals.StartHit(() => Caught?.Invoke(Mathf.RoundToInt(Radius * 10 * Tier.multiplier)));
+        Visuals.StartHit(() => {
+            Caught?.Invoke(Mathf.RoundToInt(
+                Mathf.Lerp(tier.maxScore, tier.minScore, (Radius - tier.startRadius / 2) / maxRadius)
+            ));
+        });
     }
 }
 }
