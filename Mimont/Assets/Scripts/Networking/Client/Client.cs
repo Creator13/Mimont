@@ -110,6 +110,9 @@ public abstract class Client {
                 timeSinceLastTransmit = 0;
                 HandleData(ref reader);
             }
+            else if (cmdType == NetworkEvent.Type.Connect) {
+                Connected = ConnectionStatus.Connected;
+            }
             else if (cmdType == NetworkEvent.Type.Disconnect) {
                 Log("Disconnected from server");
                 connection = default;
