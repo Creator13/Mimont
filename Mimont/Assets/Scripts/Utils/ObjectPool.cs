@@ -35,12 +35,10 @@ public class ObjectPool<T> : MonoBehaviour where T : Component {
         var obj = freeList[free - 1];
         freeList.RemoveAt(free - 1);
         usedList.Add(obj);
-        Debug.Log($"Adding object {obj.GetInstanceID()} to used list");
         return obj;
     }
 
     public void ReturnObject(T obj) {
-        Debug.Log($"Returning object {obj.GetInstanceID()}");
         Debug.Assert(usedList.Contains(obj), $"usedList doesn't contain object {obj.GetInstanceID()}");
 
         usedList.Remove(obj);

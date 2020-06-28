@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 namespace Mimont.Gameplay {
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour, IPlayer {
     [SerializeField] private Target targetPrefab;
     [SerializeField] private TargetTierSettings targetTierSettings;
     [SerializeField] private RingManager ringManager;

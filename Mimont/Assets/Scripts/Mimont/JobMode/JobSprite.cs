@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
+namespace Mimont.JobMode {
 public class JobSprite : MonoBehaviour {
     [SerializeField] private Sprite idle1;
     [SerializeField] private Sprite idle2;
-    [SerializeField] private Sprite kiss;
+    [SerializeField] private Sprite kiss1;
+    [SerializeField] private Sprite kiss2;
 
     private SpriteRenderer renderer;
     private SpriteRenderer Renderer => renderer ? renderer : GetComponent<SpriteRenderer>();
@@ -13,9 +15,9 @@ public class JobSprite : MonoBehaviour {
     }
 
     public void SetKiss() {
-        Renderer.sprite = kiss;
+        Renderer.sprite = Random.value < .5f ? kiss1 : kiss2;
     }
-    
+
     private void OnValidate() {
         if (idle1) {
             Renderer.sprite = idle1;
@@ -27,4 +29,5 @@ public class JobSprite : MonoBehaviour {
             Renderer.sprite = null;
         }
     }
+}
 }
