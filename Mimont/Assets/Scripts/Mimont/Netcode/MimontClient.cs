@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Mimont.Netcode {
 public class MimontClient : Client {
-    private Gameplay.Player player;
+    private Gameplay.IPlayer player;
 
     public event Action StartGame;
     public event Action PlayerLeft;
@@ -15,12 +15,12 @@ public class MimontClient : Client {
     public event Action GameWon;
     public event Action GameLost;
 
-    public Gameplay.Player Player {
+    public Gameplay.IPlayer Player {
         get => player;
         set {
-            if (player) UnregisterFromPlayer();
+            if (player != null) UnregisterFromPlayer();
             player = value;
-            if (player) RegisterToPlayer();
+            if (player != null) RegisterToPlayer();
         }
     }
 
@@ -142,17 +142,17 @@ public class MimontClient : Client {
     }
 
     private void RegisterToPlayer() {
-        if (!player) return;
+        if (Player == null) return;
 
-        player.RingCreated += NotifyRingCreated;
-        player.RingReleased += NotifyRingReleased;
+        Player.RingCreated += NotifyRingCreated;
+        Player.RingReleased += NotifyRingReleased;
     }
 
     private void UnregisterFromPlayer() {
-        if (!player) return;
+        if (Player == null) return;
 
-        player.RingCreated -= NotifyRingCreated;
-        player.RingReleased -= NotifyRingReleased;
+        Player.RingCreated -= NotifyRingCreated;
+        Player.RingReleased -= NotifyRingReleased;
     }
 }
 }

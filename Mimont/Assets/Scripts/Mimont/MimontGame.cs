@@ -2,6 +2,7 @@
 using System.Collections;
 using Hellmade.Sound;
 using Mimont.Gameplay;
+using Mimont.JobMode;
 using Mimont.Netcode;
 using Mimont.UI;
 using Networking.Server;
@@ -13,6 +14,7 @@ namespace Mimont {
 public class MimontGame : MonoBehaviour {
     private Server server;
     private MimontClient client;
+    private MimontClient jobClient;
 
     [SerializeField] private InputHandler inputHandler;
     [SerializeField] private Player player;
@@ -23,12 +25,15 @@ public class MimontGame : MonoBehaviour {
     [SerializeField] private bool playMusic;
 
     [Space] [SerializeField] private bool debugMode;
+    [SerializeField] private bool jobMode;
+    [SerializeField] private JobSprite jobSprite;
 
     private GameTime timer;
     private GameTime Timer => timer ? timer : timer = GetComponent<GameTime>();
 
     private bool isServer;
     private bool paused;
+    private int audioID;
 
     //BPM timer
     public static event Action OnBeat;
@@ -42,6 +47,7 @@ public class MimontGame : MonoBehaviour {
             paused = value;
             if (inputHandler) inputHandler.gameObject.SetActive(!value);
             Timer.Running = !value;
+            jobSprite.gameObject.SetActive(!value);
         }
     }
 
@@ -53,13 +59,13 @@ public class MimontGame : MonoBehaviour {
             Application.targetFrameRate = 60;
         }
 
-
-
         ui.MenuUIRequested += ResetForMenu;
+        if (jobMode) debugMode = false;
     }
 
     private void OnDestroy() {
         client?.Dispose();
+        jobClient?.Dispose();
         server?.Stop();
     }
 
@@ -72,16 +78,26 @@ public class MimontGame : MonoBehaviour {
             client.Update();
         }
 
+        if (jobClient != null && jobClient.Started) {
+            jobClient.Update();
+        }
+
         BPMTimer();
     }
 
     public void ResetForMenu() {
         Paused = true;
         client?.Dispose();
+        jobClient?.Dispose();
         server?.Stop();
 
         client = null;
+        jobClient = null;
         server = null;
+
+        if (audioID != 0) {
+            EazySoundManager.GetMusicAudio(audioID).Stop();
+        }
     }
 
     public void Connect(bool isHost, string ipAddress = "") {
@@ -107,7 +123,13 @@ public class MimontGame : MonoBehaviour {
         // Awaken client
         StartClient(player, ipAddress);
 
-        ui.ShowMessage("Waiting for other player...", MessageUI.ButtonOptions.MainMenu);
+        if (!debugMode && !jobMode) {
+            ui.ShowMessage("Waiting for other player...", MessageUI.ButtonOptions.MainMenu);
+        }
+
+        if (jobMode) {
+            UnleashJob();
+        }
     }
 
     private void StartClient(Player player, string ipAddress) {
@@ -116,7 +138,10 @@ public class MimontGame : MonoBehaviour {
         client.Connect(ipAddress);
 
         client.StartGame += () => {
-            if (playMusic) EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+            if (playMusic) {
+                audioID = EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+            }
+
             StartCoroutine(Countdown(3, StartGame));
         };
 
@@ -142,6 +167,16 @@ public class MimontGame : MonoBehaviour {
         };
     }
 
+    private void UnleashJob() {
+        var job = new GameObject("Job AI");
+        var jobAI = job.AddComponent<JobAI>();
+        jobAI.sprite = jobSprite;
+
+        jobClient?.Dispose();
+        jobClient = new MimontClient {Player = jobAI};
+        jobClient.Connect();
+    }
+    
     private IEnumerator Countdown(int seconds, Action callback) {
         int i = 0;
         while (seconds > 0) {
