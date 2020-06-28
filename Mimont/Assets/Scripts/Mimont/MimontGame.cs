@@ -7,6 +7,7 @@ using Mimont.Netcode;
 using Mimont.UI;
 using Networking.Server;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Player = Mimont.Gameplay.Player;
 
 namespace Mimont {
@@ -72,6 +73,10 @@ public class MimontGame : MonoBehaviour {
     }
 
     private void Update() {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+            Application.Quit(0);
+        }
+        
         if (isServer && server != null && server.IsRunning) {
             server.Update();
         }
