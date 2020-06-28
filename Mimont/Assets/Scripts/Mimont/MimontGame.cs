@@ -23,12 +23,14 @@ public class MimontGame : MonoBehaviour {
     [SerializeField] private bool playMusic;
 
     [Space] [SerializeField] private bool debugMode;
+    [SerializeField] private bool jobMode;
 
     private GameTime timer;
     private GameTime Timer => timer ? timer : timer = GetComponent<GameTime>();
 
     private bool isServer;
     private bool paused;
+    private int audioID;
 
     //BPM timer
     public static event Action OnBeat;
@@ -52,8 +54,6 @@ public class MimontGame : MonoBehaviour {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
         }
-
-
 
         ui.MenuUIRequested += ResetForMenu;
     }
@@ -82,6 +82,10 @@ public class MimontGame : MonoBehaviour {
 
         client = null;
         server = null;
+
+        if (audioID != 0) {
+            EazySoundManager.GetMusicAudio(audioID).Stop();
+        }
     }
 
     public void Connect(bool isHost, string ipAddress = "") {
@@ -116,7 +120,10 @@ public class MimontGame : MonoBehaviour {
         client.Connect(ipAddress);
 
         client.StartGame += () => {
-            if (playMusic) EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+            if (playMusic) {
+                audioID = EazySoundManager.PlayMusic(music, .5f, true, false, 3, 3);
+            }
+
             StartCoroutine(Countdown(3, StartGame));
         };
 
