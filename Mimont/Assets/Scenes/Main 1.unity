@@ -2375,6 +2375,7 @@ MonoBehaviour:
   idle2: {fileID: 21300000, guid: 5f1c0ac0773b9e646b45f738ae53189b, type: 3}
   kiss1: {fileID: 21300000, guid: 953bf1a6ba417734abeb97dbc8800d67, type: 3}
   kiss2: {fileID: 21300000, guid: 738999d86aeb0ad4eb5ceb895df761de, type: 3}
+  idleShrink: 0.8
 --- !u!212 &1091755774
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2415,7 +2416,7 @@ SpriteRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 801dcca2430bf6b47bdcf45acf3e0921, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2434,7 +2435,7 @@ Transform:
   m_GameObject: {fileID: 1091755772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
