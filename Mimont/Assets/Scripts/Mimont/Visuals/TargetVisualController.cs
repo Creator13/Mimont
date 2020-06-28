@@ -180,7 +180,7 @@ public class TargetVisualController : MonoBehaviour {
             GetComponent<Renderer>().enabled = false;
             constant.SendEvent("OnStoppp");
             //disable collider
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(3f);
             Kill();
         }
 

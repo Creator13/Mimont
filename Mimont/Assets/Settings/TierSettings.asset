@@ -15,26 +15,26 @@ MonoBehaviour:
   tiers:
   - color: {r: 0.115183234, g: 1.9999998, b: 0.115183234, a: 1}
     minScore: 1
-    maxScore: 42
-    stepCount: 10
-    startRadius: 0.25
+    maxScore: 20
+    stepCount: 6
+    startRadius: 0.8
   - color: {r: 0.115183234, g: 1.9999998, b: 1.9999998, a: 1}
     minScore: 1
-    maxScore: 42
-    stepCount: 10
-    startRadius: 0.25
+    maxScore: 20
+    stepCount: 5
+    startRadius: 0.6
   - color: {r: 1.9999998, g: 1.9999998, b: 0.115183234, a: 1}
     minScore: 1
-    maxScore: 42
-    stepCount: 10
-    startRadius: 0.25
+    maxScore: 20
+    stepCount: 4
+    startRadius: 0.4
   - color: {r: 1.9999998, g: 0.115183234, b: 1.9999998, a: 1}
     minScore: 1
-    maxScore: 42
-    stepCount: 10
-    startRadius: 0.25
+    maxScore: 20
+    stepCount: 3
+    startRadius: 0.3
   - color: {r: 1.9999998, g: 0.115183234, b: 0.115183234, a: 1}
     minScore: 1
-    maxScore: 69
-    stepCount: 10
-    startRadius: 0.25
+    maxScore: 20
+    stepCount: 3
+    startRadius: 0.2
