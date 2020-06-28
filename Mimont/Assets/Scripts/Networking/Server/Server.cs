@@ -28,7 +28,7 @@ public abstract class Server {
     private readonly List<int> kickSchedule = new List<int>();
 
     protected List<Action> updateMethods = new List<Action>();
-    
+
     public int MaxConnections => NetConfig.MAX_CONNECTIONS;
     public ushort Port => NetConfig.PORT;
 
@@ -117,7 +117,7 @@ public abstract class Server {
         IsRunning = false;
 
         Clean();
-        
+
         Log("Stopped server.");
     }
 

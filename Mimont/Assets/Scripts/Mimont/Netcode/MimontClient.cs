@@ -113,12 +113,12 @@ public class MimontClient : Client {
         var ringReleasedMessage = (RingReleasedMessage) msg;
         Player.ReleaseOtherRing();
     }
-    
+
     private void HandleGameWon(Message msg) {
         var gameWonMessage = (GameWonMessage) msg;
         GameWon?.Invoke();
     }
-    
+
     private void HandleGameLost(Message msg) {
         var gameLostMessage = (GameLostMessage) msg;
         GameLost?.Invoke();

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Circle : MonoBehaviour {
     [SerializeField] private int segments;

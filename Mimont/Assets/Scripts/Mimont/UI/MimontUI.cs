@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Mimont.UI {
 public class MimontUI : MonoBehaviour {
     public event Action MenuUIRequested;
-    
+
     [SerializeField] private EmptyUI gameUI;
     [SerializeField] private StartUI startUI;
     [SerializeField] private MessageUI messageUI;

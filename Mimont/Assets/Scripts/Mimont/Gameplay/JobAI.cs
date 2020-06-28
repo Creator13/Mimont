@@ -24,7 +24,7 @@ public class JobAI : MonoBehaviour, IPlayer {
 
     public void AddTarget(Vector3 position, int tierIndex) {
         if (kissing) return;
-        
+
         sprite.transform.position = position;
         sprite.SetKiss();
 
@@ -43,9 +43,9 @@ public class JobAI : MonoBehaviour, IPlayer {
 
     private IEnumerator StopKissing(float delay) {
         yield return new WaitForSeconds(delay);
-        
+
         var time = 5 + Random.Range(-1f, 1f) * Random.Range(.3f, 2.5f);
-        
+
         yield return new WaitForSeconds(time);
 
         RingReleased?.Invoke();

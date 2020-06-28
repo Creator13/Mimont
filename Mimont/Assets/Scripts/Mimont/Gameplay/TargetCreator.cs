@@ -54,7 +54,8 @@ public class TargetCreator : MonoBehaviour {
     }
 
     public void StartSpawning(float delay) {
-        StartCoroutine(Countdown(delay, () => Paused = false));;
+        StartCoroutine(Countdown(delay, () => Paused = false));
+        ;
     }
 
     private static IEnumerator Countdown(float seconds, Action callback) {
@@ -72,7 +73,7 @@ public class TargetCreator : MonoBehaviour {
 
             CreateTarget();
         }
-        
+
         spawnRate = Mathf.Lerp(spawnRateMin, spawnRateMax, spawnRateCurve.Evaluate(GameTime.ElapsedNormalized));
     }
 
@@ -87,7 +88,7 @@ public class TargetCreator : MonoBehaviour {
         );
 
         // Maximum distance between the points
-        var radius = Mathf.Lerp(SpawnRectDiagonal, 0, GameTime.ElapsedNormalized);
+        var radius = Mathf.Lerp(SpawnRectDiagonal, 0, GameTime.ElapsedNormalized * (1f + 1f / 7f));
         var positions = new Vector2[2];
 
 #if UNITY_EDITOR

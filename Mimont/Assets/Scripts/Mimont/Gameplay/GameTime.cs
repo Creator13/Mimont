@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Mimont.Gameplay {
 public class GameTime : MonoBehaviour {

@@ -1,26 +1,20 @@
-﻿﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
-namespace Mimont.Gameplay
-{
+namespace Mimont.Gameplay {
 [RequireComponent(typeof(GameTime))]
-    public class TimeDisplay : MonoBehaviour
-    {
-        [SerializeField] private string minutesFormat;
-        [SerializeField] private string secondsFormat;
-        [SerializeField] private TMP_Text text;
+public class TimeDisplay : MonoBehaviour {
+    [SerializeField] private string minutesFormat;
+    [SerializeField] private string secondsFormat;
+    [SerializeField] private TMP_Text text;
 
-        private void Update()
-        {
-            float displayTime = GameTime.GameLength - GameTime.Elapsed;
+    private void Update() {
+        float displayTime = GameTime.GameLength - GameTime.Elapsed;
 
+        string minutes = Mathf.Floor(displayTime / 60).ToString(minutesFormat);
+        string seconds = Mathf.Floor(displayTime % 60).ToString(secondsFormat);
 
-            string minutes = Mathf.Floor(displayTime / 60).ToString(minutesFormat);
-            string seconds = Mathf.Floor(displayTime % 60).ToString(secondsFormat);
-
-            text.text = $"{minutes}:{seconds}";
-        }
+        text.text = $"{minutes}:{seconds}";
     }
+}
 }

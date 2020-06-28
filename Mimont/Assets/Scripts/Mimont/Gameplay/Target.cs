@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using Mimont.Netcode;
 using UnityEngine;
 
 namespace Mimont.Gameplay {
@@ -64,7 +62,7 @@ public class Target : MonoBehaviour, ISphere {
         Visuals.StartSpawn();
     }
 
-    public void Catch() {       
+    public void Catch() {
         Visuals.StartHit(() => Caught?.Invoke(Mathf.RoundToInt(Radius * 10 * Tier.multiplier)));
     }
 }

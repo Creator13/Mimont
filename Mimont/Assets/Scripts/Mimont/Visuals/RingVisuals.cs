@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mimont.Gameplay;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -115,7 +114,7 @@ public class RingVisuals : MonoBehaviour {
         DestroyImmediate(sphere.GetComponent<MeshRenderer>());
         sphere.gameObject.AddComponent<MeshRenderer>();
         sphere.gameObject.SetActive(true);
-        
+
         return sphere;
     }
 

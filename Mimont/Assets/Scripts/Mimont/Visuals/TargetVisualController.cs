@@ -34,13 +34,12 @@ public class TargetVisualController : MonoBehaviour {
     [SerializeField] private VisualEffect burstIn;
     [SerializeField] private VisualEffect constant;
 
-    [Header("Sound effects")] 
-    [SerializeField] private AudioClip grow1;
+    [Header("Sound effects")] [SerializeField] private AudioClip grow1;
     [SerializeField] private AudioClip grow2;
 
     private static bool playingGrow1;
     private static bool playingGrow2;
-    
+
     private Material targetMat;
     private bool growCooldown = false;
 
@@ -141,7 +140,6 @@ public class TargetVisualController : MonoBehaviour {
         burstOut.SetFloat("LifetimeTrail", 1.1f);
         burstOut.SetFloat("Size", 0.03f);
 
-
         //if (stopGrow) yield break;
         Debug.Log($"growthBpmDelay = {growthBpmDelay}");
         yield return new WaitForSeconds(growthBpmDelay);
@@ -151,11 +149,12 @@ public class TargetVisualController : MonoBehaviour {
             playingGrow1 = true;
             EazySoundManager.PlaySound(grow1);
         }
+
         burstOut.SendEvent("OnPlayyy");
         yield return new WaitForSeconds(burstDelay);
         //if (stopGrow) yield break;
 
-        if (transform.localScale.x < maxScale ) {
+        if (transform.localScale.x < maxScale) {
             float _timeValue = 0;
 
             var _oldSize = transform.localScale;
@@ -165,6 +164,7 @@ public class TargetVisualController : MonoBehaviour {
                 playingGrow2 = true;
                 EazySoundManager.PlaySound(grow2);
             }
+
             while (_timeValue < 1) {
                 _timeValue += Time.deltaTime / growDuration;
                 var _evaluatedTimeValue = growCurve.Evaluate(_timeValue);
@@ -217,8 +217,6 @@ public class TargetVisualController : MonoBehaviour {
             var _evaluatedTimeValue = orbFadeGrowCurve.Evaluate(_growTimeValue);
             var _newScale = Mathf.Lerp(_startScale, _startScale + 0.1f, _evaluatedTimeValue);
 
-            
-            
             targetMat.SetFloat(ScaleOffset, _newScale);
 
             yield return null;

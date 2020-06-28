@@ -47,7 +47,7 @@ public class MimontGame : MonoBehaviour {
             paused = value;
             if (inputHandler) inputHandler.gameObject.SetActive(!value);
             Timer.Running = !value;
-            jobSprite.gameObject.SetActive(!value);
+            if (jobSprite) jobSprite.gameObject.SetActive(!value);
         }
     }
 
@@ -60,7 +60,9 @@ public class MimontGame : MonoBehaviour {
         }
 
         ui.MenuUIRequested += ResetForMenu;
+
         if (jobMode) debugMode = false;
+        if (!jobMode) jobSprite.gameObject.SetActive(false);
     }
 
     private void OnDestroy() {
@@ -85,7 +87,7 @@ public class MimontGame : MonoBehaviour {
         BPMTimer();
     }
 
-    public void ResetForMenu() {
+    private void ResetForMenu() {
         Paused = true;
         client?.Dispose();
         jobClient?.Dispose();
@@ -95,9 +97,8 @@ public class MimontGame : MonoBehaviour {
         jobClient = null;
         server = null;
 
-        if (audioID != 0) {
-            EazySoundManager.GetMusicAudio(audioID).Stop();
-        }
+        var musicAudio = EazySoundManager.GetMusicAudio(music);
+        musicAudio?.Stop();
     }
 
     public void Connect(bool isHost, string ipAddress = "") {
@@ -157,7 +158,7 @@ public class MimontGame : MonoBehaviour {
         client.GameWon += () => {
             player.gameObject.SetActive(false);
             Paused = true;
-            ui.ShowMessage("How did that feel?");
+            ui.ShowMessage("How did that feel?", MessageUI.ButtonOptions.MainMenu);
         };
         client.GameLost += () => {
             var score = player.Score;
@@ -176,7 +177,7 @@ public class MimontGame : MonoBehaviour {
         jobClient = new MimontClient {Player = jobAI};
         jobClient.Connect();
     }
-    
+
     private IEnumerator Countdown(int seconds, Action callback) {
         int i = 0;
         while (seconds > 0) {
