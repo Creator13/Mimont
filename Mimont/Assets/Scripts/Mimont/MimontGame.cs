@@ -164,7 +164,7 @@ public class MimontGame : MonoBehaviour {
             var score = player.Score;
             player.gameObject.SetActive(false);
             Paused = true;
-            ui.ShowMessage($"Time up!\n {score}", MessageUI.ButtonOptions.MainMenu);
+            ui.ShowMessage($"Score\n{score}", MessageUI.ButtonOptions.MainMenu);
         };
     }
 
