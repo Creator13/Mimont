@@ -33,7 +33,7 @@ public class MimontGame : MonoBehaviour {
     //BPM timer
     public static event Action OnBeat;
 
-    [SerializeField] private float bpm = 30;
+    public float bpm = 30;
     private float timeBetweenBeat = 0;
 
     private bool Paused {
@@ -52,6 +52,8 @@ public class MimontGame : MonoBehaviour {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
         }
+
+
 
         ui.MenuUIRequested += ResetForMenu;
     }

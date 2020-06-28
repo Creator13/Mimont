@@ -2607,7 +2607,7 @@ MonoBehaviour:
   spawnRateMultiplier: 1
   targetPrefab: {fileID: 4165324576827042251, guid: 2177d47e90ce43341b9282b14eaebbc1,
     type: 3}
-  spawnRateMin: 4.5
+  spawnRateMin: 5
   spawnRateMax: 2
   spawnRateCurve:
     serializedVersion: 2
@@ -3859,7 +3859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0631ac01a4c942d9923597bf312ccefb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLength: 0.2
+  gameLength: 7
 --- !u!1 &2145024256
 GameObject:
   m_ObjectHideFlags: 0

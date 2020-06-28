@@ -47,9 +47,14 @@ public class TargetVisualController : MonoBehaviour {
     private Coroutine spawnRoutine;
     private Coroutine growRoutine;
     private Coroutine hitRoutine;
+    private MimontGame mG;
+
+    private float growthBpmDelay;
+    private bool stopGrow;
 
     private void Awake() {
         targetMat = GetComponent<Renderer>().material;
+        mG = GameObject.FindObjectOfType<MimontGame>();
     }
 
     private void Start() {
@@ -58,6 +63,10 @@ public class TargetVisualController : MonoBehaviour {
         burstOut.SetVector4("Color", targetColor);
         burstIn.SetVector4("Color", targetColor);
         constant.SetVector4("Color", targetColor);
+
+        float d = Mathf.Floor(burstDelay / (60f / mG.bpm));
+        growthBpmDelay = (60f / mG.bpm) - (burstDelay - d * (mG.bpm));
+        stopGrow = false;
 
         MimontGame.OnBeat += StartGrow;
     }
@@ -114,8 +123,9 @@ public class TargetVisualController : MonoBehaviour {
 
     public void StartGrow() {
         // Debug.Log($"Starting grow, {hitRoutine}");
-        if (spawnRoutine != null) return;
-        if (growRoutine != null) return;
+        //kif (spawnRoutine != null) return;
+        if (stopGrow) return;
+        //if (growRoutine != null) return;
         if (hitRoutine != null) return;
         if (growCooldown) return;
 
@@ -125,17 +135,27 @@ public class TargetVisualController : MonoBehaviour {
     }
 
     private IEnumerator GrowIE() {
+        //if(transform.localScale.x >= maxScale) stopGrow = true;
+
         burstOut.SetFloat("Count", burstOutCount);
         burstOut.SetFloat("LifetimeTrail", 1.1f);
         burstOut.SetFloat("Size", 0.03f);
+
+
+        //if (stopGrow) yield break;
+        Debug.Log($"growthBpmDelay = {growthBpmDelay}");
+        yield return new WaitForSeconds(growthBpmDelay);
+        if (stopGrow) yield break;
+        if (hitRoutine != null) yield break;
         if (!playingGrow1) {
             playingGrow1 = true;
             EazySoundManager.PlaySound(grow1);
         }
         burstOut.SendEvent("OnPlayyy");
         yield return new WaitForSeconds(burstDelay);
+        //if (stopGrow) yield break;
 
-        if (transform.localScale.x < maxScale) {
+        if (transform.localScale.x < maxScale ) {
             float _timeValue = 0;
 
             var _oldSize = transform.localScale;
@@ -156,6 +176,7 @@ public class TargetVisualController : MonoBehaviour {
             }
         }
         else {
+            stopGrow = true;
             GetComponent<Renderer>().enabled = false;
             constant.SendEvent("OnStoppp");
             //disable collider
