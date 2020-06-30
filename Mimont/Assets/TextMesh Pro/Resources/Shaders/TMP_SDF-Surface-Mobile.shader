@@ -7,7 +7,7 @@ Shader "TextMeshPro/Mobile/Distance Field (Surface)" {
 
 Properties {
 	_FaceTex			("Fill Texture", 2D) = "white" {}
-	_FaceColor			("Fill Color", Color) = (1,1,1,1)
+	[HDR]_FaceColor		("Fill Color", Color) = (1,1,1,1)
 	_FaceDilate			("Face Dilate", Range(-1,1)) = 0
 
 	_OutlineColor		("Outline Color", Color) = (0,0,0,1)

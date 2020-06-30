@@ -3,7 +3,7 @@ Shader "TextMeshPro/Bitmap Custom Atlas" {
 Properties {
 	_MainTex		("Font Atlas", 2D) = "white" {}
 	_FaceTex		("Font Texture", 2D) = "white" {}
-	_FaceColor		("Text Color", Color) = (1,1,1,1)
+	[HDR]_FaceColor		("Text Color", Color) = (1,1,1,1)
 
 	_VertexOffsetX	("Vertex OffsetX", float) = 0
 	_VertexOffsetY	("Vertex OffsetY", float) = 0

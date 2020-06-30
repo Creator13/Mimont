@@ -21,17 +21,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ring-default
-  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: d66b836dbd837984185a8f0749f1c745,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2050
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - DistortionVectors
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -158,6 +159,11 @@ Material:
     - _DisplacementLockObjectScale: 1
     - _DisplacementLockTilingScale: 1
     - _DisplacementMode: 0
+    - _DisplacementNoiseFrequency: 10
+    - _DisplacementNosieOffset: 1
+    - _DisplacementScale: 0.2
+    - _DisplacementScrollDirection: 120
+    - _DisplacementScrollSpeed: 1
     - _DistortionBlendMode: 0
     - _DistortionBlurBlendMode: 0
     - _DistortionBlurDstBlend: 1
@@ -175,7 +181,7 @@ Material:
     - _DistortionVectorScale: 2
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
@@ -198,6 +204,7 @@ Material:
     - _Ior: 1.5
     - _IridescenceMask: 1
     - _IridescenceThickness: 1
+    - _LineWidth: 0.7
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
     - _Metallic: 0
@@ -213,13 +220,14 @@ Material:
     - _RefractionModel: 0
     - _SSRefractionProjectionModel: 0
     - _SampleGI: 0
+    - _ScaleOffset: -0.1
     - _Smoothness: 0.5
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _StencilRef: 0
     - _StencilRefDepth: 0
     - _StencilRefDistortionVec: 4
@@ -232,7 +240,7 @@ Material:
     - _StencilWriteMaskMV: 40
     - _SubsurfaceMask: 1
     - _SupportDecals: 1
-    - _Surface: 0
+    - _Surface: 1
     - _SurfaceType: 0
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
@@ -254,9 +262,9 @@ Material:
     - _ZTestGBuffer: 4
     - _ZTestModeDistortion: 4
     - _ZTestTransparent: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.5277646, g: 0.9150943, b: 0.44459772, a: 1}
+    - _BaseColor: {r: 0.5277646, g: 0.9150943, b: 0.4445977, a: 0.5254902}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
@@ -266,6 +274,7 @@ Material:
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _LineColor: {r: 1, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
